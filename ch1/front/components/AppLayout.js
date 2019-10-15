@@ -3,13 +3,14 @@ import Link from "next/link";
 import propTypes from "prop-types";
 import { Menu, Input, Button, Row, Col, Card, Avatar } from "antd";
 import LoginForm from "./LoginForm";
+import UserProfile from "./UserProfile";
 
 const dummy = {
   Nickname: "IANCHOI",
   Post: [],
   Followings: [],
   Followers: [],
-  isLoggedIn: false
+  isLoggedIn: true
 };
 
 const AppLayout = ({ children }) => {
@@ -33,34 +34,7 @@ const AppLayout = ({ children }) => {
 
       <Row gutter={8}>
         <Col xs={24} md={6}>
-          {dummy.isLoggedIn ? (
-            <Card
-              actions={[
-                <div key="twit">
-                  짹짹
-                  <br />
-                  {dummy.Post.length}
-                </div>,
-                <div key="followings">
-                  팔로잉
-                  <br />
-                  {dummy.Followings.length}
-                </div>,
-                <div key="followers">
-                  팔로워
-                  <br />
-                  {dummy.Followers.length}
-                </div>
-              ]}
-            >
-              <Card.Meta
-                avatar={<Avatar>{dummy.Nickname[0]}</Avatar>}
-                title={dummy.Nickname}
-              />
-            </Card>
-          ) : (
-            <LoginForm />
-          )}
+          {dummy.isLoggedIn ? <UserProfile /> : <LoginForm />}
           <Link href="/signup">
             <a>
               <Button>회원가입</Button>
@@ -71,7 +45,9 @@ const AppLayout = ({ children }) => {
           {children}
         </Col>
         <Col xs={24} md={6}>
-          세번째
+          <Link href="https://naver.com">
+            <a target="_blank">made by IANCHOI</a>
+          </Link>
         </Col>
       </Row>
     </div>

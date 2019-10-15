@@ -1,20 +1,19 @@
 import React, { useState, useCallback } from "react";
 import { Button, Checkbox, Form, Input } from "antd";
+export const useInput = (initValue = null) => {
+  const [value, setter] = useState(initValue);
+  const handler = useCallback(e => {
+    // 자식에게 전달해주는 컴포넌트는 모두 usecallback사용
+    setter(e.target.value);
+  }, []);
+  return [value, handler];
+};
 
 const Signup = () => {
   const [passwordCheck, setPasswordCheck] = useState("");
   const [term, setTerm] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
   const [termError, setTermError] = useState(false);
-
-  const useInput = (initValue = null) => {
-    const [value, setter] = useState(initValue);
-    const handler = useCallback(e => {
-      // 자식에게 전달해주는 컴포넌트는 모두 usecallback사용
-      setter(e.target.value);
-    }, []);
-    return [value, handler];
-  };
 
   const [id, onChangeId] = useInput("");
   const [nick, onChangeNick] = useInput("");

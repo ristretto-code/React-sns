@@ -12,6 +12,6 @@
     "node": true
   },
 
-  "extends": ["plugin:react/recomended"],
+  "extends": [],
   "plugins": ["import", "react-hooks"]
 }

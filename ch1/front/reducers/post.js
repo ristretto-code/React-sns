@@ -1,9 +1,20 @@
 export const initialState = {
-  mainPosts: []
+  mainPosts: [
+    {
+      User: {
+        id: 1,
+        nickname: "철웅"
+      },
+      content: "첫번째 게시글",
+      img:
+        "https://images.unsplash.com/photo-1571072000982-f2ac1c89237d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80"
+    }
+  ],
+  imagePaths: []
 };
 
-const ADD_POST = "ADD_POST";
-const ADD_DUMMY = "ADD_DUMMY";
+export const ADD_POST = "ADD_POST";
+export const ADD_DUMMY = "ADD_DUMMY";
 
 const addPost = {
   type: ADD_POST

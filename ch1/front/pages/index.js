@@ -9,8 +9,12 @@ const Home = () => {
   const { isLoggedIn, user } = useSelector(state => state.user);
   const { mainPosts } = useSelector(state => state.post);
   useEffect(() => {
-    dispatch(loginAction);
-    dispatch(logoutAction);
+    dispatch({
+      type: "HELLO_SAGA"
+    });
+    dispatch({
+      type: "HELLO_SAGA"
+    });
   }, []);
   return (
     <div>

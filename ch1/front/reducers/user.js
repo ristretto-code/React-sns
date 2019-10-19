@@ -14,6 +14,8 @@ export const initialState = {
 export const SIGN_UP = "SIGN_UP";
 export const LOG_IN = "LOG_IN"; // 액션의 이름
 export const LOG_OUT = "LOG_OUT";
+export const LOG_IN_SUCCESS = "LOG_IN_SUCCESS";
+export const LOG_IN_FAILURE = "LOG_IN_FAILURE";
 
 export const signUpAction = data => {
   return {
@@ -52,6 +54,17 @@ export default (state = initialState, action) => {
       return {
         ...state,
         signUpData: action.data
+      };
+    }
+    case LOG_IN_FAILURE: {
+      return {
+        ...state
+      };
+    }
+
+    case LOG_IN_SUCCESS: {
+      return {
+        ...state
       };
     }
     default: {

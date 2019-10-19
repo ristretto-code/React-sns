@@ -6,6 +6,8 @@ import propTypes from "prop-types";
 import withRedux from "next-redux-wrapper";
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware, compose } from "redux";
+import createSagaMiddleware from "redux-saga";
+import rootSaga from "../sagas";
 
 const ReactSns = ({ Component, store }) => {
   return (
@@ -30,13 +32,18 @@ ReactSns.propTypes = {
 };
 
 export default withRedux((initialState, options) => {
-  const middlewares = [];
+  const sagaMiddleware = createSagaMiddleware();
+  const middlewares = [sagaMiddleware];
   const composeEnhancers =
-    typeof window === "object" && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-      ? // redux_devtools가 일반사용자에게 노출되지 않게해야함. next에 내장된 ootions.isServer도 쓸수있는듯함
-        window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
+    process.env.NODE_ENV === "production" // 배포할경우 devtools 없애기
+      ? compose
+      : typeof window === "object" &&
+        window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+      ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
       : compose;
+
   const enhancer = composeEnhancers(applyMiddleware(...middlewares));
   const store = createStore(reducer, initialState, enhancer);
+  sagaMiddleware.run(rootSaga);
   return store; // 위로 6줄은 대부분 프로젝트에서 바뀔일이없는 코드. 배열안에 미들웨어들만 넣어주면 된다.
 })(ReactSns);

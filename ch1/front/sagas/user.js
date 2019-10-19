@@ -1,4 +1,12 @@
-import { all, fork, takeLatest, call, put, take } from "redux-saga/effects";
+import {
+  all,
+  fork,
+  takeLatest, // 이전 take가 끝나지 않은게 있다면 끝나지않은 이전요청을 끝낸다. 클라이언트에서 순식간에 여러번 요청이와도 한번만 응답해줄수있다.
+  takeEvery,
+  call,
+  put,
+  take
+} from "redux-saga/effects";
 import { LOG_IN, LOG_IN_SUCCESS, LOG_IN_FAILURE } from "../reducers/user";
 
 const HELLO_SAGA = "HELLO_SAGA";
@@ -26,18 +34,14 @@ function* login() {
 }
 
 function* watchLogin() {
-  yield takeLatest(LOG_IN, login);
-  // LOG_IN 액션이 들어오나 지켜보다가 들어오면 login* 실행
+  yield take(LOG_IN);
+  yield put({
+    type: LOG_IN_SUCCESS
+  });
 }
 
-function* watchHello() {
-  console.log("before saga");
-  while (true) {
-    yield take(HELLO_SAGA);
-    console.log("after saga");
-  }
-}
+function* watchSignUp() {}
 
 export default function* userSaga() {
-  yield all([watchHello(), watchLogin()]);
+  yield all([fork(watchSignUp), fork(watchLogin)]);
 }

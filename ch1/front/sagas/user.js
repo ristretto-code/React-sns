@@ -7,7 +7,12 @@ import {
   put,
   take
 } from "redux-saga/effects";
-import { LOG_IN, LOG_IN_SUCCESS, LOG_IN_FAILURE } from "../reducers/user";
+import {
+  LOG_IN,
+  LOG_IN_SUCCESS,
+  LOG_IN_FAILURE,
+  LOG_IN_REQUEST
+} from "../reducers/user";
 
 const HELLO_SAGA = "HELLO_SAGA";
 
@@ -34,7 +39,7 @@ function* login() {
 }
 
 function* watchLogin() {
-  yield take(LOG_IN);
+  yield take(LOG_IN_REQUEST);
   yield put({
     type: LOG_IN_SUCCESS
   });

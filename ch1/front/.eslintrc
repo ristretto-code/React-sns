@@ -13,5 +13,6 @@
   },
 
   "extends": [],
-  "plugins": ["import", "react-hooks"]
+  "plugins": ["import", "react-hooks"],
+  "rules": {}
 }

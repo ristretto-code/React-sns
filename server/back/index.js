@@ -1,5 +1,8 @@
 const express = require("express");
-const app = express();
+const db = require("./models");
+const app = express(); // express 서버생성
+
+db.sequelize.sync(); // 테이블생성
 
 app.get("/", (req, res) => {
   res.send("Hello, server");

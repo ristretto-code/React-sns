@@ -1,27 +1,45 @@
 export const initialState = {
   mainPosts: [
     {
+      id: 1,
       User: {
         id: 1,
         nickname: "철웅"
       },
       content: "첫번째 게시글",
       img:
-        "https://images.unsplash.com/photo-1571072000982-f2ac1c89237d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80"
+        "https://images.unsplash.com/photo-1571072000982-f2ac1c89237d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80",
+
+      Comments: []
     }
   ], // 화면에 보일 포스트들
   imagePaths: [], // 미리보기 이미지 경로
-  addPostErrorReason: false, // 포스트 업로드 실패
+  addPostErrorReason: "", // 포스트 업로드 실패
   isAddingPost: false, // 포스트 업로드중
-  postAdded: false
+  postAdded: false,
+  addCommnetErrorReason: "",
+  isAddingComment: false,
+  commentAdded: false
 };
 
 const dummyPost = {
+  id: 2,
   User: {
     id: 1,
     nickname: "철웅"
   },
-  content: "나는 더미입니다"
+  content: "나는 더미입니다",
+  Comments: []
+};
+
+const dummyComment = {
+  id: 1,
+  User: {
+    id: 1,
+    nickname: "철웅"
+  },
+  createAt: new Date(),
+  content: "더미 댓글 입니다"
 };
 
 export const LOAD_MAIN_POSTS_REQUEST = "LOAD_MAIN_POSTS_REQUEST";
@@ -96,6 +114,37 @@ export default (state = initialState, action) => {
         postAdded: false
       };
     }
+    case ADD_COMMENT_REQUEST: {
+      return {
+        ...state,
+        isAddingComment: true,
+        addCommentErrorReason: "",
+        commentAdded: false
+      };
+    }
+    case ADD_COMMENT_SUCCESS: {
+      const postIndex = state.mainPosts.findIndex(
+        v => v.id === action.data.postId
+      );
+      const post = state.mainPosts[postIndex];
+      const Comments = [...post.Comments, dummyComment];
+      const mainPosts = [...state.mainPosts];
+      mainPosts[postIndex] = { ...post, Comments };
+      return {
+        ...state,
+        isAddingComment: false,
+        mainPosts,
+        commentAdded: true
+      };
+    }
+    case ADD_COMMENT_FAILURE: {
+      return {
+        ...state,
+        isAddingComment: false,
+        addCommentErrorReason: action.error
+      };
+    }
+
     default: {
       return {
         ...state

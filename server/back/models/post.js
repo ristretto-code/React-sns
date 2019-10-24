@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     {
-      charset: "utf8mb4", // 한글+이모티콘
+      charset: "utf8mb4", // 한글+이모티콘(mb4)
       collate: "utf8mb4_general_ci"
     }
   );

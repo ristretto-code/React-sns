@@ -3,7 +3,8 @@ const dummyUser = {
   Post: [],
   Followings: [],
   Followers: [],
-  signUpData: {}
+  signUpData: {},
+  id: 1
 };
 
 export const initialState = {
@@ -14,6 +15,7 @@ export const initialState = {
   loginErrorReason: "", // 로그인 실패사유
   signedUp: false, // 회원가입 성공
   isSigningUp: false, // 회원가입 시도중
+  isSignedUp: false,
   signUpErrorReason: "", // 회원가입 실패사유
   me: null,
   followingList: [], // 팔로잉 리스트
@@ -96,8 +98,25 @@ export default (state = initialState, action) => {
     case SIGN_UP_REQUEST: {
       return {
         ...state,
-        isLoadding: true,
+        isSigningUp: true,
+        isSignedUp: false,
+        signUpErrorReason: "",
         signUpData: action.data
+      };
+    }
+    case SIGN_UP_SUCCESS: {
+      return {
+        ...state,
+        isSigningUp: false,
+        isSignedUp: true
+      };
+    }
+    case SIGN_UP_FAILURE: {
+      return {
+        ...state,
+        isSigningUp: false,
+        isSignedUp: false,
+        signUpErrorReason: action.error
       };
     }
 

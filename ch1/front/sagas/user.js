@@ -1,25 +1,18 @@
-import {
-  all,
-  fork,
-  takeLatest, // 이전 take가 끝나지 않은게 있다면 끝나지않은 이전요청을 끝낸다. 클라이언트에서 순식간에 여러번 요청이와도 한번만 응답해줄수있다.
-  takeEvery,
-  call,
-  put,
-  take,
-  delay
-} from "redux-saga/effects";
+import { all, fork, takeEvery, call, put, delay } from "redux-saga/effects";
 
 import {
+  LOG_IN_REQUEST,
   LOG_IN_SUCCESS,
   LOG_IN_FAILURE,
-  LOG_IN_REQUEST,
   SIGN_UP_REQUEST,
   SIGN_UP_SUCCESS,
   SIGN_UP_FAILURE
 } from "../reducers/user";
+import Axios from "axios";
 
 function loginAPI() {
   // 서버에 요청을 보내는 부분
+  return Axios.post("./login");
 }
 
 function* login() {
@@ -43,16 +36,17 @@ function* login() {
 
 function* watchLogin() {
   yield takeEvery(LOG_IN_REQUEST, login);
-  yield put({
-    type: LOG_IN_SUCCESS
-  });
 }
 
-function signAPI() {}
+function signAPI() {
+  return Axios.post("./login");
+}
 
 function* signUp() {
   try {
-    yield call(signAPI);
+    // yield call(signAPI);
+    yield delay(2000);
+    throw new Error("에러에러에러에러");
     yield put({
       type: SIGN_UP_SUCCESS
     });
@@ -60,7 +54,8 @@ function* signUp() {
     console.log("회원가입 API 불러오지 못했음");
     console.error(e);
     yield put({
-      type: SIGN_UP_FAILURE
+      type: SIGN_UP_FAILURE,
+      error: e
     });
   }
 }

@@ -39,7 +39,7 @@ const AppLayout = ({ children }) => {
           {children}
         </Col>
         <Col xs={24} md={6}>
-          <Link href="https://naver.com">
+          <Link href="">
             <a target="_blank">made by IANCHOI</a>
           </Link>
         </Col>

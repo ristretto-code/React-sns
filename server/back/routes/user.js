@@ -1,36 +1,35 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
-const router = express.Router();
 const db = require("../models");
+const router = express.Router();
 
 //API는 다른 서비스가 내 서비스의 기능을 실행할수 있게 열어둔 창구
 router.get("/", (req, res) => {});
 
 router.post("/", async (req, res, next) => {
+  // POST /api/user 회원가입
   try {
     const exUser = await db.User.findOne({
-      // findOne하나만 찾기
       where: {
         userId: req.body.userId
       }
     });
     if (exUser) {
-      return res.status(403).send("이미 사용중인 아이디입니다."); // send는 문자열보내기
+      return res.status(403).send("이미 사용중인 아이디입니다.");
     }
-    const hashedPassword = await bcrypt.hash(req.body.password, 12); // 10~12 사이로 주는게 느리지않고 보안도보통
+    const hashedPassword = await bcrypt.hash(req.body.password, 12); // salt는 10~13 사이로
     const newUser = await db.User.create({
       nickname: req.body.nickname,
       userId: req.body.userId,
       password: hashedPassword
     });
-    console.log(newUser);
-    return res.status(200).json(newUser); // json보내기
+    return res.status(200).json(newUser);
   } catch (e) {
     console.error(e);
-    // return res.status(403).send(e);
-    return next(e); // next로 에러보내려면 앞에 에러처리해줘야함
+    // 에러 처리를 여기서
+    return next(e);
   }
-}); // 회원가입
+});
 
 router.get("/:id", (req, res) => {
   // :id를 가져오려면 req.params.id로

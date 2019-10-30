@@ -50,7 +50,7 @@ const Signup = () => {
         }
       });
     },
-    [password, passwordCheck, term]
+    [id, nick, password, passwordCheck, term]
   );
 
   const onChangePasswordCheck = useCallback(

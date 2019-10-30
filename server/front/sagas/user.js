@@ -8,11 +8,11 @@ import {
   SIGN_UP_SUCCESS,
   SIGN_UP_FAILURE
 } from "../reducers/user";
-import Axios from "axios";
+import axios from "axios";
 
 function loginAPI() {
   // 서버에 요청을 보내는 부분
-  return Axios.post("./login");
+  return axios.post("./login");
 }
 
 function* login() {
@@ -38,20 +38,18 @@ function* watchLogin() {
   yield takeEvery(LOG_IN_REQUEST, login);
 }
 
-function signAPI() {
-  return Axios.post("./login");
+function signUpAPI(signUpData) {
+  console.log(signUpData);
+  return axios.post("http://localhost:8080/api/user/", signUpData);
 }
 
-function* signUp() {
+function* signUp(action) {
   try {
-    // yield call(signAPI);
-    yield delay(2000);
-    throw new Error("에러에러에러에러");
+    yield call(signUpAPI, action.data); //첫째는 함수 둘째는 인자
     yield put({
       type: SIGN_UP_SUCCESS
     });
   } catch (e) {
-    console.log("회원가입 API 불러오지 못했음");
     console.error(e);
     yield put({
       type: SIGN_UP_FAILURE,

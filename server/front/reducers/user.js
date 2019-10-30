@@ -3,13 +3,11 @@ const dummyUser = {
   Post: [],
   Followings: [],
   Followers: [],
-  signUpData: {},
   id: 1
 };
 
 export const initialState = {
   isLoggedIn: false, // 로그인 여부
-  isLoadding: false, // 로딩 여부
   isLoggingOut: false, //로그아웃 시도중
   isLoggingIn: false, // 로그인 시도중
   loginErrorReason: "", // 로그인 실패사유
@@ -62,7 +60,9 @@ export default (state = initialState, action) => {
     case LOG_IN_REQUEST: {
       return {
         ...state,
-        isLoadding: true
+        isLoggingIn: true,
+        isLoggedIn: false,
+        loginErrorReason: ""
       };
     }
     case LOG_IN_SUCCESS: {
@@ -70,13 +70,13 @@ export default (state = initialState, action) => {
         ...state,
         isLoggingIn: false,
         isLoggedIn: true,
-        me: dummyUser,
-        isLoadding: false
+        me: dummyUser
       };
     }
     case LOG_IN_FAILURE: {
       return {
         ...state,
+        isLoggingIn: false,
         isLoggedIn: false,
         loginErrorReason: action.error
       };
@@ -84,15 +84,15 @@ export default (state = initialState, action) => {
     case LOG_OUT_REQUEST: {
       return {
         ...state,
-        isLoggedIn: false,
-        isLoadding: true,
-        me: null
+        isLoggingOut: true,
+        isLoggedIn: false
       };
     }
     case LOG_OUT_SUCCESS: {
       return {
         ...state,
-        isLoadding: false
+        isLoggingOut: false,
+        me: null
       };
     }
     case SIGN_UP_REQUEST: {
@@ -100,8 +100,7 @@ export default (state = initialState, action) => {
         ...state,
         isSigningUp: true,
         isSignedUp: false,
-        signUpErrorReason: "",
-        signUpData: action.data
+        signUpErrorReason: ""
       };
     }
     case SIGN_UP_SUCCESS: {

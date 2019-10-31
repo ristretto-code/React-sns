@@ -10,15 +10,14 @@ import {
 } from "../reducers/user";
 import axios from "axios";
 
-function loginAPI() {
+function loginAPI(loginData) {
   // 서버에 요청을 보내는 부분
-  return axios.post("./login");
+  return axios.post("./login", loginData);
 }
 
-function* login() {
+function* login(action) {
   try {
-    // yield call(loginAPI); // loginAPI가 성공하면 다음줄 실행
-    yield delay(2000);
+    yield call(loginAPI, action.data); // loginAPI가 성공하면 다음줄 실행
     yield put({
       // put은 dispatch와 동일
       type: LOG_IN_SUCCESS

@@ -10,9 +10,12 @@ import {
 } from "../reducers/user";
 import axios from "axios";
 
+axios.defaults.baseURL = "http://localhost:8080/api";
+
 function loginAPI(loginData) {
   // 서버에 요청을 보내는 부분
-  return axios.post("./login", loginData);
+  console.log(loginData);
+  return axios.post("/user/login", loginData);
 }
 
 function* login(action) {
@@ -39,7 +42,7 @@ function* watchLogin() {
 
 function signUpAPI(signUpData) {
   console.log(signUpData);
-  return axios.post("http://localhost:8080/api/user/", signUpData);
+  return axios.post("/user/", signUpData);
 }
 
 function* signUp(action) {

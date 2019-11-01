@@ -2,6 +2,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 module.exports = {
+  // 변수를 쓰기위해 js로 config 파일을 변환했다.
   development: {
     username: "root",
     password: process.env.DB_PASSWORD,

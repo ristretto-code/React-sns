@@ -57,29 +57,6 @@ export const ADD_POST_TO_ME = "ADD_POST_TO_ME";
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case SIGN_UP_REQUEST: {
-      return {
-        ...state,
-        isSigningUp: true,
-        isSignedUp: false,
-        signUpErrorReason: ""
-      };
-    }
-    case SIGN_UP_SUCCESS: {
-      return {
-        ...state,
-        isSigningUp: false,
-        isSignedUp: true
-      };
-    }
-    case SIGN_UP_FAILURE: {
-      return {
-        ...state,
-        isSigningUp: false,
-        isSignedUp: false,
-        signUpErrorReason: action.error
-      };
-    }
     case LOG_IN_REQUEST: {
       return {
         ...state,
@@ -115,7 +92,7 @@ export default (state = initialState, action) => {
         ...state,
         isLoggingOut: false,
         isLoggedIn: false,
-        me: null
+        me: {}
       };
     }
     case LOG_OUT_FAILURE: {
@@ -125,21 +102,27 @@ export default (state = initialState, action) => {
         isLoggedIn: true
       };
     }
-
-    case LOAD_USER_REQUEST: {
-      return {
-        ...state
-      };
-    }
-    case LOAD_USER_SUCCESS: {
+    case SIGN_UP_REQUEST: {
       return {
         ...state,
-        me: action.data
+        isSigningUp: true,
+        isSignedUp: false,
+        signUpErrorReason: ""
       };
     }
-    case LOAD_USER_FAILURE: {
+    case SIGN_UP_SUCCESS: {
       return {
-        ...state
+        ...state,
+        isSigningUp: false,
+        isSignedUp: true
+      };
+    }
+    case SIGN_UP_FAILURE: {
+      return {
+        ...state,
+        isSigningUp: false,
+        isSignedUp: false,
+        signUpErrorReason: action.error
       };
     }
 

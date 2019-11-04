@@ -35,16 +35,13 @@ router.post("/", async (req, res, next) => {
 router.get("/:id", (req, res) => {
   // :id를 가져오려면 req.params.id로
 });
-router.post("/logout", (req, res) => {
-  req.logout();
-  req.session.destroy();
-  res.send("logout 성공");
-}); // 로그아웃
+router.post("/logout", (req, res) => {}); // 록아웃
 
 router.post("/login", (req, res, next) => {
   // 프론트에서 온 로그인요청을 만들어둔 패스포트사용해서 처리
   // POST api/user/login
   passport.authenticate("local", (err, user, info) => {
+    console.log(err, user, info);
     // passport.증명하기.
     // 프론트에서 req에 담아서 보낸값을 가져와서 첫번째인자 'local' strategy를 실행하고
     // 그 결과값을 두번째 인자 (err,user,info)에 담아서 함수실행하고 증명처리함.
@@ -59,47 +56,16 @@ router.post("/login", (req, res, next) => {
       return res.status(401).send(info.reason); // done에 있는 reason객체 보내주기
     }
 
-    return req.login(user, async loginErr => {
+    return req.login(user, loginErr => {
       //둘다 에러없고 로그인 성공일 경우, 서버쪽에 세션이랑 쿠키로 저장됨.
       //여기서 req.login할때 serialize가 실행됨
-      try {
-        if (loginErr) {
-          //혹시라도 로그인에러나면
-          return next(loginErr);
-        }
-        const fullUser = await db.User.findOne({
-          where: {
-            id: user.id
-          },
-          include: [
-            // include사용하면 associate로 관계지어놓은 것들을 가져온다.
-            {
-              model: db.Post,
-              as: "Posts",
-              attributes: ["id"]
-            },
-            {
-              model: db.User,
-              as: "Followers",
-              attributes: ["id"] // follower의 id만 필요하기때문
-            },
-            {
-              model: db.User,
-              as: "Follwings",
-              attributes: ["id"]
-            }
-          ],
-          attributes: ["id", "nickname", "userId"] // 사용자 정보에서 필요한것들
-        });
-        console.log(fullUser);
-        return res.json(fullUser);
-        // const filteredUser = Object.assign({}, user.toJSON()); // user객체 복사해서
-        // delete filteredUser.password; // 비밀번호만 지우고 front로 보내주기
-        // return res.json(filteredUser); // 사용자정보 보내기
-      } catch (e) {
-        next(e);
-        console.error(e);
+      if (loginErr) {
+        //혹시라도 로그인에러나면
+        return next(loginErr);
       }
+      const filteredUser = Object.assign({}, user.toJSON()); // user객체 복사해서
+      delete filteredUser.password; // 비밀번호만 지우고 front로 보내주기
+      return res.json(filteredUser); // 사용자정보 보내기
     });
   })(req, res, next);
 }); // 로그인

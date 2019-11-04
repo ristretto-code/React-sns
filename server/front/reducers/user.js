@@ -70,7 +70,7 @@ export default (state = initialState, action) => {
         ...state,
         isLoggingIn: false,
         isLoggedIn: true,
-        me: dummyUser
+        me: action.data
       };
     }
     case LOG_IN_FAILURE: {
@@ -84,15 +84,22 @@ export default (state = initialState, action) => {
     case LOG_OUT_REQUEST: {
       return {
         ...state,
-        isLoggingOut: true,
-        isLoggedIn: false
+        isLoggingOut: true
       };
     }
     case LOG_OUT_SUCCESS: {
       return {
         ...state,
         isLoggingOut: false,
-        me: null
+        isLoggedIn: false,
+        me: {}
+      };
+    }
+    case LOG_OUT_FAILURE: {
+      return {
+        ...state,
+        isLoggingOut: false,
+        isLoggedIn: true
       };
     }
     case SIGN_UP_REQUEST: {

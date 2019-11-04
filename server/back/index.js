@@ -20,7 +20,12 @@ passportConfig(); // 로그인
 
 app.use(morgan("dev"));
 // morgan은 요청 로그 남기는것
-app.use(cors({}));
+app.use(
+  cors({
+    origin: true, // localhost:3000 써도됨. 쿠키교환하기 위해 "요청과 같게"
+    credentials: true //쿠키교환
+  })
+);
 app.use(cookieParser(process.env.COOKIE_SECRET)); // 프론트에서 서버로 로그인정보를 쿠키로 보내면 쿠키파서가 분석후
 app.use(
   expressSession({
@@ -31,7 +36,8 @@ app.use(
     cookie: {
       httpOnly: true, // js로 쿠키접근 못하게함 해킹방지
       secure: false // https를 쓸때 true로
-    }
+    },
+    name: "myfriend"
   })
 );
 app.use(passport.initialize()); // express가 완료된후에 passport를 사용해야함. passport 미들웨어

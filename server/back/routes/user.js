@@ -5,7 +5,13 @@ const db = require("../models");
 const router = express.Router();
 
 //API는 다른 서비스가 내 서비스의 기능을 실행할수 있게 열어둔 창구
-router.get("/", (req, res) => {});
+router.get("/", (req, res) => {
+  // api/user 내 로그인정보 불러오기
+  // if (!req.user) {
+  //   return res.status(401).send("로그인이 필요합니다");
+  // }
+  // return res.json(req.user);
+});
 
 router.post("/", async (req, res, next) => {
   // POST /api/user 회원가입

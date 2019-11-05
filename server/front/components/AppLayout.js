@@ -8,14 +8,11 @@ import { useSelector, useDispatch } from "react-redux";
 import { LOAD_USER_REQUEST } from "../reducers/user";
 
 const AppLayout = ({ children }) => {
-  const { isLoggedIn } = useSelector(state => state.user);
-  const { me } = useSelector(state => state.user);
+  const { isLoggedIn, me } = useSelector(state => state.user);
   const dispatch = useDispatch();
   useEffect(() => {
     if (!me) {
-      dispatch({
-        type: LOAD_USER_REQUEST
-      });
+      dispatch({ type: LOAD_USER_REQUEST });
     }
   }, []);
   return (

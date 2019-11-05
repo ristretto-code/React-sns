@@ -8,9 +8,12 @@ const router = express.Router();
 router.get("/", (req, res) => {
   // 쿠키 로그인정보 불러오기
   if (!req.user) {
+    // deserial에서 req.user 만들어줌
     return res.status(401).send("로그인이 필요합니다");
   }
-  return res.json(req.user);
+  const user = Object.assign({}, req.user.toJSON());
+  delete user.password;
+  return res.json(user);
 });
 
 router.post("/", async (req, res, next) => {

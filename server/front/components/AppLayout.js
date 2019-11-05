@@ -8,7 +8,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { LOAD_USER_REQUEST } from "../reducers/user";
 
 const AppLayout = ({ children }) => {
-  const { isLoggedIn, me } = useSelector(state => state.user);
+  const { me } = useSelector(state => state.user);
   const dispatch = useDispatch();
   useEffect(() => {
     if (!me) {
@@ -35,7 +35,7 @@ const AppLayout = ({ children }) => {
 
       <Row gutter={8}>
         <Col xs={24} md={6}>
-          {isLoggedIn ? <UserProfile /> : <LoginForm />}
+          {me ? <UserProfile /> : <LoginForm />}
           <Link href="/signup">
             <a>
               <Button>회원가입</Button>

@@ -64,8 +64,8 @@ function* login(action) {
     console.error(e);
     yield put({
       // LOG_IN_FAILURE 실행됨
-      type: LOG_IN_FAILURE
-      // error: e
+      type: LOG_IN_FAILURE,
+      error: e
     });
   }
 }
@@ -94,8 +94,8 @@ function* logout() {
     console.log("로그아웃 실패");
     console.error(e);
     yield put({
-      type: LOG_OUT_FAILURE
-      // error: e
+      type: LOG_OUT_FAILURE,
+      error: e
     });
   }
 }
@@ -120,8 +120,8 @@ function* loadUser() {
   } catch (e) {
     console.error(e);
     yield put({
-      type: LOAD_USER_FAILURE
-      // error: e
+      type: LOAD_USER_FAILURE,
+      error: e
     });
   }
 }

@@ -1,18 +1,5 @@
 export const initialState = {
-  mainPosts: [
-    {
-      id: 1,
-      User: {
-        id: 1,
-        nickname: "철웅"
-      },
-      content: "첫번째 게시글",
-      img:
-        "https://images.unsplash.com/photo-1571072000982-f2ac1c89237d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80",
-
-      Comments: []
-    }
-  ], // 화면에 보일 포스트들
+  mainPosts: [], // 화면에 보일 포스트들
   imagePaths: [], // 미리보기 이미지 경로
   addPostErrorReason: "", // 포스트 업로드 실패
   isAddingPost: false, // 포스트 업로드중
@@ -80,6 +67,24 @@ export const RETWEET_FAILURE = "RETWEET_FAILURE";
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case LOAD_MAIN_POSTS_REQUEST: {
+      return {
+        ...state,
+        mainPosts: []
+      };
+    }
+    case LOAD_MAIN_POSTS_SUCCESS: {
+      return {
+        ...state,
+        mainPosts: action.data
+      };
+    }
+    case LOAD_MAIN_POSTS_FAILURE: {
+      return {
+        ...state
+      };
+    }
+
     case ADD_POST_REQUEST: {
       return {
         ...state,

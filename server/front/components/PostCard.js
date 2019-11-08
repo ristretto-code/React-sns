@@ -42,7 +42,7 @@ const PostCard = ({ post }) => {
   return (
     <div>
       <Card
-        key={+post.createdAt}
+        // key={+post.createdAt}
         cover={
           post.img && (
             <img

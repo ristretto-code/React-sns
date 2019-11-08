@@ -10,7 +10,7 @@ router.post("/", async (req, res, next) => {
     console.log("-------hashtags-------");
     const newPost = await db.Post.create({
       content: req.body.content,
-      Userid: req.user.id
+      UserId: req.user.id
     });
     console.log("-------newPost-------");
     console.log(newPost);

@@ -1,5 +1,8 @@
-import { all, fork, takeLatest, delay, put } from "redux-saga/effects";
+import { all, fork, takeLatest, put, call } from "redux-saga/effects";
 import {
+  LOAD_MAIN_POSTS_REQUEST,
+  LOAD_MAIN_POSTS_SUCCESS,
+  LOAD_MAIN_POSTS_FAILURE,
   ADD_POST_REQUEST,
   ADD_POST_SUCCESS,
   ADD_POST_FAILURE,
@@ -9,8 +12,34 @@ import {
 } from "../reducers/post";
 import axios from "axios";
 
+function* loadMainPostsApi() {
+  return axios.get("/posts");
+}
+function* loadMainPosts() {
+  try {
+    const result = yield call(loadMainPostsApi);
+    console.log("불러온 게시글--result");
+    console.log(result);
+    console.log("불러온 게시글--result.data");
+    console.log(result.data);
+    yield put({
+      type: LOAD_MAIN_POSTS_SUCCESS,
+      data: result.data
+    });
+  } catch (e) {
+    console.error(e);
+    yield put({
+      type: LOAD_MAIN_POSTS_FAILURE,
+      error: e
+    });
+  }
+}
+function* watchLoadMainPosts() {
+  yield takeLatest(LOAD_MAIN_POSTS_REQUEST, loadMainPosts);
+}
+
 function* addPostApi(postData) {
-  return axios.post("/post/", postData, {
+  return axios.post("/post", postData, {
     withCredentials: true // 로그인한사람만 쓸수있도록 쿠키보내서 로그인했는지 안했는지 인증
   });
 }
@@ -24,6 +53,7 @@ function* addPost(action) {
       data: result.data
     });
   } catch (e) {
+    console.error(e);
     yield put({
       type: ADD_POST_FAILURE,
       error: e
@@ -37,7 +67,6 @@ function* watchAddPost() {
 function* addCommentApi() {}
 function* addComment(action) {
   try {
-    yield delay(2000);
     yield put({
       type: ADD_COMMENT_SUCCESS,
       data: {
@@ -56,5 +85,9 @@ function* watchAddComment() {
 }
 
 export default function* userSaga() {
-  yield all([fork(watchAddPost), fork(watchAddComment)]);
+  yield all([
+    fork(watchAddPost),
+    fork(watchAddComment),
+    fork(watchLoadMainPosts)
+  ]);
 }

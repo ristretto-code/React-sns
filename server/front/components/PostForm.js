@@ -17,8 +17,10 @@ const PostForm = () => {
   const onSubmitForm = useCallback(
     e => {
       e.preventDefault();
-      console.log(text);
       // props로 들어가는 함수는 무조건 useCallback
+      if (!text || !text.trim()) {
+        return alert("게시글을 작성하세요"); // 리턴으로 함수끊기
+      }
       dispatch({
         type: ADD_POST_REQUEST,
         data: {

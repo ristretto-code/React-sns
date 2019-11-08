@@ -16,8 +16,6 @@ import {
 } from "../reducers/user";
 import axios from "axios";
 
-axios.defaults.baseURL = "http://localhost:8080/api";
-
 function signUpAPI(signUpData) {
   console.log(signUpData);
   return axios.post("/user/", signUpData);

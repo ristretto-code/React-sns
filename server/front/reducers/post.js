@@ -22,16 +22,6 @@ export const initialState = {
   commentAdded: false
 };
 
-const dummyPost = {
-  id: 2,
-  User: {
-    id: 1,
-    nickname: "철웅"
-  },
-  content: "나는 더미입니다",
-  Comments: []
-};
-
 const dummyComment = {
   id: 1,
   User: {
@@ -102,7 +92,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         isAddingPost: false,
-        mainPosts: [dummyPost, ...state.mainPosts],
+        mainPosts: [action.data, ...state.mainPosts],
         postAdded: true
       };
     }

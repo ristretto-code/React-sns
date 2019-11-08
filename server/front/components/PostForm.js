@@ -14,17 +14,20 @@ const PostForm = () => {
     setText("");
   }, [postAdded === true]);
 
-  const onSubmitForm = useCallback(e => {
-    e.preventDefault();
-
-    // props로 들어가는 함수는 무조건 useCallback
-    dispatch({
-      type: ADD_POST_REQUEST,
-      data: {
-        text
-      }
-    });
-  }, []);
+  const onSubmitForm = useCallback(
+    e => {
+      e.preventDefault();
+      console.log(text);
+      // props로 들어가는 함수는 무조건 useCallback
+      dispatch({
+        type: ADD_POST_REQUEST,
+        data: {
+          content: text
+        }
+      });
+    },
+    [text]
+  );
   const onChangeText = useCallback(e => {
     setText(e.target.value);
   }, []);

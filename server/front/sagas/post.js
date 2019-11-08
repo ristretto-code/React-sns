@@ -7,13 +7,21 @@ import {
   ADD_COMMENT_SUCCESS,
   ADD_COMMENT_FAILURE
 } from "../reducers/post";
+import axios from "axios";
 
-function* addPostApi() {}
-function* addPost() {
+function* addPostApi(postData) {
+  return axios.post("/post/", postData, {
+    withCredentials: true // 로그인한사람만 쓸수있도록 쿠키보내서 로그인했는지 안했는지 인증
+  });
+}
+function* addPost(action) {
   try {
-    yield delay(2000);
+    const result = yield call(addPostApi, action.data);
+    console.log("-- addpost result--");
+    console.log(result);
     yield put({
-      type: ADD_POST_SUCCESS
+      type: ADD_POST_SUCCESS,
+      data: result.data
     });
   } catch (e) {
     yield put({

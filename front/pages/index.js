@@ -8,8 +8,6 @@ const Home = () => {
   const { me } = useSelector(state => state.user);
   const { mainPosts } = useSelector(state => state.post);
   const dispatch = useDispatch();
-  console.log("--mainPosts--");
-  console.log(mainPosts);
 
   useEffect(() => {
     dispatch({

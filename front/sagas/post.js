@@ -12,22 +12,17 @@ import {
 } from "../reducers/post";
 import axios from "axios";
 
-function* loadMainPostsApi() {
+function loadMainPostsAPI() {
   return axios.get("/posts");
 }
 function* loadMainPosts() {
   try {
-    const result = yield call(loadMainPostsApi);
-    console.log("불러온 게시글--result");
-    console.log(result);
-    console.log("불러온 게시글--result.data");
-    console.log(result.data);
+    const result = yield call(loadMainPostsAPI);
     yield put({
       type: LOAD_MAIN_POSTS_SUCCESS,
       data: result.data
     });
   } catch (e) {
-    console.error(e);
     yield put({
       type: LOAD_MAIN_POSTS_FAILURE,
       error: e

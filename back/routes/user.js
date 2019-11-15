@@ -42,6 +42,7 @@ router.post("/", async (req, res, next) => {
 router.get("/:id", (req, res) => {
   // :id를 가져오려면 req.params.id로
 });
+
 router.post("/logout", (req, res) => {
   req.logout();
   req.session.destroy();

@@ -1,14 +1,15 @@
 const express = require("express");
 const db = require("../models");
+
 const router = express.Router();
 
 router.get("/", async (req, res, next) => {
-  //api/posts 게시글 가져오기
+  // GET /api/posts
   try {
     const posts = await db.Post.findAll({
       include: [
         {
-          model: db.User, //작성자 같이 가져오기
+          model: db.User,
           attributes: ["id", "nickname"]
         }
       ],
@@ -16,9 +17,9 @@ router.get("/", async (req, res, next) => {
     });
     res.json(posts);
   } catch (e) {
-    console.log(e);
+    console.error(e);
     next(e);
   }
-}); // 게시글들 가져오기
+});
 
 module.exports = router;

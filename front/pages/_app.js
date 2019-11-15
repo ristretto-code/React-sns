@@ -29,6 +29,19 @@ ReactSns.propTypes = {
   store: propTypes.object
 };
 
+ReactSns.getInitialProps = async context => {
+  // hashtag, user에 있는 initialprops 사용하기 위해 써줘야하는 코드이다.
+  //getInitialProps는 가장 먼저 시작하는 라이프싸이클이다.
+  console.log("reactSns.getInitialProps에서 받은 context");
+  console.log(context); // next가 기본으로 넣어준값
+  const { ctx, Component } = context;
+  let pageProps = {};
+  if (Component.getInitialProps) {
+    pageProps = await Component.getInitialProps(ctx);
+  }
+  return { pageProps }; // ctx가 pageProps가 되고 전체 initialProps가 된다.
+};
+
 const configureStore = (initialState, options) => {
   const sagaMiddleware = createSagaMiddleware();
   const middlewares = [sagaMiddleware];

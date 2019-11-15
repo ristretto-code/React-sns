@@ -34,6 +34,15 @@ app.prepare().then(() => {
     })
   );
 
+  server.get("/hashtag/:tag", (req, res) => {
+    //주소는 hashtag/:id. 연결되는 페이지는 /hashtag.js. 그리고 4번째 인자로 값을 넘겨준다.
+    return app.render(req, res, "/hashtag", { tag: req.params.tag });
+  });
+
+  server.get("/user/:id", (req, res) => {
+    return app.render(req, res, "/user", { id: req.params.id });
+  });
+
   server.get("*", (req, res) => {
     return handle(req, res);
   });

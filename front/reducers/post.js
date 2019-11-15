@@ -9,16 +9,6 @@ export const initialState = {
   commentAdded: false
 };
 
-const dummyComment = {
-  id: 1,
-  User: {
-    id: 1,
-    nickname: "철웅"
-  },
-  createAt: new Date(),
-  content: "더미 댓글 입니다"
-};
-
 export const LOAD_MAIN_POSTS_REQUEST = "LOAD_MAIN_POSTS_REQUEST";
 export const LOAD_MAIN_POSTS_SUCCESS = "LOAD_MAIN_POSTS_SUCCESS";
 export const LOAD_MAIN_POSTS_FAILURE = "LOAD_MAIN_POSTS_FAILURE";
@@ -122,7 +112,7 @@ export default (state = initialState, action) => {
         v => v.id === action.data.postId
       );
       const post = state.mainPosts[postIndex];
-      const Comments = [...post.Comments, dummyComment];
+      const Comments = [...post.Comments];
       const mainPosts = [...state.mainPosts];
       mainPosts[postIndex] = { ...post, Comments };
       return {

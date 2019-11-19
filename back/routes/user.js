@@ -94,7 +94,39 @@ router.post("/login", (req, res, next) => {
   })(req, res, next);
 }); // 로그인
 
-router.get("/:id/follow", (req, res) => {}); // 남의 정보 가져오는것
+router.get("/:id/follow", async (req, res, next) => {
+  try {
+    const user = await db.User.findOne({
+      where: { id: parseInt(req.params.id, 10) },
+      include: [
+        {
+          model: db.Post,
+          as: "Posts",
+          attributes: ["id"]
+        },
+        {
+          model: db.User,
+          as: "Followings",
+          attributes: ["id"]
+        },
+        {
+          model: db.User,
+          as: "Followers",
+          attributes: ["id"]
+        }
+      ],
+      attributes: ["id", "nickname"]
+    });
+    const jsonUser = user.toJSON();
+    jsonUser.Posts = jsonUser.Post ? jsonUser.Post.length : 0; // 개인정보보호위함
+    jsonUser.Followings = jsonUser.Followings ? jsonUser.Followings.length : 0;
+    jsonUser.Followers = jsonUser.Followers ? jsonUser.Followers.length : 0;
+    res.json(jsonUser);
+  } catch (e) {
+    console.error(e);
+    next(e);
+  }
+}); // 남의 정보 가져오는것
 
 router.post("/:id/flollow", (req, res) => {}); // 팔로우 하기
 
@@ -102,6 +134,25 @@ router.delete("/:id/follow", (req, res) => {}); // 팔로우 취소
 
 router.delete("/:id/follower", (req, res) => {}); // 팔로워 지우기
 
-router.get("/:id/posts", (req, res) => {}); // 남의 포스트 가져오는것
+router.get("/:id/posts", async (req, res, next) => {
+  try {
+    const posts = await db.Post.findAll({
+      where: {
+        UserId: parseInt(req.params.id, 10),
+        RetweetId: null
+      },
+      include: [
+        {
+          model: db.User,
+          attributes: ["id", "nickname"]
+        }
+      ]
+    });
+    res.json(posts);
+  } catch (e) {
+    console.error(e);
+    next(e);
+  }
+}); // 남의 포스트 가져오는것
 
 module.exports = router;

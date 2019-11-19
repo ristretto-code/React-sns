@@ -11,6 +11,7 @@ const db = require("./models");
 const userAPIRouter = require("./routes/user");
 const postAPIRouter = require("./routes/post");
 const postsAPIRouter = require("./routes/posts");
+const hashtagAPIRouter = require("./routes/hashtag");
 
 dotenv.config(); // .env 실행
 const app = express(); // express 서버생성
@@ -52,6 +53,7 @@ app.use("/api/user", userAPIRouter);
 // router 미들웨어를 use사용해서 붙임. 앞에 주소는 어떨때 미들웨어를 써줄지 적어논것 기본값은 '/'이다.
 app.use("/api/post", postAPIRouter);
 app.use("/api/posts", postsAPIRouter);
+app.use("/api/hashtag", hashtagAPIRouter);
 
 app.listen(8080, () => {
   console.log("server is running on http://localhost:8080 ▶◁▶◁▶");

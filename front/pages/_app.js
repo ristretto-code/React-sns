@@ -9,7 +9,7 @@ import reducer from "../reducers";
 import AppLayout from "../components/AppLayout";
 import rootSaga from "../sagas";
 
-const ReactSns = ({ Component, store }) => (
+const ReactSns = ({ Component, store, pageProps }) => (
   <Provider store={store}>
     <Head>
       <title>React Sns</title>
@@ -19,27 +19,32 @@ const ReactSns = ({ Component, store }) => (
       />
     </Head>
     <AppLayout>
-      <Component />
+      <Component {...pageProps} />
     </AppLayout>
   </Provider>
 );
 
 ReactSns.propTypes = {
   Component: propTypes.elementType, // 모든 자료형을 포함하는 것은 node
-  store: propTypes.object
+  store: propTypes.object,
+  pageProps: propTypes.object.isRequired
 };
 
 ReactSns.getInitialProps = async context => {
-  // hashtag, user에 있는 initialprops 사용하기 위해 써줘야하는 코드이다.
   //getInitialProps는 가장 먼저 시작하는 라이프싸이클이다.
   console.log("reactSns.getInitialProps에서 받은 context");
   console.log(context); // next가 기본으로 넣어준값
   const { ctx, Component } = context;
+  // server.js에서 보낸 param값이 context에 ctx로 담긴다.
+  // component.getinitialprops를 실행하고
+  // hastag.js의 getinitialprops가 tag값을 리턴하면,
+  // 그 리턴한 값을 getprops에 담아서, component 태그에 props로 넣어주면
+  //hashtag.js에서 {tag}로 사용
   let pageProps = {};
   if (Component.getInitialProps) {
-    pageProps = await Component.getInitialProps(ctx);
+    pageProps = await Component.getInitialProps(ctx); // Component들중에 getInitial이있으면 실행해줌
   }
-  return { pageProps }; // ctx가 pageProps가 되고 전체 initialProps가 된다.
+  return { pageProps };
 };
 
 const configureStore = (initialState, options) => {

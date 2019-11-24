@@ -119,6 +119,7 @@ export default (state = initialState, action) => {
     }
     case LOAD_USER_SUCCESS: {
       if (action.me) {
+        // load한게 내 정보인지 타유저 정보인지 확인
         return {
           ...state,
           me: action.data

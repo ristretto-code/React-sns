@@ -39,8 +39,41 @@ router.post("/", async (req, res, next) => {
   }
 });
 
-router.get("/:id", (req, res) => {
-  // :id를 가져오려면 req.params.id로
+router.get("/:id", async (req, res, next) => {
+  try {
+    // 남의 정보 가져오기
+    const user = await db.User.findOne({
+      where: { id: parseInt(req.params.id, 10) },
+      include: [
+        {
+          model: db.Post,
+          as: "Posts",
+          attributes: ["id"]
+        },
+        {
+          model: db.User,
+          as: "Followings",
+          attributes: ["id"]
+        },
+        {
+          model: db.User,
+          as: "Followers",
+          attributes: ["id"]
+        }
+      ],
+      attributes: ["id", "nickname"]
+    });
+    const jsonUser = user.toJSON();
+    console.log("-@-jsonUser-@-");
+    console.log(jsonUser);
+    jsonUser.Posts = jsonUser.Posts ? jsonUser.Posts.length : 0; // 개인정보보호위함
+    jsonUser.Followings = jsonUser.Followings ? jsonUser.Followings.length : 0;
+    jsonUser.Followers = jsonUser.Followers ? jsonUser.Followers.length : 0;
+    res.json(jsonUser);
+  } catch (e) {
+    console.error(e);
+    next(e);
+  }
 });
 
 router.post("/logout", (req, res) => {
@@ -94,39 +127,7 @@ router.post("/login", (req, res, next) => {
   })(req, res, next);
 }); // 로그인
 
-router.get("/:id/follow", async (req, res, next) => {
-  try {
-    const user = await db.User.findOne({
-      where: { id: parseInt(req.params.id, 10) },
-      include: [
-        {
-          model: db.Post,
-          as: "Posts",
-          attributes: ["id"]
-        },
-        {
-          model: db.User,
-          as: "Followings",
-          attributes: ["id"]
-        },
-        {
-          model: db.User,
-          as: "Followers",
-          attributes: ["id"]
-        }
-      ],
-      attributes: ["id", "nickname"]
-    });
-    const jsonUser = user.toJSON();
-    jsonUser.Posts = jsonUser.Post ? jsonUser.Post.length : 0; // 개인정보보호위함
-    jsonUser.Followings = jsonUser.Followings ? jsonUser.Followings.length : 0;
-    jsonUser.Followers = jsonUser.Followers ? jsonUser.Followers.length : 0;
-    res.json(jsonUser);
-  } catch (e) {
-    console.error(e);
-    next(e);
-  }
-}); // 남의 정보 가져오는것
+router.get("/:id/flollow", (req, res) => {}); // 팔로우 정보 가져오기
 
 router.post("/:id/flollow", (req, res) => {}); // 팔로우 하기
 

@@ -44,6 +44,8 @@ ReactSns.getInitialProps = async context => {
   if (Component.getInitialProps) {
     pageProps = await Component.getInitialProps(ctx); // Component들중에 getInitial이있으면 실행해줌
   }
+  console.log("pageProps");
+  console.log(pageProps);
   return { pageProps };
 };
 

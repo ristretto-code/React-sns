@@ -3,14 +3,12 @@ const bcrypt = require("bcrypt");
 const passport = require("passport");
 const db = require("../models");
 const router = express.Router();
+const { isLoggedIn } = require("./middleware");
 
 //API는 다른 서비스가 내 서비스의 기능을 실행할수 있게 열어둔 창구
-router.get("/", (req, res) => {
+router.get("/", isLoggedIn, (req, res) => {
   // 쿠키 로그인정보 불러오기
-  if (!req.user) {
-    // deserial에서 req.user 만들어줌
-    return res.status(401).send("로그인이 필요합니다");
-  }
+
   const user = Object.assign({}, req.user.toJSON());
   delete user.password;
   return res.json(user);

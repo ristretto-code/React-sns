@@ -9,6 +9,9 @@ import {
   LOAD_USER_POSTS_REQUEST,
   LOAD_USER_POSTS_SUCCESS,
   LOAD_USER_POSTS_FAILURE,
+  LOAD_COMMENTS_REQUEST,
+  LOAD_COMMENTS_SUCCESS,
+  LOAD_COMMENTS_FAILURE,
   ADD_POST_REQUEST,
   ADD_POST_SUCCESS,
   ADD_POST_FAILURE,
@@ -83,7 +86,7 @@ function* watchLoadMainPosts() {
   yield takeLatest(LOAD_MAIN_POSTS_REQUEST, loadMainPosts);
 }
 
-function* addPostApi(postData) {
+function addPostApi(postData) {
   return axios.post("/post", postData, {
     withCredentials: true // 로그인한사람만 쓸수있도록 쿠키보내서 로그인했는지 안했는지 인증
   });
@@ -91,8 +94,6 @@ function* addPostApi(postData) {
 function* addPost(action) {
   try {
     const result = yield call(addPostApi, action.data);
-    console.log("-- addpost result--");
-    console.log(result);
     yield put({
       type: ADD_POST_SUCCESS,
       data: result.data
@@ -109,16 +110,28 @@ function* watchAddPost() {
   yield takeLatest(ADD_POST_REQUEST, addPost);
 }
 
-function* addCommentApi() {}
+function addCommentApi(data) {
+  return axios.post(
+    `/post/${data.postId}/comment`,
+    { content: data.comment },
+    { withCredentials: true }
+  );
+}
+
 function* addComment(action) {
   try {
+    const result = yield call(addCommentApi, action.data);
+    console.log("----result----");
+    console.log(result);
     yield put({
       type: ADD_COMMENT_SUCCESS,
       data: {
-        postId: action.data.postId
+        postId: action.data.postId,
+        comment: result.data.content
       }
     });
   } catch (e) {
+    console.error(e);
     yield put({
       type: ADD_COMMENT_FAILURE,
       error: e
@@ -129,12 +142,38 @@ function* watchAddComment() {
   yield takeLatest(ADD_COMMENT_REQUEST, addComment);
 }
 
+function loadCommentsApi(postId) {
+  return axios.get(`/post/${postId}/comments`);
+}
+function* loadComments(action) {
+  try {
+    const result = yield call(loadCommentsApi, action.data);
+    yield put({
+      type: LOAD_COMMENTS_SUCCESS,
+      data: {
+        postId: action.data,
+        comments: result.data
+      }
+    });
+  } catch (e) {
+    console.error(e);
+    yield put({
+      type: LOAD_COMMENTS_FAILURE,
+      error: e
+    });
+  }
+}
+function* watchLoadComments() {
+  yield takeLatest(LOAD_COMMENTS_REQUEST, loadComments);
+}
+
 export default function* userSaga() {
   yield all([
     fork(watchAddPost),
     fork(watchAddComment),
     fork(watchLoadMainPosts),
     fork(watchLoadHashtagPosts),
-    fork(watchLoadUserPosts)
+    fork(watchLoadUserPosts),
+    fork(watchLoadComments)
   ]);
 }

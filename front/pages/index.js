@@ -15,12 +15,18 @@ const Home = () => {
     });
   }, []);
 
+  (() => {
+    mainPosts.map(c => {
+      // return console.log(c);
+    });
+  })();
+
   return (
     <div>
       {me && <PostForm />}
       {mainPosts &&
         mainPosts.map(c => {
-          return <PostCard key={c} post={c} />;
+          return <PostCard key={c.id} post={c} />;
         })}
     </div>
   );

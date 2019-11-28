@@ -3,7 +3,7 @@ import { Avatar, Card, Icon, Input, Button, Form, List, Comment } from "antd";
 import proptypes from "prop-types";
 import Link from "next/link";
 import { useSelector, useDispatch } from "react-redux";
-import { ADD_COMMENT_REQUEST } from "../reducers/post";
+import { ADD_COMMENT_REQUEST, LOAD_COMMENTS_REQUEST } from "../reducers/post";
 
 const PostCard = ({ post }) => {
   const [commentFormOpened, setCommentFormOpened] = useState(false);
@@ -12,11 +12,14 @@ const PostCard = ({ post }) => {
   const { commentAdded, isAddingComment } = useSelector(state => state.post);
   const dispatch = useDispatch();
 
-  console.log("--post--");
-  console.log(post);
-
   const onToggleComment = useCallback(() => {
     setCommentFormOpened(prev => !prev);
+    if (!commentFormOpened) {
+      dispatch({
+        type: LOAD_COMMENTS_REQUEST,
+        data: post.id
+      });
+    }
   }, []);
 
   const onSubmitComment = useCallback(
@@ -28,11 +31,12 @@ const PostCard = ({ post }) => {
       dispatch({
         type: ADD_COMMENT_REQUEST,
         data: {
-          postId: post.id
+          postId: post.id,
+          comment: commentText
         }
       });
     },
-    [me && me.id]
+    [me && me.id, commentText]
   );
 
   useEffect(() => {
@@ -48,13 +52,13 @@ const PostCard = ({ post }) => {
       <Card
         // key={+post.createdAt}
         cover={
-          post.img && (
-            <img
-              alt="example"
-              src={post.img}
-              style={{ width: "100%", height: "100%" }}
-            />
-          )
+          // post.img ? (
+          <img
+            alt="example"
+            src="https://images.unsplash.com/photo-1574782169496-eee3e3acc361?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80"
+            style={{ width: "100%", height: "100%" }}
+          />
+          // ) : null
         }
         actions={[
           <Icon type="retweet" key="retweet" />,
@@ -104,7 +108,7 @@ const PostCard = ({ post }) => {
           <Form onSubmit={onSubmitComment}>
             <Form.Item>
               <Input.TextArea
-                row={4}
+                rows={4}
                 value={commentText}
                 onChange={onChangeCommentText}
               />
@@ -114,7 +118,7 @@ const PostCard = ({ post }) => {
             </Button>
           </Form>
           <List
-            header={`${post.Comments ? post.Comments.length : 0}댓글`}
+            header={`${post.Comments ? post.Comments.length : 0} 댓글`}
             itemLayout="horizontal"
             dataSource={post.Comments || []}
             renderItem={item => (
@@ -123,7 +127,7 @@ const PostCard = ({ post }) => {
                   author={item.User.nickname}
                   avatar={
                     <Link
-                      href={{ pathname: "/user/", query: { id: item.User.id } }}
+                      href={{ pathname: "/user", query: { id: item.User.id } }}
                       as={`/user/${item.User.id}`}
                     >
                       <a>
@@ -132,7 +136,6 @@ const PostCard = ({ post }) => {
                     </Link>
                   }
                   content={item.content}
-                  datetime={item.createdAt}
                 />
               </li>
             )}

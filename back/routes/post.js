@@ -1,20 +1,15 @@
 const express = require("express");
 const router = express.Router();
 const db = require("../models");
+const { isLoggedIn } = require("./middleware");
 
-router.post("/", async (req, res, next) => {
+router.post("/", isLoggedIn, async (req, res, next) => {
   try {
     const hashtags = req.body.content.match(/#[^\s]+/g);
-    console.log("-------hashtags-------");
-    console.log(hashtags);
-    console.log("-------hashtags-------");
     const newPost = await db.Post.create({
       content: req.body.content,
       UserId: req.user.id
     });
-    console.log("-------newPost-------");
-    console.log(newPost);
-    console.log("-------newPost-------");
     if (hashtags) {
       const result = await Promise.all(
         // promise all로 각각 모두 저장
@@ -25,9 +20,6 @@ router.post("/", async (req, res, next) => {
           })
         )
       );
-      console.log("-------result-------");
-      console.log(result);
-      console.log("-------result-------");
       await newPost.addHashtags(result.map(r => r[0])); //시퀄라이즈가 만들어준 "add"Hashtags.. remove get 이런것도 있어서 join쿼리안쓰고도 add로 해결가능
     }
     const fullPost = await db.Post.findOne({
@@ -51,11 +43,11 @@ router.get("/:id/comments", async (req, res, next) => {
     if (!post) {
       return res.status(404).send("포스트가 존재하지 않습니다");
     }
-    const comments = await db.Comment.findall({
+    const comments = await db.Comment.findAll({
       where: {
         PostId: req.params.id
       },
-      order: [["created", "ASC"]],
+      order: [["createdAt", "ASC"]],
       include: [
         {
           model: db.User,
@@ -68,13 +60,10 @@ router.get("/:id/comments", async (req, res, next) => {
     console.error(e);
     return next(e);
   }
-}); // 이미지올리기
-router.post("/:id/comments", async (req, res, next) => {
+});
+router.post("/:id/comment", isLoggedIn, async (req, res, next) => {
   // POST /api/post/1000/comment
   try {
-    if (!req.user) {
-      return res.status(401).send("로그인이 필요합니다");
-    }
     const post = await db.Post.findOne({ where: { id: req.params.id } });
     if (!post) {
       return res.status(404).send("포스트가 존재하지 않습니다");
@@ -97,6 +86,7 @@ router.post("/:id/comments", async (req, res, next) => {
         }
       ]
     });
+    console.log(comment);
     return res.json(comment);
   } catch (e) {
     console.error(e);

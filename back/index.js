@@ -21,6 +21,7 @@ passportConfig(); // 로그인
 
 app.use(morgan("dev"));
 // morgan은 요청 로그 남기는것
+app.use("/", express.static("uploads")); // '/'는 프론트에서 접근하는 주소, uploads는 서버에서 접근하는 이미지주소
 app.use(
   cors({
     origin: true, // localhost:3000 써도됨. 쿠키교환하기 위해 "요청과 같게"

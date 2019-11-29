@@ -32,8 +32,6 @@ ReactSns.propTypes = {
 
 ReactSns.getInitialProps = async context => {
   //getInitialProps는 가장 먼저 시작하는 라이프싸이클이다.
-  console.log("reactSns.getInitialProps에서 받은 context");
-  console.log(context); // next가 기본으로 넣어준값
   const { ctx, Component } = context;
   // server.js에서 보낸 param값이 context에 ctx로 담긴다.
   // component.getinitialprops를 실행하고

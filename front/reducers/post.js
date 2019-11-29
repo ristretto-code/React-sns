@@ -118,6 +118,24 @@ export default (state = initialState, action) => {
         postAdded: false
       };
     }
+
+    case UPLOAD_IMAGES_REQUEST: {
+      return {
+        ...state
+      };
+    }
+    case UPLOAD_IMAGES_SUCCESS: {
+      return {
+        ...state,
+        imagePaths: [...state.imagePaths, ...action.data] //이미지 미리보기 경로
+      };
+    }
+    case UPLOAD_IMAGES_FAILURE: {
+      return {
+        ...state
+      };
+    }
+
     case ADD_COMMENT_REQUEST: {
       return {
         ...state,
@@ -146,6 +164,13 @@ export default (state = initialState, action) => {
         ...state,
         isAddingComment: false,
         addCommentErrorReason: action.error
+      };
+    }
+
+    case REMOVE_IMAGE: {
+      return {
+        ...state,
+        imagePaths: state.imagePaths.filter((v, i) => i !== action.index)
       };
     }
 

@@ -1,7 +1,10 @@
 const express = require("express");
-const router = express.Router();
+const multer = require("multer");
 const db = require("../models");
+const path = require("path");
 const { isLoggedIn } = require("./middleware");
+
+const router = express.Router();
 
 router.post("/", isLoggedIn, async (req, res, next) => {
   try {
@@ -36,7 +39,27 @@ router.post("/", isLoggedIn, async (req, res, next) => {
     next(e);
   }
 }); // 게시글 작성 api/post
-router.post("/images", (req, res) => {}); // 이미지올리기
+
+const upload = multer({
+  storage: multer.diskStorage({
+    // 서버 하드에 저장
+    destination(req, file, done) {
+      done(null, "uploads");
+    },
+    filename(req, file, done) {
+      const ext = path.extname(file.originalname);
+      const basename = path.basename(file.originalname, ext); // 예제.png ext===png base === 예제
+      done(null, basename + new Date().valueOf() + ext); // 파일 이름 같을수있으니 시간넣기
+    }
+  }),
+  limits: { fileSize: 20 * 1024 * 1024 } // 보안위해서 제한해주기
+});
+
+router.post("/images", upload.array("image"), (req, res) => {
+  console.log(req.files);
+  res.json(req.files.map(v => v.filename));
+}); // 이미지올리기, formdata에서 받은 이름을 upload.함수('여기에 넣음')
+
 router.get("/:id/comments", async (req, res, next) => {
   try {
     const post = await db.Post.findOne({ where: { id: req.params.id } });
@@ -86,7 +109,6 @@ router.post("/:id/comment", isLoggedIn, async (req, res, next) => {
         }
       ]
     });
-    console.log(comment);
     return res.json(comment);
   } catch (e) {
     console.error(e);

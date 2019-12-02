@@ -6,6 +6,21 @@ const { isLoggedIn } = require("./middleware");
 
 const router = express.Router();
 
+const upload = multer({
+  storage: multer.diskStorage({
+    // 서버 하드에 저장
+    destination(req, file, done) {
+      done(null, "uploads");
+    },
+    filename(req, file, done) {
+      const ext = path.extname(file.originalname);
+      const basename = path.basename(file.originalname, ext); // 예제.png ext===png base === 예제
+      done(null, basename + new Date().valueOf() + ext); // 파일 이름 같을수있으니 시간넣기
+    }
+  }),
+  limits: { fileSize: 20 * 1024 * 1024 } // 보안위해서 제한해주기
+});
+
 router.post("/", isLoggedIn, async (req, res, next) => {
   try {
     const hashtags = req.body.content.match(/#[^\s]+/g);
@@ -25,38 +40,40 @@ router.post("/", isLoggedIn, async (req, res, next) => {
       );
       await newPost.addHashtags(result.map(r => r[0])); //시퀄라이즈가 만들어준 "add"Hashtags.. remove get 이런것도 있어서 join쿼리안쓰고도 add로 해결가능
     }
+
+    if (req.body.image) {
+      // 이미지 주소를 여러개 올리면 배열로 온다
+      if (Array.isArray(req.body.image)) {
+        const images = await Promise.all(
+          req.body.image.map(image => {
+            return db.Image.create({ src: image });
+          })
+        );
+        await newPost.addImages(images);
+      } else {
+        const image = await db.Image.create({ src: req.body.image });
+        await newPost.addImage(image);
+      }
+    }
     const fullPost = await db.Post.findOne({
       where: { id: newPost.id }, // post에 담긴 userid 검색
       include: [
         {
           model: db.User
+        },
+        {
+          model: db.Image
         }
       ]
     });
-    res.json(newPost);
+    res.json(fullPost);
   } catch (e) {
     console.error(e);
     next(e);
   }
 }); // 게시글 작성 api/post
 
-const upload = multer({
-  storage: multer.diskStorage({
-    // 서버 하드에 저장
-    destination(req, file, done) {
-      done(null, "uploads");
-    },
-    filename(req, file, done) {
-      const ext = path.extname(file.originalname);
-      const basename = path.basename(file.originalname, ext); // 예제.png ext===png base === 예제
-      done(null, basename + new Date().valueOf() + ext); // 파일 이름 같을수있으니 시간넣기
-    }
-  }),
-  limits: { fileSize: 20 * 1024 * 1024 } // 보안위해서 제한해주기
-});
-
 router.post("/images", upload.array("image"), (req, res) => {
-  console.log(req.files);
   res.json(req.files.map(v => v.filename));
 }); // 이미지올리기, formdata에서 받은 이름을 upload.함수('여기에 넣음')
 
@@ -115,5 +132,33 @@ router.post("/:id/comment", isLoggedIn, async (req, res, next) => {
     return next(e);
   }
 }); // 이미지올리기
+
+router.post("/:id/like", isLoggedIn, async (req, res, next) => {
+  try {
+    const post = await db.Post.findOne({ where: { id: req.params.id } });
+    if (!post) {
+      return res.status(404).send("포스트가 존재하지 않습니다.");
+    }
+    await post.addLiker(req.user.id);
+    res.json({ userId: req.user.id });
+  } catch (e) {
+    console.error(e);
+    next(e);
+  }
+});
+
+router.delete("/:id/like", isLoggedIn, async (req, res, next) => {
+  try {
+    const post = await db.Post.findOne({ where: { id: req.params.id } });
+    if (!post) {
+      return res.status(404).send("포스트가 존재하지 않습니다.");
+    }
+    await post.removeLiker(req.user.id);
+    res.json({ userId: req.user.id });
+  } catch (e) {
+    console.error(e);
+    next(e);
+  }
+});
 
 module.exports = router;

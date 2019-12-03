@@ -136,6 +136,56 @@ export default (state = initialState, action) => {
       };
     }
 
+    case FOLLOW_USER_REQUEST: {
+      return {
+        ...state
+      };
+    }
+    case FOLLOW_USER_SUCCESS: {
+      return {
+        ...state,
+        me: {
+          ...state.me,
+          Followings: [{ id: action.data }, ...state.me.Followings]
+        }
+      };
+    }
+    case FOLLOW_USER_FAILURE: {
+      return {
+        ...state
+      };
+    }
+
+    case UNFOLLOW_USER_REQUEST: {
+      return {
+        ...state
+      };
+    }
+    case UNFOLLOW_USER_SUCCESS: {
+      return {
+        ...state,
+        me: {
+          ...state.me,
+          Followings: state.me.Followings.filter(v => v.id !== action.data)
+        }
+      };
+    }
+    case UNFOLLOW_USER_FAILURE: {
+      return {
+        ...state
+      };
+    }
+    case ADD_POST_TO_ME: {
+      // post reducer에서 가져온 데이터 saga에서 얘한테도 보내줌
+      return {
+        ...state,
+        me: {
+          ...state.me,
+          Posts: [{ id: action.data }, ...state.me.Posts]
+        }
+      };
+    }
+
     default: {
       return {
         ...state

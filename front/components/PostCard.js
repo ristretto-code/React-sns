@@ -9,6 +9,7 @@ import {
   LIKE_POST_REQUEST,
   UNLIKE_POST_REQUEST
 } from "../reducers/post";
+import { FOLLOW_USER_REQUEST, UNFOLLOW_USER_REQUEST } from "../reducers/user";
 import PostImages from "./PostImages";
 
 const PostCard = ({ post }) => {
@@ -73,6 +74,24 @@ const PostCard = ({ post }) => {
     }
   }, [me && me.id, post && post.id, liked]);
 
+  const onFollow = useCallback(
+    userId => () => {
+      dispatch({
+        type: FOLLOW_USER_REQUEST,
+        data: userId
+      });
+    },
+    []
+  );
+  const onUnfollow = useCallback(
+    userId => () => {
+      dispatch({
+        type: UNFOLLOW_USER_REQUEST,
+        data: userId
+      });
+    },
+    []
+  );
   return (
     <div>
       <Card
@@ -90,7 +109,14 @@ const PostCard = ({ post }) => {
           <Icon type="message" key="message" onClick={onToggleComment} />,
           <Icon type="ellipsis" key="ellipsis" />
         ]}
-        // extra={}
+        extra={
+          !me || post.User.id === me.id ? null : me.Followings &&
+            me.Followings.find(v => v.id === post.User.id) ? (
+            <Button onClick={onUnfollow(post.User.id)}>언팔로우</Button>
+          ) : (
+            <Button onClick={onFollow(post.User.id)}>팔로우</Button>
+          )
+        }
       >
         <Card.Meta
           avatar={

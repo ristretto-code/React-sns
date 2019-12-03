@@ -185,7 +185,7 @@ export default (state = initialState, action) => {
         v => v.id === action.data.postId
       );
       const post = state.mainPosts[postIndex];
-      const Likers = [{ id: action.data.userId }, ...post.Likers];
+      const Likers = [...post.Likers, { id: action.data.userId }];
       const mainPosts = [...state.mainPosts];
       mainPosts[postIndex] = { ...post, Likers };
       return {

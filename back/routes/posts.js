@@ -38,6 +38,7 @@ router.get("/", async (req, res, next) => {
       order: [["createdAt", "DESC"]] // DESC는 내림차순, ASC는 오름차순
     });
     res.json(posts);
+    console.log(posts);
   } catch (e) {
     console.error(e);
     next(e);

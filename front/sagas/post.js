@@ -28,6 +28,7 @@ import {
   UNLIKE_POST_SUCCESS,
   UNLIKE_POST_FAILURE
 } from "../reducers/post";
+import { ADD_POST_TO_ME } from "../reducers/user";
 import axios from "axios";
 
 function loadHashtagPostsAPI(tag) {

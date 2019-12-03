@@ -125,11 +125,33 @@ router.post("/login", (req, res, next) => {
   })(req, res, next);
 }); // 로그인
 
-router.get("/:id/flollow", (req, res) => {}); // 팔로우 정보 가져오기
+router.get("/:id/follow", (req, res) => {}); // 팔로우 정보 가져오기
 
-router.post("/:id/flollow", (req, res) => {}); // 팔로우 하기
+router.post("/:id/follow", isLoggedIn, async (req, res, next) => {
+  try {
+    const me = await db.User.findOne({
+      where: { id: req.user.id }
+    }); // req.user 와 같은데 req.user 시퀄객체 아니고 일반객체 일때가 있어서 다시조회해서 가져오기
+    await me.addFollowing(req.params.id);
+    res.send(req.params.id);
+  } catch (e) {
+    console.error(e);
+    next(e);
+  }
+}); // 팔로우 하기
 
-router.delete("/:id/follow", (req, res) => {}); // 팔로우 취소
+router.delete("/:id/follow", isLoggedIn, async (req, res, next) => {
+  try {
+    const me = await db.User.findOne({
+      where: { id: req.user.id }
+    });
+    await me.removeFollowing(req.params.id);
+    res.send(req.params.id);
+  } catch (e) {
+    console.error(e);
+    next(e);
+  }
+}); // 팔로우 취소
 
 router.delete("/:id/follower", (req, res) => {}); // 팔로워 지우기
 

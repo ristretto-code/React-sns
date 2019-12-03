@@ -138,7 +138,7 @@ router.post("/:id/like", isLoggedIn, async (req, res, next) => {
     const post = await db.Post.findOne({ where: { id: req.params.id } });
     if (!post) {
       return res.status(404).send("포스트가 존재하지 않습니다.");
-    }
+    } // 혹시 모르니 일단 좋아요가 클릭된 포스트가 정말 존재하는 포스트인지 확인
     await post.addLiker(req.user.id);
     res.json({ userId: req.user.id });
   } catch (e) {

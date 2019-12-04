@@ -103,12 +103,16 @@ function addPostApi(postData) {
 }
 function* addPost(action) {
   try {
-    console.log("@@@action.data@@@");
-    console.log(action.data);
     const result = yield call(addPostApi, action.data);
     yield put({
+      //post 리듀서 데이터 수정
       type: ADD_POST_SUCCESS,
       data: result.data
+    });
+    yield put({
+      //user 리듀서 데이터 수정
+      type: ADD_POST_TO_ME,
+      data: result.data.id
     });
   } catch (e) {
     console.error(e);

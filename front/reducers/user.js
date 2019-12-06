@@ -172,7 +172,7 @@ export default (state = initialState, action) => {
           ...state.me,
           Followings: state.me.Followings.filter(v => v.id !== action.data)
         },
-        followingList: state.followingList.fileter(v => v.id !== action.data)
+        followingList: state.followingList.filter(v => v.id !== action.data)
       };
     }
     case UNFOLLOW_USER_FAILURE: {
@@ -206,7 +206,7 @@ export default (state = initialState, action) => {
     case LOAD_FOLLOWINGS_SUCCESS: {
       return {
         ...state,
-        followingsList: action.data
+        followingList: action.data
       };
     }
     case LOAD_FOLLOWINGS_FAILURE: {

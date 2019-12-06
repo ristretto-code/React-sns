@@ -125,7 +125,48 @@ router.post("/login", (req, res, next) => {
   })(req, res, next);
 }); // 로그인
 
-router.get("/:id/follow", (req, res) => {}); // 팔로우 정보 가져오기
+router.get("/:id/followings", isLoggedIn, async (req, res, next) => {
+  try {
+    const user = await db.User.findOne({
+      where: { id: parseInt(req.params.id, 10) }
+    });
+    const followers = await user.getFollowings({
+      attributes: ["id", "nickname"]
+    });
+    res.json(followers);
+  } catch (e) {
+    console.error(e);
+    next(e);
+  }
+}); // 내 팔로잉 정보 가져오기
+
+router.get("/:id/followers", isLoggedIn, async (req, res, next) => {
+  try {
+    const user = await db.User.findOne({
+      where: { id: parseInt(req.params.id, 10) }
+    });
+    const followers = await user.getFollowers({
+      attributes: ["id", "nickname"]
+    });
+    res.json(followers);
+  } catch (e) {
+    console.error(e);
+    next(e);
+  }
+}); // 내 팔로워 정보 가져오기
+
+router.delete("/:id/follower", isLoggedIn, async (req, res, next) => {
+  try {
+    const me = await db.User.findOne({
+      where: { id: req.user.id }
+    });
+    await me.removeFollower(req.params.id);
+    res.send(req.params.id);
+  } catch (e) {
+    console.error(e);
+    next(e);
+  }
+});
 
 router.post("/:id/follow", isLoggedIn, async (req, res, next) => {
   try {

@@ -28,9 +28,13 @@ export const LOAD_USER_REQUEST = "LOAD_USER_REQUEST";
 export const LOAD_USER_SUCCESS = "LOAD_USER_SUCCESS";
 export const LOAD_USER_FAILURE = "LOAD_USER_FAILURE";
 
-export const LOAD_FOLLOW_REQUEST = "LOAD_FOLLOW_REQUEST";
-export const LOAD_FOLLOW_SUCCESS = "LOAD_FOLLOW_SUCCESS";
-export const LOAD_FOLLOW_FAILURE = "LOAD_FOLLOW_FAILURE";
+export const LOAD_FOLLOWERS_REQUEST = "LOAD_FOLLOWERS_REQUEST";
+export const LOAD_FOLLOWERS_SUCCESS = "LOAD_FOLLOWERS_SUCCESS";
+export const LOAD_FOLLOWERS_FAILURE = "LOAD_FOLLOWERS_FAILURE";
+
+export const LOAD_FOLLOWINGS_REQUEST = "LOAD_FOLLOWINGS_REQUEST";
+export const LOAD_FOLLOWINGS_SUCCESS = "LOAD_FOLLOWINGS_SUCCESS";
+export const LOAD_FOLLOWINGS_FAILURE = "LOAD_FOLLOWINGS_FAILURE";
 
 export const REMOVE_FOLLOWER_REQUEST = "REMOVE_FOLLOWER_REQUEST";
 export const REMOVE_FOLLOWER_SUCCESS = "REMOVE_FOLLOWER_SUCCESS";
@@ -167,7 +171,8 @@ export default (state = initialState, action) => {
         me: {
           ...state.me,
           Followings: state.me.Followings.filter(v => v.id !== action.data)
-        }
+        },
+        followingList: state.followingList.fileter(v => v.id !== action.data)
       };
     }
     case UNFOLLOW_USER_FAILURE: {
@@ -175,6 +180,64 @@ export default (state = initialState, action) => {
         ...state
       };
     }
+
+    case LOAD_FOLLOWERS_REQUEST: {
+      return {
+        ...state
+      };
+    }
+    case LOAD_FOLLOWERS_SUCCESS: {
+      return {
+        ...state,
+        followerList: action.data
+      };
+    }
+    case LOAD_FOLLOWERS_FAILURE: {
+      return {
+        ...state
+      };
+    }
+
+    case LOAD_FOLLOWINGS_REQUEST: {
+      return {
+        ...state
+      };
+    }
+    case LOAD_FOLLOWINGS_SUCCESS: {
+      return {
+        ...state,
+        followingsList: action.data
+      };
+    }
+    case LOAD_FOLLOWINGS_FAILURE: {
+      return {
+        ...state
+      };
+    }
+
+    case REMOVE_FOLLOWER_REQUEST: {
+      return {
+        ...state
+      };
+    }
+    case REMOVE_FOLLOWER_SUCCESS: {
+      return {
+        ...state,
+        me: {
+          followers: state.me.Followers.filter(v => v.id !== action.data)
+          //Followings에 들어있는 객체들 v하나하나의 id가 action.data의 id와 같지않으면
+          //true를 반환한다. 만약에 그 두값이 같으면 false를 반환하고 배열에서 filtered된다.
+          // 그 값이 같지않은 값들(!==)은 true를 반환하고 배열로 만들어진다
+        },
+        followerList: state.followerList.filter(v => v.id !== action.data)
+      };
+    }
+    case REMOVE_FOLLOWER_FAILURE: {
+      return {
+        ...state
+      };
+    }
+
     case ADD_POST_TO_ME: {
       // post reducer에서 가져온 데이터 saga에서 얘한테도 보내줌
       return {

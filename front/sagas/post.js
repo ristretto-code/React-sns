@@ -32,7 +32,7 @@ import { ADD_POST_TO_ME } from "../reducers/user";
 import axios from "axios";
 
 function loadHashtagPostsAPI(tag) {
-  return axios.get(`/hashtag/${tag}`);
+  return axios.get(`/hashtag/${encodeURIComponent(tag)}`);
 }
 
 function* loadHashtagPosts(action) {

@@ -226,4 +226,21 @@ router.get("/:id/posts", async (req, res, next) => {
   }
 }); // 남의 포스트 가져오는것
 
+router.patch("/nickname", isLoggedIn, async (req, res, next) => {
+  try {
+    await db.User.update(
+      {
+        nickname: req.body.nickname
+      },
+      {
+        where: { id: req.user.id }
+      }
+    );
+    res.send(req.body.nickname);
+  } catch (e) {
+    console.error(e);
+    next(e);
+  }
+});
+
 module.exports = router;

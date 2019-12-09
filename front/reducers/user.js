@@ -9,7 +9,9 @@ export const initialState = {
   me: null,
   followingList: [], // 팔로잉 리스트
   followerList: [],
-  userInfo: null // 남의 정보
+  userInfo: null, // 남의 정보
+  isEditingNickname: false, // 닉네임 수정중
+  editNicknameErrorReason: "" // 닉네임수정 실패사유
 };
 
 export const LOG_IN_REQUEST = "LOG_IN_REQUEST";
@@ -47,6 +49,10 @@ export const FOLLOW_USER_FAILURE = "FOLLOW_USER_FAILURE";
 export const UNFOLLOW_USER_REQUEST = "UNFOLLOW_USER_REQUEST";
 export const UNFOLLOW_USER_SUCCESS = "UNFOLLOW_USER_SUCCESS";
 export const UNFOLLOW_USER_FAILURE = "UNFOLLOW_USER_FAILURE";
+
+export const EDIT_NICKNAME_REQUEST = "EDIT_NICKNAME_REQUEST";
+export const EDIT_NICKNAME_SUCCESS = "EDIT_NICKNAME_SUCCESS";
+export const EDIT_NICKNAME_FAILURE = "EDIT_NICKNAME_FAILURE";
 
 export const ADD_POST_TO_ME = "ADD_POST_TO_ME";
 
@@ -235,6 +241,30 @@ export default (state = initialState, action) => {
     case REMOVE_FOLLOWER_FAILURE: {
       return {
         ...state
+      };
+    }
+
+    case EDIT_NICKNAME_REQUEST: {
+      return {
+        ...state,
+        isEditingNickname: true,
+        editNicknameErrorReason: ""
+      };
+    }
+    case EDIT_NICKNAME_SUCCESS: {
+      return {
+        ...state,
+        isEditingNickname: false,
+        me: {
+          ...state.me,
+          nickname: action.data
+        }
+      };
+    }
+    case EDIT_NICKNAME_FAILURE: {
+      return {
+        ...state,
+        editNicknameErrorReason: action.error
       };
     }
 

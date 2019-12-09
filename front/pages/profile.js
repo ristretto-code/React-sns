@@ -108,7 +108,8 @@ Profile.getInitialProps = async context => {
     type: LOAD_USER_POSTS_REQUEST,
     data: state.user.me && state.user.me.id
   });
-  // 여기서 load_users_success되고 me가 생긴다.
+  // 여기서 load_users_success되고 me가 생긴다.\
+  // me가 undefined일시 '내계정으로 간주하고' 요청보내기
 };
 
 export default Profile;

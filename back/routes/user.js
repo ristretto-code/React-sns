@@ -130,10 +130,13 @@ router.get("/:id/followings", isLoggedIn, async (req, res, next) => {
     const user = await db.User.findOne({
       where: {
         id: parseInt(req.params.id, 10) || (req.user && req.user.id) || 0
+        //프론트에서 me가 null이면 서버로 0을 보내고 서버에서 받은 req.params.id가 0이면 req.user(로그인한 내 아이디)로 판단한다
       }
     });
     const followers = await user.getFollowings({
-      attributes: ["id", "nickname"]
+      attributes: ["id", "nickname"],
+      limit: parseInt(req.query.limit, 10),
+      offset: parseInt(req.query.offset, 10)
     });
     res.json(followers);
   } catch (e) {
@@ -150,7 +153,9 @@ router.get("/:id/followers", isLoggedIn, async (req, res, next) => {
       }
     });
     const followers = await user.getFollowers({
-      attributes: ["id", "nickname"]
+      attributes: ["id", "nickname"],
+      limit: parseInt(req.query.limit, 10),
+      offset: parseInt(req.query.offset, 10)
     });
     res.json(followers);
   } catch (e) {

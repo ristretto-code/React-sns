@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback } from "react";
 import { Button, Checkbox, Form, Input } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import Router from "next/router";
@@ -24,13 +24,6 @@ const Signup = () => {
   const [password, onChangePassword] = useInput("");
   const dispatch = useDispatch();
   const { isSigningUp, me } = useSelector(state => state.user);
-
-  useEffect(() => {
-    if (me) {
-      alert("로그인했으니 메인페이지로 이동합니다");
-      Router.push("/");
-    }
-  }, [me && me.id]);
 
   const onSubmit = useCallback(
     e => {
@@ -64,6 +57,11 @@ const Signup = () => {
     setTermError(false);
     setTerm(e.target.checked);
   }, []);
+
+  if (me) {
+    // 로그인한 상태면 폼안보여주기
+    return null;
+  }
 
   return (
     <>

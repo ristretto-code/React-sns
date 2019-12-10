@@ -11,7 +11,9 @@ export const initialState = {
   followerList: [],
   userInfo: null, // 남의 정보
   isEditingNickname: false, // 닉네임 수정중
-  editNicknameErrorReason: "" // 닉네임수정 실패사유
+  editNicknameErrorReason: "", // 닉네임수정 실패사유
+  hasMoreFollower: false,
+  hasMoreFollowing: false
 };
 
 export const LOG_IN_REQUEST = "LOG_IN_REQUEST";
@@ -190,13 +192,15 @@ export default (state = initialState, action) => {
 
     case LOAD_FOLLOWERS_REQUEST: {
       return {
-        ...state
+        ...state,
+        hasMoreFollower: action.offset ? state.hasMoreFollower : true // offset없을때 true로 더보기버튼 활성화
       };
     }
     case LOAD_FOLLOWERS_SUCCESS: {
       return {
         ...state,
-        followerList: state.followerList.concat(action.data)
+        followerList: state.followerList.concat(action.data),
+        hasMoreFollower: action.data.length === 3 // 3개 다 가져왔으면 더보기버튼 만들기. 1-2개면 더보기필요없음
       };
     }
     case LOAD_FOLLOWERS_FAILURE: {
@@ -207,13 +211,15 @@ export default (state = initialState, action) => {
 
     case LOAD_FOLLOWINGS_REQUEST: {
       return {
-        ...state
+        ...state,
+        hasMoreFollower: action.offset ? state.hasMoreFollower : true
       };
     }
     case LOAD_FOLLOWINGS_SUCCESS: {
       return {
         ...state,
-        followingList: state.followingList.concat(action.data)
+        followingList: state.followingList.concat(action.data),
+        hasMoreFollowing: action.data.length === 3
       };
     }
     case LOAD_FOLLOWINGS_FAILURE: {

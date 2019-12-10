@@ -14,7 +14,12 @@ import PostCard from "../components/PostCard";
 
 const Profile = () => {
   const dispatch = useDispatch();
-  const { followingList, followerList } = useSelector(state => state.user);
+  const {
+    followingList,
+    followerList,
+    hasMoreFollower,
+    hasMoreFollwing
+  } = useSelector(state => state.user);
   const { mainPosts } = useSelector(state => state.post);
 
   const onUnfollow = useCallback(
@@ -59,9 +64,11 @@ const Profile = () => {
         size="small"
         header={<div>팔로잉 목록</div>}
         loadMore={
-          <Button style={{ width: "100%" }} onClick={loadMoreFollowings}>
-            더 보기
-          </Button>
+          hasMoreFollowing && (
+            <Button style={{ width: "100%" }} onClick={loadMoreFollowings}>
+              더 보기
+            </Button>
+          )
         }
         bordered
         dataSource={followingList}
@@ -83,9 +90,11 @@ const Profile = () => {
         size="small"
         header={<div>팔로워 목록</div>}
         loadMore={
-          <Button style={{ width: "100%" }} onClick={loadMoreFollowers}>
-            더 보기
-          </Button>
+          hasMoreFollower && (
+            <Button style={{ width: "100%" }} onClick={loadMoreFollowers}>
+              더 보기
+            </Button>
+          )
         }
         bordered
         dataSource={followerList}

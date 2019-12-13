@@ -18,7 +18,7 @@ const Profile = () => {
     followingList,
     followerList,
     hasMoreFollower,
-    hasMoreFollwing
+    hasMoreFollowing
   } = useSelector(state => state.user);
   const { mainPosts } = useSelector(state => state.post);
 

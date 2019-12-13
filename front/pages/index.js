@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from "react";
+import React, { useEffect, useCallback, useRef } from "react";
 import PostForm from "../components/PostForm";
 import PostCard from "../components/PostCard";
 import { useSelector, useDispatch } from "react-redux";
@@ -8,6 +8,7 @@ const Home = () => {
   const { me } = useSelector(state => state.user);
   const { mainPosts, hasMorePost } = useSelector(state => state.post);
   const dispatch = useDispatch();
+  const countRef = useRef([]);
 
   const onScroll = useCallback(() => {
     if (
@@ -15,11 +16,16 @@ const Home = () => {
       document.documentElement.scrollHeight - 300
     ) {
       if (hasMorePost) {
-        console.log(mainPosts[mainPosts.length - 1].id);
-        dispatch({
-          type: LOAD_MAIN_POSTS_REQUEST,
-          lastId: mainPosts[mainPosts.length - 1].id
-        });
+        const lastId = mainPosts[mainPosts.length - 1].id;
+        if (!countRef.current.includes(lastId)) {
+          dispatch({
+            type: LOAD_MAIN_POSTS_REQUEST,
+            lastId: lastId
+          });
+          countRef.current.push(lastId);
+          // dispatch 순식간에 여러번 실행되는거 막기
+          // saga에서는 쓰로틀링으로 막고있음
+        }
       }
     }
   }, [mainPosts.length, hasMorePost]);

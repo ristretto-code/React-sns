@@ -62,8 +62,6 @@ router.get("/:id", async (req, res, next) => {
       attributes: ["id", "nickname"]
     });
     const jsonUser = user.toJSON();
-    console.log("-@-jsonUser-@-");
-    console.log(jsonUser);
     jsonUser.Posts = jsonUser.Posts ? jsonUser.Posts.length : 0; // 개인정보보호위함
     jsonUser.Followings = jsonUser.Followings ? jsonUser.Followings.length : 0;
     jsonUser.Followers = jsonUser.Followers ? jsonUser.Followers.length : 0;
@@ -115,7 +113,6 @@ router.post("/login", (req, res, next) => {
           ],
           attributes: ["id", "nickname", "userId"]
         });
-        console.log(fullUser);
         return res.json(fullUser);
       } catch (e) {
         next(e);

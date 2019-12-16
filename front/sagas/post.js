@@ -29,7 +29,10 @@ import {
   UNLIKE_POST_FAILURE,
   REMOVE_POST_REQUEST,
   REMOVE_POST_SUCCESS,
-  REMOVE_POST_FAILURE
+  REMOVE_POST_FAILURE,
+  LOAD_POST_REQUEST,
+  LOAD_POST_SUCCESS,
+  LOAD_POST_FAILURE
 } from "../reducers/post";
 import { ADD_POST_TO_ME, REMOVE_POST_OF_ME } from "../reducers/user";
 import axios from "axios";
@@ -304,6 +307,27 @@ function* watchRemovePost() {
   yield takeLatest(REMOVE_POST_REQUEST, removePost);
 }
 
+function loadPostAPI(id) {
+  return axios.get(`/post/${id}`);
+}
+function* loadPost(action) {
+  try {
+    const result = yield call(loadPostAPI, action.data);
+    yield put({
+      type: LOAD_POST_SUCCESS,
+      data: result.data
+    });
+  } catch (e) {
+    yield put({
+      type: LOAD_POST_FAILURE,
+      error: e
+    });
+  }
+}
+function* watchLoadPost() {
+  yield takeLatest(LOAD_POST_REQUEST, loadPost);
+}
+
 export default function* userSaga() {
   yield all([
     fork(watchAddPost),
@@ -315,6 +339,7 @@ export default function* userSaga() {
     fork(watchUploadImages),
     fork(watchLikePost),
     fork(watchUnlikePost),
-    fork(watchRemovePost)
+    fork(watchRemovePost),
+    fork(watchLoadPost)
   ]);
 }

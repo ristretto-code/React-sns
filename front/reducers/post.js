@@ -9,7 +9,8 @@ export const initialState = {
   addCommnetErrorReason: "",
   isAddingComment: false,
   commentAdded: false,
-  hasMorePost: false
+  hasMorePost: false,
+  onePost: ""
 };
 
 export const LOAD_MAIN_POSTS_REQUEST = "LOAD_MAIN_POSTS_REQUEST";
@@ -57,6 +58,10 @@ export const LOAD_COMMENTS_FAILURE = "LOAD_COMMENTS_FAILURE";
 export const RETWEET_REQUEST = "RETWEET_REQUEST";
 export const RETWEET_SUCCESS = "RETWEET_SUCCESS";
 export const RETWEET_FAILURE = "RETWEET_FAILURE";
+
+export const LOAD_POST_REQUEST = "LOAD_POST_REQUEST";
+export const LOAD_POST_SUCCESS = "LOAD_POST_SUCCESS";
+export const LOAD_POST_FAILURE = "LOAD_POST_FAILURE";
 
 export default (state = initialState, action) => {
   return produce(state, draft => {
@@ -199,6 +204,17 @@ export default (state = initialState, action) => {
         break;
       }
       case REMOVE_POST_FAILURE: {
+        break;
+      }
+
+      case LOAD_POST_REQUEST: {
+        break;
+      }
+      case LOAD_POST_SUCCESS: {
+        draft.onePost = action.data;
+        break;
+      }
+      case LOAD_POST_FAILURE: {
         break;
       }
 

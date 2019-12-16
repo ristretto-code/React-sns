@@ -1,5 +1,4 @@
 import React from "react";
-import Head from "next/head";
 import propTypes from "prop-types";
 import withRedux from "next-redux-wrapper";
 import withReduxSaga from "next-redux-saga";
@@ -10,28 +9,70 @@ import reducer from "../reducers";
 import AppLayout from "../components/AppLayout";
 import rootSaga from "../sagas";
 import axios from "axios";
+import Helmet from "react-helmet";
 import { LOAD_USER_REQUEST } from "../reducers/user";
 
 const ReactSns = ({ Component, store, pageProps }) => (
   <Provider store={store}>
-    <Head>
-      <title>React Sns</title>
-      <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/antd/3.23.6/antd.css"
-      />
-      <link
-        rel="stylesheet"
-        type="text/css"
-        charSet="UTF-8"
-        href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css"
-      />
-      <link
-        rel="stylesheet"
-        type="text/css"
-        href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css"
-      />
-    </Head>
+    <Helmet
+      title="NodeBird"
+      htmlAttributes={{ lang: "ko" }}
+      meta={[
+        {
+          charset: "UTF-8"
+        },
+        {
+          name: "viewport",
+          content:
+            "width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=yes,viewport-fit=cover"
+        },
+        {
+          "http-equiv": "X-UA-Compatible",
+          content: "IE=edge"
+        },
+        {
+          name: "description",
+          content: "React SNS by ristretto-code"
+        },
+        {
+          name: "og:title",
+          content: "ReactSns"
+        },
+        {
+          name: "og:description",
+          content: "React SNS by ristretto-code"
+        },
+        {
+          property: "og:type",
+          content: "website"
+        }
+      ]}
+      link={[
+        {
+          rel: "shortcut icon",
+          href: "/favicon.ico"
+        },
+        {
+          rel: "stylesheet",
+          href: "https://cdnjs.cloudflare.com/ajax/libs/antd/3.16.2/antd.css"
+        },
+        {
+          rel: "stylesheet",
+          href:
+            "https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css"
+        },
+        {
+          rel: "stylesheet",
+          href:
+            "https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css"
+        }
+      ]}
+      script={[
+        {
+          src: "https://cdnjs.cloudflare.com/ajax/libs/antd/3.25.3/antd.js"
+        }
+      ]}
+    />
     <AppLayout>
       <Component {...pageProps} />
     </AppLayout>

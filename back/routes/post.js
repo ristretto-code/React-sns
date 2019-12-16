@@ -177,4 +177,26 @@ router.delete("/:id", isLoggedIn, async (req, res, next) => {
   }
 });
 
+router.get("/:id", async (req, res, next) => {
+  try {
+    const post = await db.Post.findOne({
+      where: { id: req.params.id },
+      include: [
+        {
+          model: db.User,
+          attributes: ["id", "nickname"]
+        },
+        { model: db.Image }
+      ]
+    });
+    if (!post) {
+      res.status(401).send("페이지없음");
+    }
+    res.json(post);
+  } catch (e) {
+    console.error(e);
+    next(e);
+  }
+});
+
 module.exports = router;

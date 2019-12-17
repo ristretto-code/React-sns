@@ -1,13 +1,20 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Link from "next/link";
 import propTypes from "prop-types";
 import { Menu, Input, Button, Row, Col, Card, Avatar } from "antd";
 import LoginForm from "./LoginForm";
 import UserProfile from "./UserProfile";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import Router from "next/router";
 
 const AppLayout = ({ children }) => {
   const { me } = useSelector(state => state.user);
+  const onSearch = value => {
+    Router.push(
+      { pathname: "/hashtag", query: { tag: value } },
+      `/hashtag/${value}`
+    );
+  };
   return (
     <div>
       <Menu mode="horizontal">
@@ -22,7 +29,11 @@ const AppLayout = ({ children }) => {
           </Link>
         </Menu.Item>
         <Menu.Item key="mail">
-          <Input.Search enterButton style={{ verticalAlign: "middle" }} />
+          <Input.Search
+            enterButton
+            style={{ verticalAlign: "middle" }}
+            onSearch={onSearch}
+          />
         </Menu.Item>
       </Menu>
 

@@ -15,7 +15,7 @@ import { LOAD_USER_REQUEST } from "../reducers/user";
 const ReactSns = ({ Component, store, pageProps }) => (
   <Provider store={store}>
     <Helmet
-      title="NodeBird"
+      title="React SNS"
       htmlAttributes={{ lang: "ko" }}
       meta={[
         {
@@ -82,7 +82,7 @@ const ReactSns = ({ Component, store, pageProps }) => (
 ReactSns.propTypes = {
   Component: propTypes.elementType, // 모든 자료형을 포함하는 것은 node
   store: propTypes.object,
-  pageProps: propTypes.object.isRequired
+  pageProps: propTypes.object
 };
 
 ReactSns.getInitialProps = async context => {

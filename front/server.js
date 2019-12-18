@@ -4,7 +4,7 @@ const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
 const expressSession = require("express-session");
 const dotenv = require("dotenv");
-
+const path = require("path");
 // 커스텀서버를 위해 node환경과 똑같이 불러와준다. env도 마찬가지
 
 const dev = process.env.NODE_ENV !== "production";
@@ -19,6 +19,7 @@ app.prepare().then(() => {
   const server = express();
 
   server.use(morgan("dev"));
+  server.use("/", express.static(path.join(__dirname, "public")));
   server.use(express.json());
   server.use(express.urlencoded({ extended: true }));
   server.use(cookieParser(process.env.COOKIE_SECRET));

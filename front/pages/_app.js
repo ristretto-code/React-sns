@@ -2,20 +2,20 @@ import React from "react";
 import propTypes from "prop-types";
 import withRedux from "next-redux-wrapper";
 import withReduxSaga from "next-redux-saga";
+import { applyMiddleware, compose, createStore } from "redux";
 import { Provider } from "react-redux";
-import { createStore, applyMiddleware, compose } from "redux";
 import createSagaMiddleware from "redux-saga";
-import reducer from "../reducers";
-import AppLayout from "../components/AppLayout";
-import rootSaga from "../sagas";
 import axios from "axios";
 import Helmet from "react-helmet";
+import AppLayout from "../components/AppLayout";
+import reducer from "../reducers";
+import rootSaga from "../sagas";
 import { LOAD_USER_REQUEST } from "../reducers/user";
 
 const ReactSns = ({ Component, store, pageProps }) => (
   <Provider store={store}>
     <Helmet
-      title="React SNS"
+      title="REACT SNS"
       htmlAttributes={{ lang: "ko" }}
       meta={[
         {
@@ -45,6 +45,10 @@ const ReactSns = ({ Component, store, pageProps }) => (
         {
           property: "og:type",
           content: "website"
+        },
+        {
+          property: "og:image",
+          content: "http://localhost:3000/favicon.ico"
         }
       ]}
       link={[

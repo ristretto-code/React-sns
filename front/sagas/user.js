@@ -1,4 +1,4 @@
-import { all, fork, takeEvery, call, put, delay } from "redux-saga/effects";
+import { all, fork, takeEvery, call, put } from "redux-saga/effects";
 
 import {
   SIGN_UP_REQUEST,
@@ -35,7 +35,6 @@ import {
 import axios from "axios";
 
 function signUpAPI(signUpData) {
-  console.log(signUpData);
   return axios.post("/user/", signUpData);
 }
 
@@ -60,7 +59,6 @@ function* watchSignUp() {
 
 function loginAPI(loginData) {
   // 서버에 요청을 보내는 부분
-  console.log(loginData);
   return axios.post("/user/login", loginData, {
     withCredentials: true // 쿠키 주고받기
   });
@@ -81,7 +79,7 @@ function* login(action) {
     yield put({
       // LOG_IN_FAILURE 실행됨
       type: LOG_IN_FAILURE,
-      error: e
+      error: e.response && e.response.data
     });
   }
 }

@@ -15,7 +15,24 @@ module.exports = () => {
     // 프론트에서 요청이 올때마다 deserial하는데, 아래로직은 db요청을 계속하므로 실무에선 db요청이 비싸기떄문에 캐싱
     try {
       const user = await db.User.findOne({
-        where: { id }
+        where: { id },
+        include: [
+          {
+            model: db.Post,
+            as: "Posts",
+            attributes: ["id"]
+          },
+          {
+            model: db.User,
+            as: "Followings",
+            attributes: ["id"]
+          },
+          {
+            model: db.User,
+            as: "Followers",
+            attributes: ["id"]
+          }
+        ]
       });
       return done(null, user); // deserial해서 req.user에 저장된다.
     } catch (e) {

@@ -19,6 +19,7 @@ const NicknameEditForm = () => {
         type: EDIT_NICKNAME_REQUEST,
         data: editedName
       });
+      setEditedName("");
     },
     [editedName]
   );
@@ -34,7 +35,8 @@ const NicknameEditForm = () => {
     >
       <Input
         addonBefore="닉네임"
-        value={editedName || (me && me.nickname)}
+        value={editedName}
+        placeholder={me && me.nickname}
         onChange={onChangeNickname}
       />
       <Button type="primary" htmlType="submit" loading={isEditingNickname}>

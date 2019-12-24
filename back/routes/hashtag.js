@@ -47,7 +47,7 @@ router.get("/:tag", async (req, res, next) => {
           ]
         }
       ],
-      order: [["createAt", "DESC"]],
+      order: [["createdAt", "DESC"]],
       limit: parseInt(req.query.limit, 10)
     });
     res.json(posts);

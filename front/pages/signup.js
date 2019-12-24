@@ -1,7 +1,12 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { Button, Checkbox, Form, Input } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { SIGN_UP_REQUEST } from "../reducers/user";
+import styled from "styled-components";
+
+const SignupError = styled.div`
+  color: red;
+`;
 
 export const useInput = (initValue = null) => {
   const [value, setter] = useState(initValue);
@@ -23,6 +28,13 @@ const Signup = () => {
   const [password, onChangePassword] = useInput("");
   const dispatch = useDispatch();
   const { isSigningUp, me } = useSelector(state => state.user);
+
+  useEffect(() => {
+    if (me) {
+      alert("메인 페이지로 이동합니다.");
+      Router.push("/");
+    }
+  }, [me && me.id]);
 
   const onSubmit = useCallback(
     e => {
@@ -102,14 +114,14 @@ const Signup = () => {
             onChange={onChangePasswordCheck}
           />
           {passwordError && (
-            <div style={{ color: "red" }}>비밀번호 일치하지 않음</div>
+            <SignupError> 비밀번호 일치하지 않습니다.</SignupError>
           )}
         </div>
         <div>
           <Checkbox name="user-term" checked={term} onChange={onChangeTerm}>
             유저 동의
           </Checkbox>
-          {termError && <div style={{ color: "red" }}>약관동의필요</div>}
+          {termError && <SignupError>약관 동의가 필요합니다.</SignupError>}
         </div>
         <div style={{ margin: 10 }}>
           <Button type="primary" htmlType="submit" loading={isSigningUp}>

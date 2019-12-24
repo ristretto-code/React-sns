@@ -37,9 +37,9 @@ import {
 import { ADD_POST_TO_ME, REMOVE_POST_OF_ME } from "../reducers/user";
 import axios from "axios";
 
-function loadHashtagPostsAPI(tag, lastId = 0, limit = 10) {
+function loadHashtagPostsAPI(tag, lastId) {
   return axios.get(
-    `/hashtag/${encodeURIComponent(tag)}&lastId=${lastId}&$limit=${limit}`
+    `/hashtag/${encodeURIComponent(tag)}?lastId=${lastId}&limit=10`
   );
 }
 

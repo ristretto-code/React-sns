@@ -1,10 +1,11 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import Helmet from "react-helmet";
+import propTypes from "prop-types";
 
 import { LOAD_POST_REQUEST } from "../reducers/post";
 
-const Post = () => {
+const Post = ({ id }) => {
   const { onePost } = useSelector(state => state.post);
   return (
     <>
@@ -29,7 +30,7 @@ const Post = () => {
           },
           {
             property: "og:url",
-            content: `http://localhost:3000/post/${onePost.id}`
+            content: `http://localhost:3000/post/${id}`
           }
         ]}
       />
@@ -51,6 +52,10 @@ Post.getInitialProps = context => {
     data: context.query.id
   });
   return { id: parseInt(context.query.id, 10) };
+};
+
+Post.propTypes = {
+  id: PropTypes.number.isRequired,
 };
 
 export default Post;

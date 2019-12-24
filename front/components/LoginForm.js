@@ -3,11 +3,16 @@ import { Input, Button, Form } from "antd";
 import { useInput } from "../pages/signup";
 import { useDispatch, useSelector } from "react-redux";
 import { LOG_IN_REQUEST } from "../reducers/user";
+import styled from "styled-components";
+
+const LoginError = styled.div`
+  color: red;
+`;
 
 const LoginForm = () => {
   const [id, onChangeId] = useInput("");
   const [password, onPassword] = useInput("");
-  const { isLoggingIn } = useSelector(state => state.user);
+  const { isLoggingIn, loginErrorReason } = useSelector(state => state.user);
   const dispatch = useDispatch();
 
   const onSubmitForm = useCallback(
@@ -42,6 +47,7 @@ const LoginForm = () => {
           required
         />
       </div>
+      <LoginError>{loginErrorReason}</LoginError>
       <div style={{ marginTop: "10" }}>
         <Button type="primary" htmlType="submit" loading={isLoggingIn}>
           로그인

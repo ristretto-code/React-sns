@@ -65,97 +65,68 @@ export default (state = initialState, action) => {
   return produce(state, draft => {
     switch (action.type) {
       case SIGN_UP_REQUEST: {
-        return {
-          ...state,
-          isSigningUp: true,
-          isSignedUp: false,
-          signUpErrorReason: ""
-        };
+        draft.isSigningUp = true;
+        draft.isSigningUp = false;
+        draft.signUpErrorReason = "";
+        break;
       }
       case SIGN_UP_SUCCESS: {
-        return {
-          ...state,
-          isSigningUp: false,
-          isSignedUp: true
-        };
+        draft.isSignedUp = false;
+        draft.isSignedUp = true;
+        break;
       }
       case SIGN_UP_FAILURE: {
-        return {
-          ...state,
-          isSigningUp: false,
-          isSignedUp: false,
-          signUpErrorReason: action.error
-        };
+        draft.isSigningUp = false;
+        draft.isSignedUp = false;
+        draft.signUpErrorReason = action.error;
+        break;
       }
       case LOG_IN_REQUEST: {
-        return {
-          ...state,
-          isLoggingIn: true,
-          loginErrorReason: ""
-        };
+        draft.isLoggingIn = true;
+        draft.loginErrorReason = "";
+        break;
       }
       case LOG_IN_SUCCESS: {
-        return {
-          ...state,
-          isLoggingIn: false,
-          me: action.data
-        };
+        draft.isLoggingIn = false;
+        draft.me = action.data;
+        break;
       }
       case LOG_IN_FAILURE: {
-        return {
-          ...state,
-          isLoggingIn: false,
-          loginErrorReason: action.error
-        };
+        draft.isLoggingIn = false;
+        draft.loginErrorReason = action.error;
+        break;
       }
       case LOG_OUT_REQUEST: {
-        return {
-          ...state,
-          isLoggingOut: true
-        };
+        draft.isLoggingOut = true;
+        break;
       }
       case LOG_OUT_SUCCESS: {
-        return {
-          ...state,
-          isLoggingOut: false,
-          me: null
-        };
+        draft.isLoggingOut = false;
+        draft.me = null;
+        break;
       }
       case LOG_OUT_FAILURE: {
-        return {
-          ...state,
-          isLoggingOut: false
-        };
+        draft.isLoggingOut = false;
+        break;
       }
 
       case LOAD_USER_REQUEST: {
-        return {
-          ...state
-        };
+        break;
       }
       case LOAD_USER_SUCCESS: {
         if (action.me) {
-          // load한게 내 정보인지 타유저 정보인지 확인
-          return {
-            ...state,
-            me: action.data
-          };
+          draft.me = action.data;
+          break;
         }
-        return {
-          ...state,
-          userInfo: action.data
-        };
+        draft.userInfo = action.data;
+        break;
       }
       case LOAD_USER_FAILURE: {
-        return {
-          ...state
-        };
+        break;
       }
 
       case FOLLOW_USER_REQUEST: {
-        return {
-          ...state
-        };
+        break;
       }
       case FOLLOW_USER_SUCCESS: {
         draft.me.Followings.unshift({ id: action.data });
@@ -169,30 +140,21 @@ export default (state = initialState, action) => {
         // };
       }
       case FOLLOW_USER_FAILURE: {
-        return {
-          ...state
-        };
+        break;
       }
 
       case UNFOLLOW_USER_REQUEST: {
-        return {
-          ...state
-        };
+        break;
       }
       case UNFOLLOW_USER_SUCCESS: {
-        return {
-          ...state,
-          me: {
-            ...state.me,
-            Followings: state.me.Followings.filter(v => v.id !== action.data)
-          },
-          followingList: state.followingList.filter(v => v.id !== action.data)
-        };
+        const index = draft.me.Followings.findIndex(v => v.id === action.data);
+        draft.me.Followings.splice(index, 1);
+        const index2 = draft.followingList.findIndex(v => v.id === action.data);
+        draft.followingList.splice(index2, 1);
+        break;
       }
       case UNFOLLOW_USER_FAILURE: {
-        return {
-          ...state
-        };
+        break;
       }
 
       case LOAD_FOLLOWERS_REQUEST: {
@@ -201,16 +163,12 @@ export default (state = initialState, action) => {
         break;
       }
       case LOAD_FOLLOWERS_SUCCESS: {
-        return {
-          ...state,
-          followerList: state.followerList.concat(action.data),
-          hasMoreFollower: action.data.length === 3 // 3개 다 가져왔으면 더보기버튼 만들기. 1-2개면 더보기필요없음
-        };
+        action.data.forEach(d => draft.followerList.push(d));
+        draft.hasMoreFollower = action.data.length === 3; // 3개 다 가져왔으면 더보기버튼 만들기. 1-2개면 더보기필요없음
+        break;
       }
       case LOAD_FOLLOWERS_FAILURE: {
-        return {
-          ...state
-        };
+        break;
       }
 
       case LOAD_FOLLOWINGS_REQUEST: {
@@ -219,91 +177,58 @@ export default (state = initialState, action) => {
         break;
       }
       case LOAD_FOLLOWINGS_SUCCESS: {
-        return {
-          ...state,
-          followingList: state.followingList.concat(action.data),
-          hasMoreFollowing: action.data.length === 3
-        };
+        action.data.forEach(d => draft.followingList.push(d));
+        draft.hasMoreFollowing = action.data.length === 3;
+        break;
       }
       case LOAD_FOLLOWINGS_FAILURE: {
-        return {
-          ...state
-        };
+        break;
       }
 
       case REMOVE_FOLLOWER_REQUEST: {
-        return {
-          ...state
-        };
+        break;
       }
       case REMOVE_FOLLOWER_SUCCESS: {
-        return {
-          ...state,
-          me: {
-            followers: state.me.Followers.filter(v => v.id !== action.data)
-            //Followings에 들어있는 객체들 v하나하나의 id가 action.data의 id와 같지않으면
-            //true를 반환한다. 만약에 그 두값이 같으면 false를 반환하고 배열에서 filtered된다.
-            // 그 값이 같지않은 값들(!==)은 true를 반환하고 배열로 만들어진다
-          },
-          followerList: state.followerList.filter(v => v.id !== action.data)
-        };
+        const index = draft.me.Followers.findIndex(v => v.id === action.data);
+        draft.me.Followers.splice(index, 1);
+        const index2 = draft.followerList.findIndex(v => v.id === action.data);
+        draft.followerList.splice(index2, 1);
+        break;
       }
       case REMOVE_FOLLOWER_FAILURE: {
-        return {
-          ...state
-        };
+        break;
       }
 
       case EDIT_NICKNAME_REQUEST: {
-        return {
-          ...state,
-          isEditingNickname: true,
-          editNicknameErrorReason: ""
-        };
+        draft.isEditingNickname = true;
+        draft.editNicknameErrorReason = "";
+        break;
       }
       case EDIT_NICKNAME_SUCCESS: {
-        return {
-          ...state,
-          isEditingNickname: false,
-          me: {
-            ...state.me,
-            nickname: action.data
-          }
-        };
+        draft.isEditingNickname = false;
+        draft.me.nickname = action.data;
+        break;
       }
       case EDIT_NICKNAME_FAILURE: {
-        return {
-          ...state,
-          editNicknameErrorReason: action.error
-        };
+        draft.editNicknameErrorReason = action.error;
+        break;
       }
 
       case ADD_POST_TO_ME: {
+        draft.me.Posts.unshift({ id: action.data });
+        break;
         // post reducer에서 가져온 데이터 saga에서 얘한테도 보내줌
-        return {
-          ...state,
-          me: {
-            ...state.me,
-            Posts: [{ id: action.data }, ...state.me.Posts]
-          }
-        };
       }
 
       case REMOVE_POST_OF_ME: {
+        const index = draft.Posts.findIndex(v => v.id !== action.data);
+        draft.Posts.splice(index, 1);
         // post reducer에서 가져온 데이터 saga에서 얘한테도 보내줌
-        return {
-          ...state,
-          me: {
-            ...state.me,
-            Posts: state.me.Posts.filter(v => v.id !== action.data)
-          }
-        };
+        break;
       }
 
       default: {
-        return {
-          ...state
-        };
+        break;
       }
     }
   });

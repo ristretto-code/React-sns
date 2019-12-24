@@ -1,17 +1,14 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import propTypes from "prop-types";
+import React from "react";
+import { useSelector } from "react-redux";
 import { LOAD_USER_POSTS_REQUEST } from "../reducers/post";
 import { LOAD_USER_REQUEST } from "../reducers/user";
 import { Card, Avatar } from "antd";
 import PostCard from "../components/PostCard";
 
 const User = () => {
-  const dispatch = useDispatch();
   const { mainPosts } = useSelector(state => state.post);
   const { userInfo } = useSelector(state => state.user);
 
-  useEffect(() => {}, []);
   return (
     <div>
       {userInfo ? (
@@ -45,10 +42,6 @@ const User = () => {
       ))}
     </div>
   );
-};
-
-User.propTypes = {
-  id: propTypes.number.isRequired
 };
 
 User.getInitialProps = async context => {

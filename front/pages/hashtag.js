@@ -5,7 +5,6 @@ import { LOAD_HASHTAG_POSTS_REQUEST } from "../reducers/post";
 import PostCard from "../components/PostCard";
 
 const Hashtag = ({ tag }) => {
-  console.log("tag의값은 : " + tag);
   const dispatch = useDispatch();
   const { mainPosts, hasMorePost } = useSelector(state => state.post);
 
@@ -17,7 +16,7 @@ const Hashtag = ({ tag }) => {
       if (hasMorePost) {
         dispatch({
           type: LOAD_HASHTAG_POSTS_REQUEST,
-          lastId: mainPosts[mainPosts.length - 1].id,
+          lastId: mainPosts[mainPosts.length - 1],
           data: tag
         });
       }
@@ -29,7 +28,7 @@ const Hashtag = ({ tag }) => {
     return () => {
       window.removeEventListener("scroll", onScroll);
     };
-  }, [mainPosts]); // 강력한 캐싱 방지
+  }, [mainPosts.length]); // 강력한 캐싱 방지
 
   return (
     <div>

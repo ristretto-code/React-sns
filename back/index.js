@@ -42,13 +42,17 @@ app.use(
     name: "myfriend"
   })
 );
-app.use(passport.initialize()); // express가 완료된후에 passport를 사용해야함. passport 미들웨어
-app.use(passport.session());
-
 app.use(express.json());
 //app.use는 req와 res사이에 미들웨어를 넣어주는것
 app.use(express.urlencoded({ extended: true }));
 //urlencoded는 req.body에 넣어주는 용도
+
+app.use(passport.initialize()); // express가 완료된후에 passport를 사용해야함. passport 미들웨어
+app.use(passport.session());
+
+app.get("/", (req, res) => {
+  res.send("server is running ▣");
+});
 
 app.use("/api/user", userAPIRouter);
 // router 미들웨어를 use사용해서 붙임. 앞에 주소는 어떨때 미들웨어를 써줄지 적어논것 기본값은 '/'이다.

@@ -48,7 +48,7 @@ app.prepare().then(() => {
   server.get("*", (req, res) => {
     return handle(req, res);
   });
-  server.listen(3000, () => {
-    console.log("next+express running on 3000");
+  server.listen(prod ? process.env.PORT : 3000, () => {
+    console.log(`next+express running on ${process.env.PORT}`);
   });
 });

@@ -56,6 +56,9 @@ app.use("/api/post", postAPIRouter);
 app.use("/api/posts", postsAPIRouter);
 app.use("/api/hashtag", hashtagAPIRouter);
 
-app.listen(8080, () => {
-  console.log("server is running on http://localhost:8080 ▶◁▶◁▶");
-});
+app.listen(
+  process.env.NODE_ENV === "production" ? process.env.PORT : 8080,
+  () => {
+    console.log(`server is running on ${process.env.PORT} ▶◁▶◁`);
+  }
+);

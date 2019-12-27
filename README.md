@@ -1,5 +1,4 @@
 # React SNS.
----
 > React 기반의 SPA 페이지입니다.
 
 https://reactsns.com

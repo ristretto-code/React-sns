@@ -4,8 +4,7 @@
 
 https://reactsns.com
 
-
-### Project Stack
+## Project Stack
 
 ### Client
 

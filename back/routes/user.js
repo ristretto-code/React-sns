@@ -222,7 +222,8 @@ router.get("/:id/posts", async (req, res, next) => {
           as: "Likers",
           attributes: ["id"]
         }
-      ]
+      ],
+      order: [["createdAt", "DESC"]] // DESC는 내림차순, ASC는 오름차순
     });
     res.json(posts);
   } catch (e) {

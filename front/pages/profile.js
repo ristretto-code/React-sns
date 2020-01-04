@@ -20,7 +20,7 @@ const Profile = () => {
     hasMoreFollower,
     hasMoreFollowing
   } = useSelector(state => state.user);
-  const { mainPosts } = useSelector(state => state.post);
+  const { userPosts } = useSelector(state => state.post);
 
   const onUnfollow = useCallback(
     userId => () => {
@@ -115,7 +115,7 @@ const Profile = () => {
         )}
       />
       <div>
-        {mainPosts.map(c => (
+        {userPosts.map(c => (
           <PostCard key={c.id} post={c} />
         ))}
       </div>

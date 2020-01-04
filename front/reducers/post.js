@@ -2,6 +2,7 @@ import produce from "immer";
 
 export const initialState = {
   mainPosts: [], // 화면에 보일 포스트들
+  userPosts: [], // 로그인한 유저의 포스트들
   imagePaths: [], // 미리보기 이미지 경로
   addPostErrorReason: "", // 포스트 업로드 실패
   isAddingPost: false, // 포스트 업로드중
@@ -74,7 +75,6 @@ export default (state = initialState, action) => {
         break;
       }
 
-      case LOAD_USER_POSTS_REQUEST:
       case LOAD_HASHTAG_POSTS_REQUEST:
       case LOAD_MAIN_POSTS_REQUEST: {
         draft.mainPosts = !action.lastId ? [] : draft.mainPosts;
@@ -82,7 +82,6 @@ export default (state = initialState, action) => {
         break;
       }
 
-      case LOAD_USER_POSTS_SUCCESS:
       case LOAD_HASHTAG_POSTS_SUCCESS:
       case LOAD_MAIN_POSTS_SUCCESS: {
         action.data.forEach(d => {
@@ -91,6 +90,20 @@ export default (state = initialState, action) => {
         draft.hasMorePost = action.data.length === 10;
         break;
       }
+
+      case LOAD_USER_POSTS_REQUEST: {
+        draft.userPosts = !action.lastId ? [] : draft.mainPosts;
+        draft.hasMorePost = action.lastId ? draft.hasMorePost : true;
+        break;
+      }
+      case LOAD_USER_POSTS_SUCCESS: {
+        action.data.forEach(d => {
+          draft.userPosts.push(d);
+        });
+        draft.hasMorePost = action.data.length === 10;
+        break;
+      }
+
       case LOAD_USER_POSTS_FAILURE:
       case LOAD_HASHTAG_POSTS_FAILURE:
       case LOAD_MAIN_POSTS_FAILURE: {

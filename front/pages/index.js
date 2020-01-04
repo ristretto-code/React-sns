@@ -1,8 +1,26 @@
 import React, { useEffect, useCallback, useRef } from "react";
-import PostForm from "../components/PostForm";
+import Link from "next/link";
 import PostCard from "../components/PostCard";
+import LoginForm from "../components/LoginForm";
+import UserProfile from "../components/UserProfile";
 import { useSelector, useDispatch } from "react-redux";
-import { LOAD_MAIN_POSTS_REQUEST } from "../reducers/post";
+import { Layout, Input, Button, Row, Col, Affix, Icon, Menu } from "antd";
+import {
+  LOAD_MAIN_POSTS_REQUEST,
+  LOAD_USER_POSTS_REQUEST
+} from "../reducers/post";
+import styled from "styled-components";
+
+const ProfileWrapper = styled.div`
+  margin: 0 8%;
+`;
+
+const CopyRight = styled.div`
+  height: 300px;
+  text-align: center;
+  vertical-align: middle;
+  color: #fafafa;
+`;
 
 const Home = () => {
   const { me } = useSelector(state => state.user);
@@ -61,20 +79,44 @@ const Home = () => {
   }, [mainPosts]); // 강력한 캐싱 방지
 
   return (
-    <div>
-      {me && <PostForm />}
-      {mainPosts &&
-        mainPosts.map(c => {
-          return <PostCard key={c.id} post={c} />;
-        })}
-    </div>
+    <>
+      <Row type="flex" justify="center">
+        <Col xs={24} md={15}>
+          {mainPosts &&
+            mainPosts.map(c => {
+              return <PostCard key={c.id} post={c} />;
+            })}
+        </Col>
+        <Col xs={0} md={9}>
+          <Affix offsetTop={90}>
+            <ProfileWrapper>
+              <UserProfile />
+              {me ? null : <LoginForm />}
+              <CopyRight>
+                <Link
+                  href="//github.com/ristretto-code/React-sns"
+                  prefetch={false}
+                >
+                  <a target="_blank">2019 IAN CHOI</a>
+                </Link>
+              </CopyRight>
+            </ProfileWrapper>
+          </Affix>
+        </Col>
+      </Row>
+    </>
   );
 };
 
 Home.getInitialProps = async context => {
   // console.log(Object.keys(context));
+  const state = context.store.getState();
   context.store.dispatch({
     type: LOAD_MAIN_POSTS_REQUEST
+  });
+  context.store.dispatch({
+    type: LOAD_USER_POSTS_REQUEST,
+    data: state.user.me && state.user.me.id
   });
 };
 

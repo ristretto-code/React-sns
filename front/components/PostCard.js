@@ -74,7 +74,7 @@ const PostCard = ({ post }) => {
 
   const onToggleLike = useCallback(() => {
     if (!me) {
-      return alert("로그인이 필요함");
+      return alert("로그인이 필요합니다");
     }
     if (liked) {
       dispatch({
@@ -120,7 +120,6 @@ const PostCard = ({ post }) => {
       <Card
         cover={post.Images[0] && <PostImages images={post.Images} />}
         actions={[
-          <Icon type="retweet" key="retweet" />,
           <Icon
             type="heart"
             key="heart"

@@ -1,11 +1,25 @@
 import React from "react";
 import Link from "next/link";
 import propTypes from "prop-types";
-import { Menu, Input, Button, Row, Col, Card, Avatar } from "antd";
+import { Layout, Input, Button, Row, Col, Affix, Icon, Menu } from "antd";
 import LoginForm from "./LoginForm";
 import UserProfile from "./UserProfile";
 import { useSelector } from "react-redux";
 import Router from "next/router";
+import styled from "styled-components";
+
+const { Header, Content, Footer } = Layout;
+
+const Logo = styled.div`
+  width: 100px;
+  height: 100%;
+  background-color: green;
+  border: 1px solid red;
+`;
+
+const ContentContainer = styled.div`
+  max-width: 935px;
+`;
 
 const AppLayout = ({ children }) => {
   const { me } = useSelector(state => state.user);
@@ -16,46 +30,60 @@ const AppLayout = ({ children }) => {
     );
   };
   return (
-    <div>
-      <Menu mode="horizontal">
-        <Menu.Item key="home">
-          <Link href="/">
-            <a>홈</a>
-          </Link>
-        </Menu.Item>
-        <Menu.Item key="profile">
-          <Link href="/profile">
-            <a>프로필</a>
-          </Link>
-        </Menu.Item>
-        <Menu.Item key="mail">
-          <Input.Search
-            enterButton
-            style={{ verticalAlign: "middle" }}
-            onSearch={onSearch}
-          />
-        </Menu.Item>
-      </Menu>
-
-      <Row gutter={8}>
-        <Col xs={24} md={6}>
-          {me ? <UserProfile /> : <LoginForm />}
-          <Link href="/signup">
-            <a>
-              <Button>회원가입</Button>
-            </a>
-          </Link>
-        </Col>
-        <Col xs={24} md={12}>
-          {children}
-        </Col>
-        <Col xs={24} md={6}>
-          <Link href="">
-            <a target="_blank">made by IANCHOI</a>
-          </Link>
-        </Col>
-      </Row>
-    </div>
+    <Layout>
+      <Affix offsetTop={0}>
+        <Header
+          style={{
+            textAlign: "center",
+            minHeight: "5vh"
+          }}
+        >
+          <Row type="flex" justify="space-between">
+            <Col>
+              <Link href="/">
+                <a>
+                  <Logo />
+                </a>
+              </Link>
+            </Col>
+            <Col xs={0} sm={12}>
+              <Input.Search
+                placeholder={"태그 검색"}
+                style={{ verticalAlign: "middle" }}
+                onSearch={onSearch}
+                size="default"
+                style={{ maxWidth: "500px", margin: "10px 0" }}
+              />
+            </Col>
+            <Col>
+              {me ? (
+                <Link href="/profile">
+                  <a>
+                    <Button icon="user">Profile</Button>
+                  </a>
+                </Link>
+              ) : (
+                <Link href="/signup">
+                  <a>
+                    <Button type="link">Sign Up</Button>
+                  </a>
+                </Link>
+              )}
+            </Col>
+          </Row>
+        </Header>
+      </Affix>
+      <Content style={{ minHeight: "80vh", marginTop: "5vh" }}>
+        <Row type="flex" justify="center">
+          <Col>
+            <ContentContainer>{children}</ContentContainer>
+          </Col>
+        </Row>
+      </Content>
+      <Footer style={{ minHeight: "5vh", textAlign: "center" }}>
+        2019 IAN CHOI
+      </Footer>
+    </Layout>
   );
 };
 

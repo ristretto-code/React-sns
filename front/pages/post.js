@@ -2,6 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import Helmet from "react-helmet";
 import propTypes from "prop-types";
+import PostCard from "../components/PostCard";
 
 import { LOAD_POST_REQUEST } from "../reducers/post";
 
@@ -34,14 +35,7 @@ const Post = ({ id }) => {
           }
         ]}
       />
-      <div> {onePost.id} </div>
-      <div> {onePost.content} </div>
-      <div> {onePost.User.nickname} </div>
-      <div>
-        {onePost.Images && (
-          <img src={`http://localhost:8080/${onePost.Images[0].src}`} />
-        )}
-      </div>
+      <PostCard key={onePost.id} post={onePost} />;
     </>
   );
 };
@@ -55,7 +49,7 @@ Post.getInitialProps = context => {
 };
 
 Post.propTypes = {
-  id: PropTypes.number.isRequired,
+  id: propTypes.number.isRequired
 };
 
 export default Post;

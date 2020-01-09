@@ -106,19 +106,17 @@ function* watchLoadMainPosts() {
 
 function addPostApi(postData) {
   return axios.post("/post", postData, {
-    withCredentials: true // 로그인한사람만 쓸수있도록 쿠키보내서 로그인했는지 안했는지 인증
+    withCredentials: true
   });
 }
 function* addPost(action) {
   try {
     const result = yield call(addPostApi, action.data);
     yield put({
-      //post 리듀서 데이터 수정
       type: ADD_POST_SUCCESS,
       data: result.data
     });
     yield put({
-      //user 리듀서 데이터 수정
       type: ADD_POST_TO_ME,
       data: result.data.id
     });

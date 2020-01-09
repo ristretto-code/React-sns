@@ -5,11 +5,10 @@ const cookieParser = require("cookie-parser");
 const expressSession = require("express-session");
 const dotenv = require("dotenv");
 const path = require("path");
-// 커스텀서버를 위해 node환경과 똑같이 불러와준다. env도 마찬가지
 
 const dev = process.env.NODE_ENV !== "production";
 const prod = process.env.NODE_ENV === "production";
-const app = next({ dev }); // express로 next 돌리기,  option에 dev모드넣어줬다
+const app = next({ dev }); // express로 next 돌리기,  option에 dev모드 넣어줌
 const handle = app.getRequestHandler(); // 요청처리기
 
 dotenv.config();

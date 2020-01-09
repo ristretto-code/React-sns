@@ -26,12 +26,11 @@ const Post = ({ id }) => {
           {
             property: "og:image",
             content:
-              onePost.Images[0] &&
-              `http://localhost:3000/${onePost.Images[0].src}`
+              onePost.Images[0] && `//localhost:3000/${onePost.Images[0].src}`
           },
           {
             property: "og:url",
-            content: `http://localhost:3000/post/${id}`
+            content: `//localhost:3000/post/${id}`
           }
         ]}
       />
@@ -40,7 +39,7 @@ const Post = ({ id }) => {
   );
 };
 
-Post.getInitialProps = context => {
+Post.getInitialProps = async context => {
   context.store.dispatch({
     type: LOAD_POST_REQUEST,
     data: context.query.id

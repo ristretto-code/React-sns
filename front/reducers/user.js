@@ -3,11 +3,13 @@ import produce from "immer";
 export const initialState = {
   isLoggingOut: false, //로그아웃 시도중
   isLoggingIn: false, // 로그인 시도중
+  isLoggedIn: false, // 로그인 유무 (모달)
   loginErrorReason: "", // 로그인 실패사유
   signedUp: false, // 회원가입 성공
   isSigningUp: false, // 회원가입 시도중
   isSignedUp: false,
   signUpErrorReason: "", // 회원가입 실패사유
+  signInModal: false,
   me: null,
   followingList: [], // 팔로잉 리스트
   followerList: [],
@@ -60,6 +62,7 @@ export const EDIT_NICKNAME_FAILURE = "EDIT_NICKNAME_FAILURE";
 
 export const ADD_POST_TO_ME = "ADD_POST_TO_ME";
 export const REMOVE_POST_OF_ME = "REMOVE_POST_OF_ME";
+export const SIGN_IN_MODAL = "SIGN_IN_MODAL";
 
 export default (state = initialState, action) => {
   return produce(state, draft => {
@@ -83,16 +86,19 @@ export default (state = initialState, action) => {
       }
       case LOG_IN_REQUEST: {
         draft.isLoggingIn = true;
+        draft.isLoggedIn = false;
         draft.loginErrorReason = "";
         break;
       }
       case LOG_IN_SUCCESS: {
         draft.isLoggingIn = false;
+        draft.isLoggedIn = true;
         draft.me = action.data;
         break;
       }
       case LOG_IN_FAILURE: {
         draft.isLoggingIn = false;
+        draft.isLoggedIn = false;
         draft.loginErrorReason = action.error;
         break;
       }
@@ -102,6 +108,7 @@ export default (state = initialState, action) => {
       }
       case LOG_OUT_SUCCESS: {
         draft.isLoggingOut = false;
+        draft.isLoggedIn = false;
         draft.me = null;
         break;
       }
@@ -131,13 +138,6 @@ export default (state = initialState, action) => {
       case FOLLOW_USER_SUCCESS: {
         draft.me.Followings.unshift({ id: action.data });
         break;
-        // return {
-        //   ...state,
-        //   me: {
-        //     ...state.me,
-        //     Followings: [{ id: action.data }, ...state.me.Followings]
-        //   }
-        // };
       }
       case FOLLOW_USER_FAILURE: {
         break;
@@ -217,13 +217,16 @@ export default (state = initialState, action) => {
       case ADD_POST_TO_ME: {
         draft.me.Posts.unshift({ id: action.data });
         break;
-        // post reducer에서 가져온 데이터 saga에서 얘한테도 보내줌
+        // post reducer에서 가져온 데이터를 user reducer로 전해주기 위함
       }
 
       case REMOVE_POST_OF_ME: {
         const index = draft.Posts.findIndex(v => v.id !== action.data);
         draft.Posts.splice(index, 1);
-        // post reducer에서 가져온 데이터 saga에서 얘한테도 보내줌
+        break;
+      }
+      case SIGN_IN_MODAL: {
+        draft.signInModal = !draft.signInModal;
         break;
       }
 

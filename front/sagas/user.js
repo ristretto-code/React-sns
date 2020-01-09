@@ -40,7 +40,7 @@ function signUpAPI(signUpData) {
 
 function* signUp(action) {
   try {
-    yield call(signUpAPI, action.data); //첫째는 함수 둘째는 인자
+    yield call(signUpAPI, action.data);
     yield put({
       type: SIGN_UP_SUCCESS
     });
@@ -48,7 +48,7 @@ function* signUp(action) {
     console.error(e);
     yield put({
       type: SIGN_UP_FAILURE,
-      error: e
+      error: e.response && e.response.data
     });
   }
 }
@@ -58,26 +58,22 @@ function* watchSignUp() {
 }
 
 function loginAPI(loginData) {
-  // 서버에 요청을 보내는 부분
   return axios.post("/user/login", loginData, {
-    withCredentials: true // 쿠키 주고받기
+    withCredentials: true
   });
 }
 
 function* login(action) {
   try {
-    const result = yield call(loginAPI, action.data); // loginAPI가 성공하면 다음줄 실행
+    const result = yield call(loginAPI, action.data);
     yield put({
-      // put은 dispatch와 동일
       type: LOG_IN_SUCCESS,
       data: result.data
     });
   } catch (e) {
-    // loginAPI가 실패
     console.log("로그인 API 불러오지 못했음");
     console.error(e);
     yield put({
-      // LOG_IN_FAILURE 실행됨
       type: LOG_IN_FAILURE,
       error: e.response && e.response.data
     });
@@ -90,7 +86,7 @@ function* watchLogin() {
 
 function logoutAPI() {
   return axios.post(
-    "/user/logout", // post 두번째 객체에 데이터가 없더라도 빈객체 넣어주기
+    "/user/logout",
     {},
     {
       withCredentials: true
@@ -130,7 +126,7 @@ function* loadUser(action) {
     yield put({
       type: LOAD_USER_SUCCESS,
       data: result.data,
-      me: !action.data // userid없으면 내정보
+      me: !action.data // userid없으면 내 정보
     });
   } catch (e) {
     console.error(e);

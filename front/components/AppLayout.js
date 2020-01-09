@@ -1,9 +1,8 @@
-import React from "react";
+import React, { useState, useCallback } from "react";
 import Link from "next/link";
 import propTypes from "prop-types";
 import { Layout, Input, Button, Row, Col, Affix, Icon, Menu } from "antd";
-import LoginForm from "./LoginForm";
-import UserProfile from "./UserProfile";
+import SignInForm from "./SignInForm";
 import { useSelector } from "react-redux";
 import Router from "next/router";
 import styled from "styled-components";
@@ -23,12 +22,18 @@ const ContentContainer = styled.div`
 
 const AppLayout = ({ children }) => {
   const { me } = useSelector(state => state.user);
+  const [signModalOn, setSignModalOn] = useState(false);
+  const signModal = useCallback(() => {
+    setSignModalOn(!signModalOn);
+  });
+
   const onSearch = value => {
     Router.push(
       { pathname: "/hashtag", query: { tag: value } },
       `/hashtag/${value}`
     );
   };
+
   return (
     <Layout>
       <Affix offsetTop={0}>
@@ -63,17 +68,16 @@ const AppLayout = ({ children }) => {
                   </a>
                 </Link>
               ) : (
-                <Link href="/signup">
-                  <a>
-                    <Button type="link">Sign Up</Button>
-                  </a>
-                </Link>
+                <Button type="link" onClick={signModal}>
+                  Sign In
+                </Button>
               )}
             </Col>
           </Row>
         </Header>
       </Affix>
       <Content style={{ minHeight: "80vh", marginTop: "5vh" }}>
+        {<SignInForm signModalOn={signModalOn} />}
         <Row type="flex" justify="center">
           <Col>
             <ContentContainer>{children}</ContentContainer>

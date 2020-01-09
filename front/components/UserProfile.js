@@ -54,6 +54,7 @@ const UserProfile = () => {
         <Link href="/profile" key="profile2">
           <a>{me ? me.nickname : "Guest " + guestNum}</a>
         </Link>
+        {me ? <Button onClick={onLogout}>로그아웃</Button> : null}
       </div>
       <Link href="/postup" key="post">
         <a>

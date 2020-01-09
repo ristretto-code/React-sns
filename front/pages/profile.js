@@ -125,7 +125,7 @@ const Profile = () => {
 
 Profile.getInitialProps = async context => {
   const state = context.store.getState();
-  //여기서 load_users_request 실행됨. 아직 state.me가 없다
+  // load_users_request 실행. state.me is undefined.
   context.store.dispatch({
     type: LOAD_FOLLOWERS_REQUEST,
     data: state.user.me && state.user.me.id
@@ -138,8 +138,8 @@ Profile.getInitialProps = async context => {
     type: LOAD_USER_POSTS_REQUEST,
     data: state.user.me && state.user.me.id
   });
-  // 여기서 load_users_success되고 me가 생긴다.\
-  // me가 undefined일시 '내계정으로 간주하고' 요청보내기
+  // load_users_success 실행. state.me 생성
+  // me가 undefined일시 '내계정으로 판단'
 };
 
 export default Profile;

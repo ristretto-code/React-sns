@@ -22,9 +22,8 @@ const PostForm = () => {
   const onSubmitForm = useCallback(
     e => {
       e.preventDefault();
-      // props로 들어가는 함수는 무조건 useCallback
       if (!text || !text.trim()) {
-        return alert("게시글을 작성하세요"); // 리턴으로 함수끊기
+        return alert("게시글을 작성하세요");
       }
       dispatch({
         type: ADD_POST_REQUEST,
@@ -53,7 +52,7 @@ const PostForm = () => {
   }, []);
 
   const onClickImageUpload = useCallback(() => {
-    imageInput.current.click(); // 버튼누르면 useRef로 file이 눌러짐
+    imageInput.current.click(); // 버튼 클릭시 useRef로 file 클릭
   }, [imageInput.current]);
 
   const onRemoveImage = useCallback(index => () => {

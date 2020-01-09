@@ -1,10 +1,10 @@
 import produce from "immer";
 
 export const initialState = {
-  mainPosts: [], // 화면에 보일 포스트들
-  userPosts: [], // 로그인한 유저의 포스트들
+  mainPosts: [], // 화면에 보일 포스트
+  userPosts: [], // 로그인한 유저의 포스트
   imagePaths: [], // 미리보기 이미지 경로
-  addPostErrorReason: "", // 포스트 업로드 실패
+  addPostErrorReason: "",
   isAddingPost: false, // 포스트 업로드중
   postAdded: false,
   addCommnetErrorReason: "",
@@ -158,11 +158,6 @@ export default (state = initialState, action) => {
         draft.isAddingComment = false;
         draft.commentAdded = true;
         break;
-
-        // const post = state.mainPosts[postIndex];
-        // const Comments = [...post.content, action.data.comment];
-        // const mainPosts = [...state.mainPosts];
-        // mainPosts[postIndex] = { ...post, Comments };
       }
       case ADD_COMMENT_FAILURE: {
         draft.isAddingComment = false;
@@ -172,7 +167,7 @@ export default (state = initialState, action) => {
 
       case REMOVE_IMAGE: {
         const index = draft.imagePaths.findIndex((v, i) => i === action.index);
-        draft.imagePaths.splice(index, i);
+        draft.imagePaths.splice(index, 1);
         break;
       }
 
@@ -195,13 +190,11 @@ export default (state = initialState, action) => {
       case UNLIKE_POST_SUCCESS: {
         const postIndex = draft.mainPosts.findIndex(
           v => v.id === action.data.postId
-        ); // unlike할 post의 index를 mainposts에서 postid를 기준으로 찾는다.
+        );
         const likeIndex = draft.mainPosts[postIndex].Likers.findIndex(
           v => v.id === action.data.userId
-        ); // 찾은 post index의 Likers 목록에서 userid의 index를 찾는다.
-
+        );
         draft.mainPosts[postIndex].Likers.splice(likeIndex, 1);
-        // 찾은 userid index위치에, 1을 deletecount로 넣어 삭제한다.
         break;
       }
       case UNLIKE_POST_FAILURE: {

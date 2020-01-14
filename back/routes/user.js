@@ -199,14 +199,11 @@ router.delete("/:id/follow", isLoggedIn, async (req, res, next) => {
   }
 }); // 팔로우 취소
 
-router.delete("/:id/follower", (req, res) => {}); // 팔로워 지우기
-
 router.get("/:id/posts", async (req, res, next) => {
   try {
     const posts = await db.Post.findAll({
       where: {
-        UserId: parseInt(req.params.id, 10) || (req.user && req.user.id) || 0,
-        RetweetId: null
+        UserId: parseInt(req.params.id, 10) || (req.user && req.user.id) || 0
       },
       include: [
         {

@@ -1,44 +1,32 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Icon } from "antd";
+import Slider from "react-slick";
+import styled from "styled-components";
+
+const CustomSlider = styled(Slider)`
+  & .slick-list {
+    width: 100%;
+  }
+  & img {
+  }
+`;
 
 const PostImages = ({ images }) => {
-  if (images.length === 1) {
-    return (
-      <>
-        <img src={`//localhost:8080/${images[0].src}`} />
-      </>
-    );
-  }
-  if (images.length === 2) {
-    return (
-      <>
-        <div>
-          <img src={`//localhost:8080/${images[0].src}`} width="50%" />
-          <img src={`//localhost:8080/${images[1].src}`} width="50%" />
-        </div>
-      </>
-    );
-  }
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    arrows: false,
+    adaptiveHeight: true
+  };
   return (
-    <>
-      <div>
-        <img src={`//localhost:8080/${images[0].src}`} width="50%" />
-        <div
-          style={{
-            display: "inline-block",
-            width: "50%",
-            textAlign: "center",
-            verticalAlign: "middle"
-          }}
-        >
-          <Icon type="plus" />
-          <br />
-          {images.length - 1}
-          개의 사진 더보기
-        </div>
-      </div>
-    </>
+    <CustomSlider {...settings}>
+      {images.map((v, i) => {
+        return <img key={i} src={`//localhost:8080/${v.src}`} />;
+      })}
+    </CustomSlider>
   );
 };
 

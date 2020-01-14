@@ -52,14 +52,6 @@ export const ADD_COMMENT_REQUEST = "ADD_COMMENT_REQUEST";
 export const ADD_COMMENT_SUCCESS = "ADD_COMMENT_SUCCESS";
 export const ADD_COMMENT_FAILURE = "ADD_COMMENT_FAILURE";
 
-export const LOAD_COMMENTS_REQUEST = "LOAD_COMMENTS_REQUEST";
-export const LOAD_COMMENTS_SUCCESS = "LOAD_COMMENTS_SUCCESS";
-export const LOAD_COMMENTS_FAILURE = "LOAD_COMMENTS_FAILURE";
-
-export const RETWEET_REQUEST = "RETWEET_REQUEST";
-export const RETWEET_SUCCESS = "RETWEET_SUCCESS";
-export const RETWEET_FAILURE = "RETWEET_FAILURE";
-
 export const LOAD_POST_REQUEST = "LOAD_POST_REQUEST";
 export const LOAD_POST_SUCCESS = "LOAD_POST_SUCCESS";
 export const LOAD_POST_FAILURE = "LOAD_POST_FAILURE";
@@ -67,14 +59,6 @@ export const LOAD_POST_FAILURE = "LOAD_POST_FAILURE";
 export default (state = initialState, action) => {
   return produce(state, draft => {
     switch (action.type) {
-      case LOAD_COMMENTS_SUCCESS: {
-        const postIndex = draft.mainPosts.findIndex(
-          v => v.id === action.data.postId
-        );
-        draft.mainPosts[postIndex].Comments = action.data.comments;
-        break;
-      }
-
       case LOAD_HASHTAG_POSTS_REQUEST:
       case LOAD_MAIN_POSTS_REQUEST: {
         draft.mainPosts = !action.lastId ? [] : draft.mainPosts;
@@ -134,7 +118,6 @@ export default (state = initialState, action) => {
         break;
       }
       case UPLOAD_IMAGES_SUCCESS: {
-        // draft.imagePaths = draft.imagePaths.concat(action.data);
         action.data.forEach(p => {
           draft.imagePaths.push(p);
         });

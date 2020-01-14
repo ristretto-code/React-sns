@@ -1,11 +1,57 @@
 import React, { useCallback, useState, useEffect, useRef } from "react";
-import { Input, Form, Button } from "antd";
+import { Input, Form, Button, Row, Col, Modal } from "antd";
 import { useSelector, useDispatch } from "react-redux";
+import Link from "next/link";
 import {
   ADD_POST_REQUEST,
   UPLOAD_IMAGES_REQUEST,
   REMOVE_IMAGE
 } from "../reducers/post";
+import styled from "styled-components";
+
+const PostUpContainer = styled.div`
+  border: 2px solid #ebedf0;
+  border-radius: 3px;
+  background-color: #ffffff;
+`;
+
+const PostUpHeader = styled.div`
+  padding: 10px;
+  background-color: #f5f6f7;
+  font-weight: 600;
+`;
+
+const PostUpInputWrapper = styled.div`
+  margin-bottom: 5px;
+  max-width: 100vw;
+  max-height: 50vh;
+`;
+const PostUpButtonWrapper = styled.div`
+  margin-bottom: 5px;
+  max-width: 100vw;
+  & button {
+    margin: 5px;
+  }
+  & div {
+    float: right;
+  }
+`;
+
+const PostUpImageWrapper = styled.div`
+  max-width: 100vw;
+  max-height: 30vh;
+  overflow-x: auto;
+  overflow-y: none;
+  white-space: nowrap;
+  background-color: #f5f6f7;
+`;
+
+const error = errormsg => {
+  Modal.error({
+    title: "에러 메세지",
+    content: errormsg
+  });
+};
 
 const PostForm = () => {
   const dispatch = useDispatch();
@@ -23,7 +69,7 @@ const PostForm = () => {
     e => {
       e.preventDefault();
       if (!text || !text.trim()) {
-        return alert("게시글을 작성하세요");
+        return error("게시글을 작성하세요");
       }
       dispatch({
         type: ADD_POST_REQUEST,
@@ -63,54 +109,74 @@ const PostForm = () => {
   });
 
   return (
-    <Form
-      style={{ marginTop: "10px 0 20px 0" }}
-      encType="multipart/form-data"
-      onSubmit={onSubmitForm}
-    >
-      <Input.TextArea
-        maxLength={140}
-        placeholder="Show your self"
-        value={text}
-        onChange={onChangeText}
-      />
-      <div>
-        <input
-          type="file"
-          multiple
-          hidden
-          ref={imageInput}
-          onChange={onChangeImages}
-        />{" "}
-        <Button onClick={onClickImageUpload}>이미지 업로드</Button>
-        <Button
-          type="primary"
-          style={{ float: "right" }}
-          htmlType="submit"
-          loading={isAddingPost}
-        >
-          짹짹
-        </Button>
-      </div>
-      <div>
-        {imagePaths !== undefined
-          ? imagePaths.map((v, i) => {
-              return (
-                <div key={v} style={{ display: "inline-block" }}>
-                  <img
-                    src={`http://localhost:8080/${v}`}
-                    style={{ width: "200px" }}
-                    alt={v}
-                  />
-                  <div>
-                    <Button onClick={onRemoveImage(i)}>제거</Button>
-                  </div>
-                </div>
-              );
-            })
-          : "아무것도 없었다"}
-      </div>
-    </Form>
+    <Row type="flex" justify="center">
+      <Col xs={24} md={16}>
+        <PostUpContainer>
+          <PostUpHeader>Create Post</PostUpHeader>
+          <Form encType="multipart/form-data" onSubmit={onSubmitForm}>
+            <PostUpInputWrapper>
+              <Input.TextArea
+                maxLength={300}
+                placeholder="Write a post..."
+                value={text}
+                onChange={onChangeText}
+                style={{ width: "100vw", height: "200px" }}
+              />
+            </PostUpInputWrapper>
+            <PostUpButtonWrapper>
+              <input
+                type="file"
+                multiple
+                hidden
+                ref={imageInput}
+                onChange={onChangeImages}
+              />
+              <Button icon="picture" onClick={onClickImageUpload}>
+                Photo
+              </Button>
+              <div>
+                <Link href="/">
+                  <a>
+                    <Button>Cancel</Button>
+                  </a>
+                </Link>
+                <Button type="primary" htmlType="submit" loading={isAddingPost}>
+                  Post
+                </Button>
+              </div>
+            </PostUpButtonWrapper>
+            <PostUpImageWrapper>
+              {imagePaths !== undefined
+                ? imagePaths.map((v, i) => {
+                    return (
+                      <div
+                        key={v}
+                        style={{
+                          display: "inline-block",
+                          margin: "10px 10px 10px 0",
+                          width: "130px",
+                          height: "130px",
+                          background: `no-repeat url("http://localhost:8080/${v}")`,
+                          backgroundSize: "cover",
+                          backgroundPosition: "center"
+                        }}
+                      >
+                        <div>
+                          <Button
+                            icon="close"
+                            onClick={onRemoveImage(i)}
+                            style={{ float: "right", margin: "2px" }}
+                          ></Button>
+                        </div>
+                      </div>
+                    );
+                  })
+                : "Images not found"}
+            </PostUpImageWrapper>
+          </Form>
+        </PostUpContainer>
+      </Col>
+    </Row>
   );
 };
 

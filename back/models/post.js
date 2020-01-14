@@ -17,7 +17,6 @@ module.exports = (sequelize, DataTypes) => {
     db.Post.belongsTo(db.User); // belongsTo는 userid 같은 컬럼을 만든다
     db.Post.hasMany(db.Comment);
     db.Post.hasMany(db.Image);
-    db.Post.belongsTo(db.Post, { as: "Retweet" }); // 같은 테이블끼리 관계를 맺으면 Retweetid 컬럼이 생긴다.
     db.Post.belongsToMany(db.Hashtag, { through: "PostHashtag" });
     db.Post.belongsToMany(db.User, { through: "Like", as: "Likers" }); // 다대다관계
   };

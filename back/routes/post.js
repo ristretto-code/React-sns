@@ -77,45 +77,20 @@ router.post("/images", upload.array("image"), (req, res) => {
   res.json(req.files.map(v => v.filename));
 }); // 이미지올리기, formdata에서 받은 이름을 upload.함수('여기에 넣음')
 
-router.get("/:id/comments", async (req, res, next) => {
-  try {
-    const post = await db.Post.findOne({ where: { id: req.params.id } });
-    if (!post) {
-      return res.status(404).send("포스트가 존재하지 않습니다");
-    }
-    const comments = await db.Comment.findAll({
-      where: {
-        PostId: req.params.id
-      },
-      order: [["createdAt", "ASC"]],
-      include: [
-        {
-          model: db.User,
-          attributes: ["id", "nickname"]
-        }
-      ]
-    });
-    return res.json(comments);
-  } catch (e) {
-    console.error(e);
-    return next(e);
-  }
-});
 router.post("/:id/comment", isLoggedIn, async (req, res, next) => {
-  // POST /api/post/1000/comment
+  // POST /api/post/1000000/comment
   try {
     const post = await db.Post.findOne({ where: { id: req.params.id } });
     if (!post) {
-      return res.status(404).send("포스트가 존재하지 않습니다");
+      return res.status(404).send("포스트가 존재하지 않습니다.");
     }
     const newComment = await db.Comment.create({
       PostId: post.id,
       UserId: req.user.id,
       content: req.body.content
     });
-    await post.addComment(newComment.id); //시퀄라이져에서 add랑 new넣어줌
+    await post.addComment(newComment.id);
     const comment = await db.Comment.findOne({
-      // include사용하기 위해 새로 find
       where: {
         id: newComment.id
       },
@@ -131,7 +106,7 @@ router.post("/:id/comment", isLoggedIn, async (req, res, next) => {
     console.error(e);
     return next(e);
   }
-}); // 이미지올리기
+});
 
 router.post("/:id/like", isLoggedIn, async (req, res, next) => {
   try {

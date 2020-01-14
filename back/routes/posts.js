@@ -31,15 +31,11 @@ router.get("/", async (req, res, next) => {
           attributes: ["id"]
         },
         {
-          model: db.Post,
-          as: "Retweet",
+          model: db.Comment,
           include: [
             {
               model: db.User,
               attributes: ["id", "nickname"]
-            },
-            {
-              model: db.Image
             }
           ]
         }

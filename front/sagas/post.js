@@ -9,9 +9,6 @@ import {
   LOAD_USER_POSTS_REQUEST,
   LOAD_USER_POSTS_SUCCESS,
   LOAD_USER_POSTS_FAILURE,
-  LOAD_COMMENTS_REQUEST,
-  LOAD_COMMENTS_SUCCESS,
-  LOAD_COMMENTS_FAILURE,
   ADD_POST_REQUEST,
   ADD_POST_SUCCESS,
   ADD_POST_FAILURE,
@@ -135,7 +132,7 @@ function* watchAddPost() {
 function addCommentApi(data) {
   return axios.post(
     `/post/${data.postId}/comment`,
-    { content: data.comment },
+    { content: data.content },
     { withCredentials: true }
   );
 }
@@ -147,7 +144,7 @@ function* addComment(action) {
       type: ADD_COMMENT_SUCCESS,
       data: {
         postId: action.data.postId,
-        comment: result.data.content
+        comment: result.data
       }
     });
   } catch (e) {
@@ -160,31 +157,6 @@ function* addComment(action) {
 }
 function* watchAddComment() {
   yield takeLatest(ADD_COMMENT_REQUEST, addComment);
-}
-
-function loadCommentsApi(postId) {
-  return axios.get(`/post/${postId}/comments`);
-}
-function* loadComments(action) {
-  try {
-    const result = yield call(loadCommentsApi, action.data);
-    yield put({
-      type: LOAD_COMMENTS_SUCCESS,
-      data: {
-        postId: action.data,
-        comments: result.data
-      }
-    });
-  } catch (e) {
-    console.error(e);
-    yield put({
-      type: LOAD_COMMENTS_FAILURE,
-      error: e
-    });
-  }
-}
-function* watchLoadComments() {
-  yield takeLatest(LOAD_COMMENTS_REQUEST, loadComments);
 }
 
 function uploadImagesAPI(formData) {
@@ -331,7 +303,6 @@ export default function* userSaga() {
     fork(watchLoadMainPosts),
     fork(watchLoadHashtagPosts),
     fork(watchLoadUserPosts),
-    fork(watchLoadComments),
     fork(watchUploadImages),
     fork(watchLikePost),
     fork(watchUnlikePost),

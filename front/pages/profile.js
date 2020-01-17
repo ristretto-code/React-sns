@@ -48,6 +48,7 @@ const Profile = () => {
       offset: followingList.length
     });
   }, [followingList.length]);
+
   const loadMoreFollowers = useCallback(() => {
     dispatch({
       type: LOAD_FOLLOWERS_REQUEST,
@@ -114,11 +115,7 @@ const Profile = () => {
           </List.Item>
         )}
       />
-      <div>
-        {userPosts.map(c => (
-          <PostCard key={c.id} post={c} />
-        ))}
-      </div>
+      <div></div>
     </div>
   );
 };

@@ -16,9 +16,9 @@ const SignDiv = styled.div`
 const SignupForm = ({ signupModalOn }) => {
   const [passwordCheck, setPasswordCheck] = useState("");
   const [passwordError, setPasswordError] = useState(false);
-  const [id, onChangeId] = useInput("");
-  const [nick, onChangeNick] = useInput("");
-  const [password, onChangePassword] = useInput("");
+  const [id, onChangeId, setId] = useInput("");
+  const [nick, onChangeNick, setNick] = useInput("");
+  const [password, onChangePassword, setPassword] = useInput("");
   const dispatch = useDispatch();
   const { isSigningUp, isSignedUp, signUpErrorReason } = useSelector(
     state => state.user
@@ -28,6 +28,10 @@ const SignupForm = ({ signupModalOn }) => {
 
   useEffect(() => {
     setModalOpen(!modalOpen);
+    setId(null);
+    setNick(null);
+    setPassword(null);
+    setPasswordCheck(null);
   }, [signupModalOn]);
 
   useEffect(() => {

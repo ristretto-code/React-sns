@@ -1,5 +1,14 @@
 import React, { useState, useCallback, useEffect } from "react";
-import { Avatar, Icon, Button, List, Comment, Popover, Modal } from "antd";
+import {
+  Avatar,
+  Icon,
+  Button,
+  List,
+  Comment,
+  Popover,
+  Modal,
+  Tooltip
+} from "antd";
 import proptypes from "prop-types";
 import Link from "next/link";
 import { useSelector, useDispatch } from "react-redux";
@@ -21,6 +30,10 @@ const PostWrapper = styled.div`
   border-radius: 3px;
   background-color: #ffffff;
 `;
+
+const PostHeader = styled.div`
+  border-bottom: 1px solid #e6e6e6;
+`;
 const UserNameWrapper = styled.div`
   display: inline-block;
   margin: 15px;
@@ -29,7 +42,7 @@ const UserNameWrapper = styled.div`
     margin-right: 13px;
   }
   & a {
-    color: black;
+    color: #262626;
     font-weight: 600;
   }
 `;
@@ -50,6 +63,9 @@ const PostImage = styled.div`
 `;
 
 const PostContent = styled.div`
+  display: flex;
+  align-items: center;
+  min-height: 0px;
   padding: 15px;
   & a {
     color: #1971c2;
@@ -57,6 +73,10 @@ const PostContent = styled.div`
 `;
 const PostAction = styled.div`
   padding: 0 15px;
+  font-size: 20px;
+  & * {
+    margin-right: 5px;
+  }
 `;
 
 const PostCommentList = styled.div`
@@ -125,79 +145,92 @@ const PostCard = ({ post }) => {
   });
   return (
     <PostWrapper>
-      <UserNameWrapper>
-        <Link
-          href={{ pathname: "/user", query: { id: post.User.id } }}
-          as={`/user/${post.User.id}`}
-        >
-          <a>
-            <Avatar icon="user"></Avatar>
-            <span>{post.User.nickname}</span>
-          </a>
-        </Link>
-        <PostDate>{moment(post.createdAt, "YYYYMMDD").fromNow()}</PostDate>
-      </UserNameWrapper>
-      <PopoverWrapper>
-        <Popover
-          key="ellipsis"
-          content={
-            <Button.Group>
-              {me && post.UserId === me.id ? (
-                <Button type="danger" onClick={onRemovePost(post.id)}>
-                  삭제
-                </Button>
-              ) : null}
-              <Button>신고</Button>
-            </Button.Group>
-          }
-        >
-          <Icon type="ellipsis" key="ellipsis" />
-        </Popover>
-      </PopoverWrapper>
-
+      <PostHeader>
+        <UserNameWrapper>
+          <Link
+            href={{ pathname: "/user", query: { id: post.User.id } }}
+            as={`/user/${post.User.id}`}
+          >
+            <a>
+              <Avatar
+                icon="user"
+                style={{ backgroundColor: "#87d068" }}
+              ></Avatar>
+              <span>{post.User.nickname}</span>
+            </a>
+          </Link>
+          <PostDate>{moment(post.createdAt, "YYYYMMDD").fromNow()}</PostDate>
+        </UserNameWrapper>
+        <PopoverWrapper>
+          <Popover
+            key="ellipsis"
+            content={
+              <Button.Group>
+                {me && post.UserId === me.id ? (
+                  <Button type="danger" onClick={onRemovePost(post.id)}>
+                    삭제
+                  </Button>
+                ) : null}
+                <Button>신고</Button>
+              </Button.Group>
+            }
+          >
+            <Icon type="ellipsis" key="ellipsis" />
+          </Popover>
+        </PopoverWrapper>
+      </PostHeader>
       <PostImage>
         {post.Images[0] && <PostImages images={post.Images} />}
       </PostImage>
 
       <PostContent>
-        {post.content.split(/(#[^\s]+)/g).map(v => {
-          if (v.match(/(#[^\s]+)/)) {
-            return (
-              <Link
-                href={{
-                  pathname: "/hashtag",
-                  query: { tag: v.match(/[^#]+/) }
-                }}
-                as={`/hashtag/${v.match(/[^#]+/)}`}
-                key={v}
-              >
-                <a>{v}</a>
-              </Link>
-            );
-          }
-          return v;
-        })}
+        <div>
+          {post.content.split(/(#[^\s]+)/g).map(v => {
+            if (v.match(/(#[^\s]+)/)) {
+              return (
+                <Link
+                  href={{
+                    pathname: "/hashtag",
+                    query: { tag: v.match(/[^#]+/) }
+                  }}
+                  as={`/hashtag/${v.match(/[^#]+/)}`}
+                  key={v}
+                >
+                  <a>{v}</a>
+                </Link>
+              );
+            }
+            return v;
+          })}
+        </div>
       </PostContent>
       <PostAction>
         <Icon
           type="heart"
           key="heart"
-          theme={liked ? "twoTone" : "outlined"}
-          twoToneColor="#eb2f96"
+          style={{ color: "#ed4956" }}
+          theme={liked ? "filled" : "outlined"}
           onClick={onToggleLike}
         />
-        <span>
-          {!me || post.User.id === me.id ? null : me.Followings &&
-            me.Followings.find(v => v.id === post.User.id) ? (
-            <Button onClick={onFollow(post.User.id)}>팔로우</Button>
-          ) : null}
-        </span>
-        <span>
-          {!me || post.User.id === me.id ? null : me.Followings &&
-            me.Followings.find(v => v.id === post.User.id) ? (
-            <Button onClick={onFollow(post.User.id)}>팔로우</Button>
-          ) : null}
-        </span>
+        {!me || post.User.id === me.id ? null : me.Followings &&
+          me.Followings.find(v => v.id === post.User.id) ? (
+          <Tooltip title="UnFollow">
+            <Icon
+              type="user-delete"
+              key="unfollow"
+              onClick={onUnfollow(post.User.id)}
+            />
+          </Tooltip>
+        ) : (
+          <Tooltip title="Follow">
+            <Icon
+              type="user-add"
+              key="follow"
+              style={{ color: "#1864ab" }}
+              onClick={onFollow(post.User.id)}
+            />
+          </Tooltip>
+        )}
       </PostAction>
       <PostCommentList>
         {post.Comments.length >= 1 && (
@@ -221,7 +254,10 @@ const PostCard = ({ post }) => {
                     as={`/user/${item.User.id}`}
                   >
                     <a>
-                      <Avatar icon="user"></Avatar>
+                      <Avatar
+                        icon="user"
+                        style={{ backgroundColor: "#87d068" }}
+                      ></Avatar>
                     </a>
                   </Link>
                 }

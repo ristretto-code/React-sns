@@ -31,6 +31,7 @@ export const UPLOAD_IMAGES_SUCCESS = "UPLOAD_IMAGES_SUCCESS";
 export const UPLOAD_IMAGES_FAILURE = "UPLOAD_IMAGES_FAILURE";
 
 export const REMOVE_IMAGE = "REMOVE_IMAGE";
+export const REMOVE_ALL_IMAGES = "REMOVE_ALL_IMAGES";
 
 export const ADD_POST_REQUEST = "ADD_POST_REQUEST";
 export const ADD_POST_SUCCESS = "ADD_POST_SUCCESS";
@@ -154,6 +155,11 @@ export default (state = initialState, action) => {
         break;
       }
 
+      case REMOVE_ALL_IMAGES: {
+        draft.imagePaths = [];
+        break;
+      }
+
       case LIKE_POST_REQUEST: {
         break;
       }
@@ -208,6 +214,7 @@ export default (state = initialState, action) => {
       }
 
       default: {
+        draft = state;
         break;
       }
     }

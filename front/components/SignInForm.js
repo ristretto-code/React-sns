@@ -11,7 +11,7 @@ export const useInput = (initValue = null) => {
     // 자식에게 전달해주는 컴포넌트는 모두 usecallback사용
     setter(e.target.value);
   }, []);
-  return [value, handler];
+  return [value, handler, setter];
 };
 
 const LoginError = styled.div`

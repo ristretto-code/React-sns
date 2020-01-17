@@ -16,9 +16,14 @@ const ProfileWrapper = styled.div`
 
 const CopyRight = styled.div`
   height: 300px;
+  margin-top: 20px;
   text-align: center;
   vertical-align: middle;
-  color: #fafafa;
+  font-size: 11px;
+  color: #9d9d9d;
+  & a {
+    color: #9d9d9d;
+  }
 `;
 
 const Home = () => {
@@ -72,7 +77,10 @@ const Home = () => {
                   href="//github.com/ristretto-code/React-sns"
                   prefetch={false}
                 >
-                  <a target="_blank">2019 IAN CHOI</a>
+                  <a target="_blank">
+                    <div>본 웹사이트는 포트폴리오용으로 제작되었습니다</div>
+                    2020 IAN CHOI
+                  </a>
                 </Link>
               </CopyRight>
             </ProfileWrapper>

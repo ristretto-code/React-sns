@@ -2,10 +2,12 @@ import React, { useCallback, useState, useEffect, useRef } from "react";
 import { Input, Form, Button, Row, Col, Modal } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import Link from "next/link";
+import Router from "next/router";
 import {
   ADD_POST_REQUEST,
   UPLOAD_IMAGES_REQUEST,
-  REMOVE_IMAGE
+  REMOVE_IMAGE,
+  REMOVE_ALL_IMAGES
 } from "../reducers/post";
 import styled from "styled-components";
 
@@ -53,6 +55,15 @@ const error = errormsg => {
   });
 };
 
+const success = confirmmsg => {
+  Modal.success({
+    content: confirmmsg,
+    onOk() {
+      Router.push("/");
+    }
+  });
+};
+
 const PostForm = () => {
   const dispatch = useDispatch();
   const [text, setText] = useState("");
@@ -62,8 +73,14 @@ const PostForm = () => {
   const imageInput = useRef();
 
   useEffect(() => {
-    setText("");
-  }, [postAdded === true]);
+    if (postAdded === true) {
+      success("게시물이 작성되었습니다!");
+      setText("");
+      dispatch({
+        type: REMOVE_ALL_IMAGES
+      });
+    }
+  }, [postAdded]);
 
   const onSubmitForm = useCallback(
     e => {

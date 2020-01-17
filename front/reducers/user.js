@@ -9,7 +9,6 @@ export const initialState = {
   isSigningUp: false, // 회원가입 시도중
   isSignedUp: false,
   signUpErrorReason: "", // 회원가입 실패사유
-  signInModal: false,
   me: null,
   followingList: [], // 팔로잉 리스트
   followerList: [],
@@ -62,7 +61,6 @@ export const EDIT_NICKNAME_FAILURE = "EDIT_NICKNAME_FAILURE";
 
 export const ADD_POST_TO_ME = "ADD_POST_TO_ME";
 export const REMOVE_POST_OF_ME = "REMOVE_POST_OF_ME";
-export const SIGN_IN_MODAL = "SIGN_IN_MODAL";
 
 export default (state = initialState, action) => {
   return produce(state, draft => {
@@ -223,10 +221,6 @@ export default (state = initialState, action) => {
       case REMOVE_POST_OF_ME: {
         const index = draft.Posts.findIndex(v => v.id !== action.data);
         draft.Posts.splice(index, 1);
-        break;
-      }
-      case SIGN_IN_MODAL: {
-        draft.signInModal = !draft.signInModal;
         break;
       }
 

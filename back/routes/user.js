@@ -22,6 +22,15 @@ router.post("/", async (req, res, next) => {
     if (exUser) {
       return res.status(403).send("이미 사용중인 아이디입니다.");
     }
+    if (req.body.userId.length < 1 || req.body.userId.length >= 20) {
+      return res.status(403).send("1-20 글자 사이의 아이디를 사용하세요");
+    }
+    if (req.body.nickname.length < 1 || req.body.nickname.length >= 20) {
+      return res.status(403).send("1-20 글자 사이의 닉네임을 사용하세요");
+    }
+    if (req.body.password.length < 1) {
+      return res.status(403).send("1자 이상의 패스워드를 사용하세요");
+    }
     const hashedPassword = await bcrypt.hash(req.body.password, 12); // salt는 10~13 사이로
     const newUser = await db.User.create({
       nickname: req.body.nickname,

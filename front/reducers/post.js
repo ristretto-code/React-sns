@@ -11,6 +11,7 @@ export const initialState = {
   isAddingComment: false,
   commentAdded: false,
   hasMorePost: false,
+  hasMoreUserPost: false,
   onePost: ""
 };
 
@@ -31,7 +32,6 @@ export const UPLOAD_IMAGES_SUCCESS = "UPLOAD_IMAGES_SUCCESS";
 export const UPLOAD_IMAGES_FAILURE = "UPLOAD_IMAGES_FAILURE";
 
 export const REMOVE_IMAGE = "REMOVE_IMAGE";
-export const REMOVE_ALL_IMAGES = "REMOVE_ALL_IMAGES";
 
 export const ADD_POST_REQUEST = "ADD_POST_REQUEST";
 export const ADD_POST_SUCCESS = "ADD_POST_SUCCESS";
@@ -57,9 +57,22 @@ export const LOAD_POST_REQUEST = "LOAD_POST_REQUEST";
 export const LOAD_POST_SUCCESS = "LOAD_POST_SUCCESS";
 export const LOAD_POST_FAILURE = "LOAD_POST_FAILURE";
 
+export const INIT_STATE_POST = "INIT_STATE_POST";
+
 export default (state = initialState, action) => {
   return produce(state, draft => {
     switch (action.type) {
+      case INIT_STATE_POST: {
+        draft.imagePaths = [];
+        draft.isAddingPost = false;
+        draft.postAdded = false;
+        draft.addPostErrorReason = false;
+        draft.addCommnetErrorReason = false;
+        draft.isAddingComment = false;
+        draft.commentAdded = false;
+        draft.onePost = "";
+        break;
+      }
       case LOAD_HASHTAG_POSTS_REQUEST:
       case LOAD_MAIN_POSTS_REQUEST: {
         draft.mainPosts = !action.lastId ? [] : draft.mainPosts;
@@ -78,14 +91,14 @@ export default (state = initialState, action) => {
 
       case LOAD_USER_POSTS_REQUEST: {
         draft.userPosts = !action.lastId ? [] : draft.mainPosts;
-        draft.hasMorePost = action.lastId ? draft.hasMorePost : true;
+        draft.hasMoreUserPost = action.lastId ? draft.hasMoreUserPost : true;
         break;
       }
       case LOAD_USER_POSTS_SUCCESS: {
         action.data.forEach(d => {
           draft.userPosts.push(d);
         });
-        draft.hasMorePost = action.data.length === 10;
+        draft.hasMoreUserPost = action.data.length === 10;
         break;
       }
 
@@ -105,7 +118,7 @@ export default (state = initialState, action) => {
         draft.isAddingPost = false;
         draft.mainPosts.unshift(action.data);
         draft.postAdded = true;
-        draft.imagePaths = [];
+        draft.addPostErrorReason = "";
         break;
       }
       case ADD_POST_FAILURE: {
@@ -141,6 +154,7 @@ export default (state = initialState, action) => {
         draft.mainPosts[postIndex].Comments.push(action.data.comment);
         draft.isAddingComment = false;
         draft.commentAdded = true;
+        draft.addCommnetErrorReason = "";
         break;
       }
       case ADD_COMMENT_FAILURE: {
@@ -152,11 +166,6 @@ export default (state = initialState, action) => {
       case REMOVE_IMAGE: {
         const index = draft.imagePaths.findIndex((v, i) => i === action.index);
         draft.imagePaths.splice(index, 1);
-        break;
-      }
-
-      case REMOVE_ALL_IMAGES: {
-        draft.imagePaths = [];
         break;
       }
 
@@ -203,6 +212,7 @@ export default (state = initialState, action) => {
       }
 
       case LOAD_POST_REQUEST: {
+        draft.onePost = "";
         break;
       }
       case LOAD_POST_SUCCESS: {
@@ -210,11 +220,11 @@ export default (state = initialState, action) => {
         break;
       }
       case LOAD_POST_FAILURE: {
+        draft.onePost = "";
         break;
       }
 
       default: {
-        draft = state;
         break;
       }
     }

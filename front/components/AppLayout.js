@@ -17,6 +17,7 @@ const Logo = styled.div`
 `;
 
 const ContentContainer = styled.div`
+  width: 100%;
   max-width: 935px;
 `;
 
@@ -76,13 +77,16 @@ const AppLayout = ({ children }) => {
           </Row>
         </Header>
       </Affix>
-      <Content style={{ minHeight: "80vh", marginTop: "5vh" }}>
-        {<SignInForm signModalOn={signModalOn} />}
-        <Row type="flex" justify="center">
-          <Col>
-            <ContentContainer>{children}</ContentContainer>
-          </Col>
-        </Row>
+      <Content
+        style={{
+          minHeight: "80vh",
+          marginTop: "7vh",
+          display: "flex",
+          justifyContent: "center"
+        }}
+      >
+        {<SignInForm modalOn={signModalOn} />}
+        <ContentContainer>{children}</ContentContainer>
       </Content>
       <Footer style={{ minHeight: "5vh", textAlign: "center" }}>
         2019 IAN CHOI

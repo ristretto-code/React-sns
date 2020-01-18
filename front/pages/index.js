@@ -6,8 +6,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { Row, Col, Affix } from "antd";
 import {
   LOAD_MAIN_POSTS_REQUEST,
-  LOAD_USER_POSTS_REQUEST
+  LOAD_USER_POSTS_REQUEST,
+  INIT_STATE_POST
 } from "../reducers/post";
+import { INIT_STATE_USER } from "../reducers/user";
 import styled from "styled-components";
 
 const ProfileWrapper = styled.div`
@@ -35,7 +37,7 @@ const Home = () => {
   const onScroll = useCallback(() => {
     if (
       window.scrollY + document.documentElement.clientHeight >
-      document.documentElement.scrollHeight - 300
+      document.documentElement.scrollHeight - 400
     ) {
       if (hasMorePost) {
         const lastId = mainPosts[mainPosts.length - 1].id;
@@ -45,7 +47,7 @@ const Home = () => {
             lastId: lastId
           });
           countRef.current.push(lastId);
-          // dispatch 중복실행 막기
+          // ref에 저장해서 dispatch 중복실행 막기
           // saga에서는 쓰로틀링으로 막고있음
         }
       }
@@ -56,38 +58,46 @@ const Home = () => {
     window.addEventListener("scroll", onScroll);
     return () => {
       window.removeEventListener("scroll", onScroll);
+      countRef.current.length = 0; // countRef 초기화(index이동시 무한스크롤 안되는것 방지)
     };
-  }, [mainPosts]); // 강력한 캐싱 방지
+  }, [mainPosts.length]); // 강력한 캐싱 방지
+
+  useEffect(() => {
+    dispatch({
+      type: INIT_STATE_POST
+    });
+    dispatch({
+      type: INIT_STATE_USER
+    });
+  }, []);
 
   return (
-    <>
-      <Row type="flex" justify="center">
-        <Col xs={24} md={15}>
-          {mainPosts &&
-            mainPosts.map(c => {
-              return <PostCard key={c.id} post={c} />;
-            })}
-        </Col>
-        <Col xs={0} md={9}>
-          <Affix offsetTop={90}>
-            <ProfileWrapper>
-              <UserProfile />
-              <CopyRight>
-                <Link
-                  href="//github.com/ristretto-code/React-sns"
-                  prefetch={false}
-                >
-                  <a target="_blank">
-                    <div>본 웹사이트는 포트폴리오용으로 제작되었습니다</div>
-                    2020 IAN CHOI
-                  </a>
-                </Link>
-              </CopyRight>
-            </ProfileWrapper>
-          </Affix>
-        </Col>
-      </Row>
-    </>
+    <Row>
+      <Col xs={24} md={15}>
+        {mainPosts &&
+          mainPosts.map(c => {
+            return <PostCard key={c.id} post={c} />;
+          })}
+      </Col>
+      <Col xs={0} md={9}>
+        <Affix offsetTop={80}>
+          <ProfileWrapper>
+            <UserProfile />
+            <CopyRight>
+              <Link
+                href="//github.com/ristretto-code/React-sns"
+                prefetch={false}
+              >
+                <a target="_blank">
+                  <div>본 웹사이트는 포트폴리오용으로 제작되었습니다</div>
+                  2020 IAN CHOI
+                </a>
+              </Link>
+            </CopyRight>
+          </ProfileWrapper>
+        </Affix>
+      </Col>
+    </Row>
   );
 };
 

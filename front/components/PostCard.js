@@ -58,14 +58,12 @@ const PopoverWrapper = styled.div`
   font-size: 22px;
 `;
 
-const PostImage = styled.div`
-  width: 100%;
-`;
+const PostImage = styled.div``;
 
 const PostContent = styled.div`
   display: flex;
   align-items: center;
-  min-height: 0px;
+  min-height: 80px;
   padding: 15px;
   & a {
     color: #1971c2;
@@ -182,7 +180,6 @@ const PostCard = ({ post }) => {
       <PostImage>
         {post.Images[0] && <PostImages images={post.Images} />}
       </PostImage>
-
       <PostContent>
         <div>
           {post.content.split(/(#[^\s]+)/g).map(v => {

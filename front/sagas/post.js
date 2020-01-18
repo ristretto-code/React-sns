@@ -77,7 +77,7 @@ function* loadUserPosts(action) {
   }
 }
 function* watchLoadUserPosts() {
-  yield takeLatest(LOAD_USER_POSTS_REQUEST, loadUserPosts);
+  yield throttle(2000, LOAD_USER_POSTS_REQUEST, loadUserPosts);
 }
 
 function loadMainPostsAPI(lastId = 0, limit = 10) {

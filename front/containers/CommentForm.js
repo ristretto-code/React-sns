@@ -10,7 +10,7 @@ const InputWrapper = styled.div`
   & input {
     display: inline-block;
     width: 90%;
-    padding: 15px 10px;
+    padding: 15px;
     border: none;
     outline: none;
     ::placeholder {
@@ -20,9 +20,10 @@ const InputWrapper = styled.div`
   & div {
     display: inline-block;
     width: 10%;
+    padding: 15px;
     color: #339af0;
     font-weight: 600;
-    text-align: center;
+    text-align: end;
     cursor: pointer;
   }
 `;

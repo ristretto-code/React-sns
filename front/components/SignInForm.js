@@ -3,6 +3,7 @@ import { Input, Button, Form, Icon, Modal } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { LOG_IN_REQUEST } from "../reducers/user";
 import SignupForm from "./SignupForm";
+import Router from "next/router";
 import styled from "styled-components";
 
 export const useInput = (initValue = null) => {
@@ -32,10 +33,10 @@ const LoginDiv = styled.div`
   margin: 8px 0;
 `;
 
-const SignInForm = ({ signModalOn }) => {
-  const [id, onChangeId] = useInput("");
-  const [password, onPassword] = useInput("");
-  const [modalOpen, setModalOpen] = useState(false);
+const SignInForm = ({ modalOn }) => {
+  const [id, onChangeId, setId] = useInput("");
+  const [password, onPassword, setPassword] = useInput("");
+  const [loginModalOpen, setloginModalOpen] = useState(false);
   const [signupModalOn, setSignupModalOn] = useState(false);
   const { isLoggingIn, loginErrorReason, isLoggedIn } = useSelector(
     state => state.user
@@ -43,26 +44,33 @@ const SignInForm = ({ signModalOn }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    setModalOpen(!modalOpen);
-  }, [signModalOn]);
+    setloginModalOpen(!loginModalOpen);
+    // props가 변할때 loginModalOpen 변경
+    setId("");
+    setPassword("");
+  }, [modalOn]);
 
   useEffect(() => {
-    setModalOpen(false);
+    setloginModalOpen(false);
+    // 컴포넌트 생성시 modalOn값이 넘어오면서 true되는것 방지
   }, []);
 
   useEffect(() => {
     if (isLoggedIn) {
-      setModalOpen(false);
+      setloginModalOpen(false);
+      Router.push("/");
     }
   }, [isLoggedIn]);
 
   const signUpOn = useCallback(() => {
-    console.log("회원가입창으로 전환");
     setSignupModalOn(!signupModalOn);
+    //회원가입 모달 on
+    setloginModalOpen(!loginModalOpen);
+    //로그인 모달 off
   });
 
   const handleCancel = useCallback(() => {
-    setModalOpen(!modalOpen);
+    setloginModalOpen(!loginModalOpen);
   });
 
   const onSubmitForm = useCallback(() => {
@@ -79,7 +87,7 @@ const SignInForm = ({ signModalOn }) => {
     <>
       <Modal
         title="회원 로그인"
-        visible={modalOpen}
+        visible={loginModalOpen}
         onOk={onSubmitForm}
         onCancel={handleCancel}
         confirmLoading={isLoggingIn}
@@ -112,7 +120,7 @@ const SignInForm = ({ signModalOn }) => {
           아직 회원이 아니신가요? <a onClick={signUpOn}>회원가입</a>
         </LoginSpan>
       </Modal>
-      <SignupForm signupModalOn={signupModalOn} />
+      <SignupForm modalOn={signupModalOn} />
     </>
   );
 };

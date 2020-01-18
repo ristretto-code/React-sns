@@ -10,7 +10,7 @@ router.get("/", async (req, res, next) => {
     if (parseInt(req.query.lastId, 10)) {
       where = {
         id: {
-          [db.Sequelize.Op.lt]: parseInt(req.query.lastId, 10) // 시퀄 오퍼레이터에서 지원하는 lt(lessthen)
+          [db.Sequelize.Op.lt]: parseInt(req.query.lastId, 10) // 오퍼레이터 lt(lessthen)
         }
       };
     }

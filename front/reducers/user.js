@@ -62,18 +62,35 @@ export const EDIT_NICKNAME_FAILURE = "EDIT_NICKNAME_FAILURE";
 export const ADD_POST_TO_ME = "ADD_POST_TO_ME";
 export const REMOVE_POST_OF_ME = "REMOVE_POST_OF_ME";
 
+export const INIT_STATE_USER = "INIT_STATE_USER";
+
 export default (state = initialState, action) => {
   return produce(state, draft => {
     switch (action.type) {
+      case INIT_STATE_USER: {
+        draft.isLoggingOut = false;
+        draft.isLoggingIn = false;
+        draft.loginErrorReason = "";
+        draft.signedUp = false;
+        draft.isSigningUp = false;
+        draft.isSignedUp = false;
+        draft.signUpErrorReason = "";
+        draft.isEditingNickname = false;
+        draft.editNicknameErrorReason = "";
+        draft.hasMoreFollower = false;
+        draft.hasMoreFollowing = false;
+        break;
+      }
       case SIGN_UP_REQUEST: {
         draft.isSigningUp = true;
-        draft.isSigningUp = false;
+        draft.isSignedUp = false;
         draft.signUpErrorReason = "";
         break;
       }
       case SIGN_UP_SUCCESS: {
-        draft.isSignedUp = false;
+        draft.isSigningUp = false;
         draft.isSignedUp = true;
+        draft.signUpErrorReason = "";
         break;
       }
       case SIGN_UP_FAILURE: {
@@ -92,6 +109,7 @@ export default (state = initialState, action) => {
         draft.isLoggingIn = false;
         draft.isLoggedIn = true;
         draft.me = action.data;
+        draft.loginErrorReason = "";
         break;
       }
       case LOG_IN_FAILURE: {
@@ -205,6 +223,7 @@ export default (state = initialState, action) => {
       case EDIT_NICKNAME_SUCCESS: {
         draft.isEditingNickname = false;
         draft.me.nickname = action.data;
+        draft.editNicknameErrorReason = "";
         break;
       }
       case EDIT_NICKNAME_FAILURE: {

@@ -6,8 +6,7 @@ import Router from "next/router";
 import {
   ADD_POST_REQUEST,
   UPLOAD_IMAGES_REQUEST,
-  REMOVE_IMAGE,
-  REMOVE_ALL_IMAGES
+  REMOVE_IMAGE
 } from "../reducers/post";
 import styled from "styled-components";
 
@@ -55,15 +54,6 @@ const error = errormsg => {
   });
 };
 
-const success = confirmmsg => {
-  Modal.success({
-    content: confirmmsg,
-    onOk() {
-      Router.push("/");
-    }
-  });
-};
-
 const PostForm = () => {
   const dispatch = useDispatch();
   const [text, setText] = useState("");
@@ -74,11 +64,8 @@ const PostForm = () => {
 
   useEffect(() => {
     if (postAdded === true) {
-      success("게시물이 작성되었습니다!");
       setText("");
-      dispatch({
-        type: REMOVE_ALL_IMAGES
-      });
+      Router.push("/");
     }
   }, [postAdded]);
 
@@ -167,13 +154,13 @@ const PostForm = () => {
                 ? imagePaths.map((v, i) => {
                     return (
                       <div
-                        key={v}
+                        key={i}
                         style={{
                           display: "inline-block",
                           margin: "10px 10px 10px 0",
                           width: "130px",
                           height: "130px",
-                          background: `no-repeat url("http://localhost:8080/${v}")`,
+                          background: `no-repeat url("//localhost:8080/${v}")`,
                           backgroundSize: "cover",
                           backgroundPosition: "center"
                         }}

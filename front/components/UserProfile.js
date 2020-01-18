@@ -88,12 +88,12 @@ const UserProfile = () => {
     setGuestNum(rannum);
   }, []);
 
-  useEffect(() => {
-    dispatch({
-      type: LOAD_USER_POSTS_REQUEST,
-      data: me && me.id
-    });
-  }, [me && me.Posts]);
+  // useEffect(() => {
+  //   dispatch({
+  //     type: LOAD_USER_POSTS_REQUEST,
+  //     data: me && me.id
+  //   });
+  // }, [me]);
 
   const onLogout = useCallback(e => {
     e.preventDefault();

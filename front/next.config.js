@@ -7,7 +7,7 @@ const CompressionPlugin = require("compression-webpack-plugin");
 module.exports = {
   distDir: ".next", // dis디렉토리
   webpack(config) {
-    // console.log("config", config); // default webpack setting - resolve
+    console.log("config", config); // default webpack setting - resolve
     // console.log("rules", config.module.rules[0]);
     const prod = process.env.NODE_ENV === "production";
     const plugins = [

@@ -19,8 +19,10 @@ const InputWrapper = styled.div`
   }
   & div {
     display: inline-block;
-    width: 10%;
+    position: absolute;
     padding: 15px;
+    width: max-content;
+    right: 0;
     color: #339af0;
     font-weight: 600;
     text-align: end;

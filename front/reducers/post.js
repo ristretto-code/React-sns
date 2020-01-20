@@ -4,6 +4,7 @@ export const initialState = {
   mainPosts: [], // 화면에 보일 포스트
   userPosts: [], // 로그인한 유저의 포스트
   imagePaths: [], // 미리보기 이미지 경로
+  isLoadingUserPost: false,
   addPostErrorReason: "",
   isAddingPost: false, // 포스트 업로드중
   postAdded: false,
@@ -92,6 +93,7 @@ export default (state = initialState, action) => {
       case LOAD_USER_POSTS_REQUEST: {
         draft.userPosts = !action.lastId ? [] : draft.mainPosts;
         draft.hasMoreUserPost = action.lastId ? draft.hasMoreUserPost : true;
+        draft.isLoadingUserPost = false;
         break;
       }
       case LOAD_USER_POSTS_SUCCESS: {
@@ -99,10 +101,14 @@ export default (state = initialState, action) => {
           draft.userPosts.push(d);
         });
         draft.hasMoreUserPost = action.data.length === 10;
+        draft.isLoadingUserPost = true;
         break;
       }
 
-      case LOAD_USER_POSTS_FAILURE:
+      case LOAD_USER_POSTS_FAILURE: {
+        draft.isLoadingUserPost = false;
+        break;
+      }
       case LOAD_HASHTAG_POSTS_FAILURE:
       case LOAD_MAIN_POSTS_FAILURE: {
         break;

@@ -94,6 +94,7 @@ const UserProfile = () => {
   //     data: me && me.id
   //   });
   // }, [me]);
+  // 두번씩 로드되는거 해결하려고 주석처리함
 
   const onLogout = useCallback(e => {
     e.preventDefault();

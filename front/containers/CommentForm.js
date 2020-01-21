@@ -6,10 +6,11 @@ import { ADD_COMMENT_REQUEST } from "../reducers/post";
 import styled from "styled-components";
 
 const InputWrapper = styled.div`
+  display: flex;
   width: 100%;
+  flex-wrap: nowrap;
   & input {
-    display: inline-block;
-    width: 90%;
+    width: 100%;
     padding: 15px;
     border: none;
     outline: none;
@@ -18,14 +19,12 @@ const InputWrapper = styled.div`
     }
   }
   & div {
-    display: inline-block;
-    position: absolute;
     padding: 15px;
     width: max-content;
-    right: 0;
     color: #339af0;
     font-weight: 600;
-    text-align: end;
+    text-align: center;
+    white-space: nowrap;
     cursor: pointer;
   }
 `;

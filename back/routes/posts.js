@@ -19,7 +19,7 @@ router.get("/", async (req, res, next) => {
       include: [
         {
           model: db.User,
-          attributes: ["id", "nickname"]
+          attributes: ["id", "nickname", "profileColor"]
         },
         {
           model: db.Image
@@ -35,7 +35,7 @@ router.get("/", async (req, res, next) => {
           include: [
             {
               model: db.User,
-              attributes: ["id", "nickname"]
+              attributes: ["id", "nickname", "profileColor"]
             }
           ]
         }

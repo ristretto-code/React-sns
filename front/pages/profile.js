@@ -3,7 +3,6 @@ import { Button, Icon, Row, Col, Avatar, Empty, Input, Modal } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import Link from "next/link";
 import Router from "next/router";
-import styled from "styled-components";
 import {
   LOAD_FOLLOWERS_REQUEST,
   LOAD_FOLLOWINGS_REQUEST,
@@ -14,6 +13,7 @@ import {
 } from "../reducers/user";
 import { LOAD_USER_POSTS_REQUEST } from "../reducers/post";
 import UserPost from "../containers/UserPost";
+import * as profile from "../elements/profile";
 
 const { Search } = Input;
 
@@ -22,96 +22,6 @@ const success = confirmmsg => {
     content: confirmmsg
   });
 };
-
-const UserInfoContainer = styled.div`
-  margin-bottom: 5%;
-`;
-
-const AvatarWrapper = styled.div`
-  text-align: center;
-`;
-
-const NicknameWrapper = styled.div`
-  margin-top: 15px;
-  margin-bottom: 22px;
-  font-size: 23px;
-  color: #262626;
-  & i {
-    margin-left: 10px;
-    cursor: pointer;
-    color: #1864ab;
-  }
-  & .ant-input {
-    width: max-content;
-  }
-`;
-
-const UserDataWrapper = styled.div`
-  margin-bottom: 22px;
-
-  display: flex;
-  font-size: 17px;
-  color: #262626;
-  & div {
-    margin-right: 37px;
-  }
-  & span {
-    font-weight: 600;
-  }
-`;
-
-const IntroduceWrapper = styled.div`
-  border: 1px solid red;
-  font-size: 15px;
-`;
-
-const UserPostContainer = styled.div`
-  display: flex;
-  justify-content: space-around;
-  height: max-content;
-  flex-wrap: wrap;
-  border-top: 1px solid #e6e6e6;
-  padding-top: 5%;
-  & a {
-    color: #262626;
-  }
-`;
-
-const UserInfoWrapper_M = styled.div`
-  display: flex;
-  justify-content: center;
-  & div {
-    margin-right: 20px;
-  }
-`;
-const UserNameWrapper_M = styled.div`
-  display: flex;
-  align-items: center;
-  margin-bottom: 5%;
-  font-size: 25px;
-
-  & i {
-    padding-top: 3px;
-    margin-left: 10px;
-    font-size: 20px;
-    width: 10px;
-    cursor: pointer;
-  }
-`;
-const UserDataWrapper_M = styled.div`
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  padding-top: 3%;
-  margin-top: 3%;
-  border-top: 1px solid #e6e6e6;
-
-  & div {
-    font-weight: 600;
-    font-size: 14px;
-    text-align: center;
-  }
-`;
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -171,21 +81,21 @@ const Profile = () => {
 
   return (
     <>
-      <UserInfoContainer>
+      <profile.UserInfoContainer>
         <Row>
           <Col xs={0} md={8}>
-            <AvatarWrapper>
+            <profile.AvatarWrapper>
               <Avatar
                 size={150}
                 icon="user"
                 style={{
-                  backgroundColor: "#87d068"
+                  backgroundColor: me.profileColor
                 }}
               />
-            </AvatarWrapper>
+            </profile.AvatarWrapper>
           </Col>
           <Col xs={0} md={16}>
-            <NicknameWrapper>
+            <profile.NicknameWrapper>
               {editNameOn ? (
                 <Search
                   maxLength={20}
@@ -203,8 +113,8 @@ const Profile = () => {
                   <Icon type="edit" onClick={nickChangeOn}></Icon>
                 </>
               )}
-            </NicknameWrapper>
-            <UserDataWrapper>
+            </profile.NicknameWrapper>
+            <profile.UserDataWrapper>
               <div>
                 게시물 <span>{me && me.Posts ? me.Posts.length : 0}</span>
               </div>
@@ -216,31 +126,31 @@ const Profile = () => {
                 팔로우{" "}
                 <span>{me && me.Followings ? me.Followings.length : 0}</span>
               </div>
-            </UserDataWrapper>
-            <IntroduceWrapper>
+            </profile.UserDataWrapper>
+            <profile.IntroduceWrapper>
               <div>{`안녕하세요? ${me.nickname} 입니다`}</div>
-            </IntroduceWrapper>
+            </profile.IntroduceWrapper>
           </Col>
           <Col xs={24} md={0}>
-            <UserInfoWrapper_M>
+            <profile.UserInfoWrapper_M>
               <div>
                 <Avatar
                   size={80}
                   icon="user"
                   style={{
-                    backgroundColor: "#87d068"
+                    backgroundColor: me.profileColor
                   }}
                 />
               </div>
               <div>
-                <UserNameWrapper_M>
+                <profile.UserNameWrapper_M>
                   {me && me.nickname}
                   {me ? <Icon type="logout" onClick={onLogout} /> : null}
-                </UserNameWrapper_M>
+                </profile.UserNameWrapper_M>
                 <div>{`안녕하세요? ${me.nickname} 입니다`}</div>
               </div>
-            </UserInfoWrapper_M>
-            <UserDataWrapper_M>
+            </profile.UserInfoWrapper_M>
+            <profile.UserDataWrapper_M>
               <div>
                 게시물 <div>{me && me.Posts ? me.Posts.length : 0}</div>
               </div>
@@ -251,11 +161,11 @@ const Profile = () => {
                 팔로우{" "}
                 <div>{me && me.Followings ? me.Followings.length : 0}</div>
               </div>
-            </UserDataWrapper_M>
+            </profile.UserDataWrapper_M>
           </Col>
         </Row>
-      </UserInfoContainer>
-      <UserPostContainer>
+      </profile.UserInfoContainer>
+      <profile.UserPostContainer>
         {isLoadingUserPost ? (
           userPosts.length ? (
             userPosts.map((v, i) => {
@@ -276,7 +186,7 @@ const Profile = () => {
         ) : (
           <Icon style={{ fontSize: "50px" }} type="loading" />
         )}
-      </UserPostContainer>
+      </profile.UserPostContainer>
     </>
   );
 };

@@ -97,7 +97,7 @@ router.post("/:id/comment", isLoggedIn, async (req, res, next) => {
       include: [
         {
           model: db.User,
-          attributes: ["id", "nickname"]
+          attributes: ["id", "nickname", "profileColor"]
         }
       ]
     });
@@ -159,9 +159,24 @@ router.get("/:id", async (req, res, next) => {
       include: [
         {
           model: db.User,
-          attributes: ["id", "nickname"]
+          attributes: ["id", "nickname", "profileColor"]
         },
-        { model: db.Image }
+        { model: db.Image },
+        {
+          model: db.User,
+          through: "Like",
+          as: "Likers",
+          attributes: ["id"]
+        },
+        {
+          model: db.Comment,
+          include: [
+            {
+              model: db.User,
+              attributes: ["id", "nickname", "profileColor"]
+            }
+          ]
+        }
       ]
     });
     if (!post) {

@@ -114,7 +114,7 @@ const UserProfile = () => {
                   size={77}
                   icon="user"
                   style={{
-                    backgroundColor: "#87d068"
+                    backgroundColor: me.profileColor
                   }}
                 />
               </a>

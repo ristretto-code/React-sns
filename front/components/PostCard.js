@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useCallback } from "react";
 import {
   Avatar,
   Icon,
@@ -58,7 +58,9 @@ const PopoverWrapper = styled.div`
   font-size: 22px;
 `;
 
-const PostImage = styled.div``;
+const PostImage = styled.div`
+  overflow: hidden;
+`;
 
 const PostContent = styled.div`
   display: flex;
@@ -152,7 +154,7 @@ const PostCard = ({ post }) => {
             <a>
               <Avatar
                 icon="user"
-                style={{ backgroundColor: "#87d068" }}
+                style={{ backgroundColor: post.User.profileColor }}
               ></Avatar>
               <span>{post.User.nickname}</span>
             </a>
@@ -253,7 +255,7 @@ const PostCard = ({ post }) => {
                     <a>
                       <Avatar
                         icon="user"
-                        style={{ backgroundColor: "#87d068" }}
+                        style={{ backgroundColor: item.User.profileColor }}
                       ></Avatar>
                     </a>
                   </Link>

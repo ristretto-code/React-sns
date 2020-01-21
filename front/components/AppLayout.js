@@ -9,11 +9,8 @@ import styled from "styled-components";
 
 const { Header, Content, Footer } = Layout;
 
-const Logo = styled.div`
-  width: 100px;
-  height: 100%;
-  background-color: green;
-  border: 1px solid red;
+const Logo = styled.img`
+  height: 5vh;
 `;
 
 const ContentContainer = styled.div`
@@ -36,29 +33,27 @@ const AppLayout = ({ children }) => {
   };
 
   return (
-    <Layout>
+    <Layout style={{}}>
       <Affix offsetTop={0}>
         <Header
           style={{
-            textAlign: "center",
-            minHeight: "5vh"
+            textAlign: "center"
           }}
         >
           <Row type="flex" justify="space-between">
             <Col>
               <Link href="/">
                 <a>
-                  <Logo />
+                  <Logo src={"//localhost:3000/logo.png"} />
                 </a>
               </Link>
             </Col>
             <Col xs={0} sm={12}>
               <Input.Search
                 placeholder={"태그 검색"}
-                style={{ verticalAlign: "middle" }}
                 onSearch={onSearch}
                 size="default"
-                style={{ maxWidth: "500px", margin: "10px 0" }}
+                style={{ maxWidth: "500px", height: "5vh" }}
               />
             </Col>
             <Col>

@@ -75,6 +75,7 @@ export default (state = initialState, action) => {
         draft.signUpErrorReason = "";
         draft.isEditingNickname = false;
         draft.editNicknameErrorReason = "";
+        draft.userInfo = null;
         break;
       }
       case SIGN_UP_REQUEST: {

@@ -3,6 +3,7 @@ import Helmet from "react-helmet";
 import Document, { Main, NextScript } from "next/document";
 import PropTypes from "prop-types";
 import { ServerStyleSheet } from "styled-components";
+import GlobalStyle from "../elements/globalStyle";
 
 class MyDocument extends Document {
   static getInitialProps(context) {
@@ -25,6 +26,7 @@ class MyDocument extends Document {
           {Object.values(helmet).map(el => el.toComponent())}
         </head>
         <body {...bodyAttrs}>
+          <GlobalStyle />
           <Main />
           <NextScript></NextScript>
         </body>

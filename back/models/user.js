@@ -15,6 +15,10 @@ module.exports = (sequelize, DataTypes) => {
       password: {
         type: DataTypes.STRING(100), // 100글자 이하
         allowNull: false
+      },
+      profileColor: {
+        type: DataTypes.STRING(10),
+        allowNull: false
       }
     },
     {

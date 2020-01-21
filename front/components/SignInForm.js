@@ -97,7 +97,7 @@ const SignInForm = ({ modalOn }) => {
             name="user-id"
             value={id}
             onChange={onChangeId}
-            placeholder="이메일"
+            placeholder="아이디"
             prefix={<Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />}
             required
           />

@@ -16,6 +16,7 @@ router.get("/", isLoggedIn, (req, res) => {
 router.post("/", async (req, res, next) => {
   // POST /api/user 회원가입
   try {
+    const profileColor = "#" + ((Math.random() * 0xffffff) << 0).toString(16);
     const exUser = await db.User.findOne({
       where: { userId: req.body.userId }
     });
@@ -35,7 +36,8 @@ router.post("/", async (req, res, next) => {
     const newUser = await db.User.create({
       nickname: req.body.nickname,
       userId: req.body.userId,
-      password: hashedPassword
+      password: hashedPassword,
+      profileColor: profileColor
     });
     return res.status(200).json(newUser);
   } catch (e) {
@@ -67,7 +69,7 @@ router.get("/:id", async (req, res, next) => {
           attributes: ["id"]
         }
       ],
-      attributes: ["id", "nickname"]
+      attributes: ["id", "nickname", "profileColor"]
     });
     const jsonUser = user.toJSON();
     jsonUser.Posts = jsonUser.Posts ? jsonUser.Posts.length : 0; // 개인정보보호위함
@@ -119,7 +121,7 @@ router.post("/login", (req, res, next) => {
               attributes: ["id"]
             }
           ],
-          attributes: ["id", "nickname", "userId"]
+          attributes: ["id", "nickname", "userId", "profileColor"]
         });
         return res.json(fullUser);
       } catch (e) {
@@ -139,7 +141,7 @@ router.get("/:id/followings", isLoggedIn, async (req, res, next) => {
       }
     });
     const followers = await user.getFollowings({
-      attributes: ["id", "nickname"],
+      attributes: ["id", "nickname", "profileColor"],
       limit: parseInt(req.query.limit, 10),
       offset: parseInt(req.query.offset, 10)
     });
@@ -158,7 +160,7 @@ router.get("/:id/followers", isLoggedIn, async (req, res, next) => {
       }
     });
     const followers = await user.getFollowers({
-      attributes: ["id", "nickname"],
+      attributes: ["id", "nickname", "profileColor"],
       limit: parseInt(req.query.limit, 10),
       offset: parseInt(req.query.offset, 10)
     });
@@ -217,7 +219,7 @@ router.get("/:id/posts", async (req, res, next) => {
       include: [
         {
           model: db.User,
-          attributes: ["id", "nickname"]
+          attributes: ["id", "nickname", "profileColor"]
         },
         {
           model: db.Image

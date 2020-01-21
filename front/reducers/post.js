@@ -5,6 +5,7 @@ export const initialState = {
   userPosts: [], // 로그인한 유저의 포스트
   imagePaths: [], // 미리보기 이미지 경로
   isLoadingUserPost: false,
+  isloadingOnePost: false,
   addPostErrorReason: "",
   isAddingPost: false, // 포스트 업로드중
   postAdded: false,
@@ -66,12 +67,12 @@ export default (state = initialState, action) => {
       case INIT_STATE_POST: {
         draft.imagePaths = [];
         draft.isAddingPost = false;
+        draft.isloadingOnePost = false;
         draft.postAdded = false;
         draft.addPostErrorReason = false;
         draft.addCommnetErrorReason = false;
         draft.isAddingComment = false;
         draft.commentAdded = false;
-        draft.onePost = "";
         break;
       }
       case LOAD_HASHTAG_POSTS_REQUEST:
@@ -219,14 +220,17 @@ export default (state = initialState, action) => {
 
       case LOAD_POST_REQUEST: {
         draft.onePost = "";
+        draft.isloadingOnePost = false;
         break;
       }
       case LOAD_POST_SUCCESS: {
         draft.onePost = action.data;
+        draft.isloadingOnePost = true;
         break;
       }
       case LOAD_POST_FAILURE: {
         draft.onePost = "";
+        draft.isloadingOnePost = false;
         break;
       }
 

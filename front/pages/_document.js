@@ -28,6 +28,9 @@ class MyDocument extends Document {
         <body {...bodyAttrs}>
           <GlobalStyle />
           <Main />
+          {process.env.NODE_ENV === "production" && (
+            <script src="https://polyfill.io/v3/polyfill.min.js?features=es6,es7,es8,es9,NodeList.prototype.forEach&flags=gated" />
+          )}
           <NextScript></NextScript>
         </body>
       </html>

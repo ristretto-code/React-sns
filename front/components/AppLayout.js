@@ -24,7 +24,7 @@ const ContentContainer = styled.div`
 `;
 
 const ButtonWrapper = styled.div`
-  text-align: end;
+  text-align: right;
   & button {
     margin-right: 12%;
   }
@@ -85,12 +85,12 @@ const AppLayout = ({ children }) => {
                   {me ? (
                     <Link href="/profile">
                       <a>
-                        <Button icon="user">Profile</Button>
+                        <Button icon="user">PROFILE</Button>
                       </a>
                     </Link>
                   ) : (
                     <Button type="link" onClick={signModal}>
-                      Sign In
+                      SIGN IN
                     </Button>
                   )}
                 </ButtonWrapper>
@@ -120,7 +120,7 @@ const AppLayout = ({ children }) => {
                     </>
                   ) : (
                     <Button type="link" onClick={signModal}>
-                      Sign In
+                      SIGN IN
                     </Button>
                   )}
                 </ButtonWrapper>

@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
-import { Avatar, Button, List, Icon } from "antd";
+import Router from "next/router";
+import { Avatar, Button, List, Icon, Modal } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import { LOG_OUT_REQUEST } from "../reducers/user";
-import { LOAD_USER_POSTS_REQUEST } from "../reducers/post";
 import styled from "styled-components";
 import moment from "moment";
 
@@ -88,20 +88,25 @@ const UserProfile = () => {
     setGuestNum(rannum);
   }, []);
 
-  // useEffect(() => {
-  //   dispatch({
-  //     type: LOAD_USER_POSTS_REQUEST,
-  //     data: me && me.id
-  //   });
-  // }, [me]);
-  // 두번씩 로드되는거 해결하려고 주석처리함
-
   const onLogout = useCallback(e => {
     e.preventDefault();
     dispatch({
       type: LOG_OUT_REQUEST
     });
   }, []);
+
+  const postupButton = useCallback(
+    e => {
+      if (!me) {
+        Modal.error({
+          title: "에러 메세지",
+          content: "로그인이 필요합니다"
+        });
+        return Router.push("/");
+      }
+    },
+    [me]
+  );
 
   return (
     <>
@@ -159,6 +164,7 @@ const UserProfile = () => {
             type="dashed"
             icon="plus"
             style={{ height: "40px", fontSize: "25px", color: "#CCCCCC" }}
+            onClick={postupButton}
             block
           ></Button>
         </a>

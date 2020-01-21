@@ -21,7 +21,7 @@ const User = () => {
                   size={150}
                   icon="user"
                   style={{
-                    backgroundColor: userInfo.profileColor
+                    backgroundColor: userInfo && userInfo.profileColor
                   }}
                 />
               </profile.AvatarWrapper>
@@ -42,7 +42,8 @@ const User = () => {
                 </div>
               </profile.UserDataWrapper>
               <profile.IntroduceWrapper>
-                <div>{`안녕하세요? ${userInfo.nickname} 입니다`}</div>
+                <div>{`안녕하세요? ${userInfo &&
+                  userInfo.nickname} 입니다`}</div>
               </profile.IntroduceWrapper>
             </Col>
             <Col xs={24} md={0}>
@@ -52,7 +53,7 @@ const User = () => {
                     size={80}
                     icon="user"
                     style={{
-                      backgroundColor: userInfo.profileColor
+                      backgroundColor: userInfo && userInfo.profileColor
                     }}
                   />
                 </div>

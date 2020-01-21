@@ -154,9 +154,9 @@ const PostCard = ({ post }) => {
             <a>
               <Avatar
                 icon="user"
-                style={{ backgroundColor: post.User.profileColor }}
+                style={{ backgroundColor: post.User && post.User.profileColor }}
               ></Avatar>
-              <span>{post.User.nickname}</span>
+              <span>{post.User && post.User.nickname}</span>
             </a>
           </Link>
           <PostDate>{moment(post.createdAt, "YYYYMMDD").fromNow()}</PostDate>

@@ -6,11 +6,16 @@ const router = express.Router();
 const { isLoggedIn } = require("./middleware");
 
 //API는 다른 서비스가 내 서비스의 기능을 실행할수 있게 열어둔 창구
-router.get("/", isLoggedIn, (req, res) => {
+router.get("/", isLoggedIn, async (req, res, next) => {
   // 쿠키 로그인정보 불러오기
-  const user = Object.assign({}, req.user.toJSON());
-  delete user.password;
-  return res.json(user);
+  try {
+    const user = Object.assign({}, req.user.toJSON());
+    delete user.password;
+    return res.json(user);
+  } catch (e) {
+    console.error(e);
+    return next(e);
+  }
 });
 
 router.post("/", async (req, res, next) => {

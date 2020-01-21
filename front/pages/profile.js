@@ -89,7 +89,7 @@ const Profile = () => {
                 size={150}
                 icon="user"
                 style={{
-                  backgroundColor: me.profileColor
+                  backgroundColor: me && me.profileColor
                 }}
               />
             </profile.AvatarWrapper>
@@ -128,7 +128,7 @@ const Profile = () => {
               </div>
             </profile.UserDataWrapper>
             <profile.IntroduceWrapper>
-              <div>{`안녕하세요? ${me.nickname} 입니다`}</div>
+              <div>{`안녕하세요? ${me && me.nickname} 입니다`}</div>
             </profile.IntroduceWrapper>
           </Col>
           <Col xs={24} md={0}>
@@ -138,7 +138,7 @@ const Profile = () => {
                   size={80}
                   icon="user"
                   style={{
-                    backgroundColor: me.profileColor
+                    backgroundColor: me && me.profileColor
                   }}
                 />
               </div>
@@ -147,7 +147,7 @@ const Profile = () => {
                   {me && me.nickname}
                   {me ? <Icon type="logout" onClick={onLogout} /> : null}
                 </profile.UserNameWrapper_M>
-                <div>{`안녕하세요? ${me.nickname} 입니다`}</div>
+                <div>{`안녕하세요? ${me && me.nickname} 입니다`}</div>
               </div>
             </profile.UserInfoWrapper_M>
             <profile.UserDataWrapper_M>

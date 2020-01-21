@@ -3,8 +3,9 @@ const withBundleAnalyzer = require("@next/bundle-analyzer")({
 });
 const webpack = require("webpack");
 const CompressionPlugin = require("compression-webpack-plugin");
+const withFonts = require("next-fonts");
 
-module.exports = {
+module.exports = withFonts({
   distDir: ".next", // dis디렉토리
   webpack(config) {
     // console.log("config", config); // default webpack setting - resolve
@@ -26,4 +27,4 @@ module.exports = {
       plugins
     };
   }
-};
+});

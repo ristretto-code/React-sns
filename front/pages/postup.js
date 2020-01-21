@@ -9,7 +9,6 @@ import {
   REMOVE_IMAGE
 } from "../reducers/post";
 import styled from "styled-components";
-import { apiUrl } from "../config/config";
 
 const PostUpContainer = styled.div`
   border: 2px solid #ebedf0;

@@ -2,7 +2,6 @@ import React from "react";
 import Link from "next/link";
 import styled from "styled-components";
 import moment from "moment";
-import { apiUrl } from "../config/config";
 
 const UserPostWrapper = styled.div`
   display: flex;
@@ -49,7 +48,7 @@ const UserPost = ({ Post }) => {
             <UserPostImage
               key={Post.id}
               style={{
-                background: `no-repeat url("${apiUrl}/${Post.Images[0].src}")`,
+                background: `no-repeat url("${Post.Images[0].src}")`,
                 backgroundSize: "cover",
                 backgroundPosition: "center"
               }}

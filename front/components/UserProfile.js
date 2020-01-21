@@ -6,7 +6,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { LOG_OUT_REQUEST } from "../reducers/user";
 import styled from "styled-components";
 import moment from "moment";
-import { apiUrl } from "../config/config";
 
 const MyProfileHeader = styled.div`
   display: flex;
@@ -189,11 +188,7 @@ const UserProfile = () => {
                           <Avatar
                             size={60}
                             shape="square"
-                            src={
-                              item.Images[0]
-                                ? `${apiUrl}/${item.Images[0].src}`
-                                : null
-                            }
+                            src={item.Images[0] ? item.Images[0].src : null}
                             icon="picture"
                           />
                         }

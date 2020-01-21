@@ -2,7 +2,11 @@ import { all, fork } from "redux-saga/effects";
 import user from "./user";
 import post from "./post";
 import axios from "axios";
-import { apiUrl } from "../config/config";
+
+const apiUrl =
+  process.env.NODE_ENV === "production"
+    ? "http://api.reactsns.kro.kr"
+    : "http://localhost:8080";
 
 axios.defaults.baseURL = `${apiUrl}/api`;
 

@@ -3,11 +3,13 @@ import { createGlobalStyle } from "styled-components";
 const GlobalStyle = createGlobalStyle`
   @font-face {
     font-family:'NanumGothic';
-    src: url("../public/static/fonts/NanumGothic-Regular.ttf");
-    src: url("../public/static/fonts/NanumGothic-Bold.ttf");
+    src: local("NanumGothic-Regular");
+    src: local("NanumGothic-Bold");
+    src: url(${require("~/Assets/Fonts/NanumGothic-Regular.ttf")});
+    src: url(${require("~/Assets/Fonts/NanumGothic-Bold.ttf")});
   }
   body {
-    font-family: 'NanumGothic';
+    font-family: 'NanumGothic', sans-serif;
   }
 `;
 

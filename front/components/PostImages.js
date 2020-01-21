@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Slider from "react-slick";
-import { apiUrl } from "../config/config";
 
 const PostImages = ({ images }) => {
   const settings = {
@@ -17,7 +16,7 @@ const PostImages = ({ images }) => {
   return (
     <Slider {...settings}>
       {images.map((v, i) => {
-        return <img key={i} src={`${apiUrl}/${v.src}`} />;
+        return <img key={i} src={v.src} />;
       })}
     </Slider>
   );

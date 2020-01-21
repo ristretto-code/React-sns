@@ -11,7 +11,6 @@ import AppLayout from "../components/AppLayout";
 import reducer from "../reducers";
 import rootSaga from "../sagas";
 import { LOAD_USER_REQUEST } from "../reducers/user";
-import { apiUrl } from "../config/config";
 
 const ReactSns = ({ Component, store, pageProps }) => (
   <Provider store={store}>
@@ -49,7 +48,7 @@ const ReactSns = ({ Component, store, pageProps }) => (
         },
         {
           property: "og:image",
-          content: `${apiUrl}/favicon.ico`
+          content: `http://reactsns.kro.kr/favicon.ico`
         }
       ]}
       link={[

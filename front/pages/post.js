@@ -4,6 +4,7 @@ import Helmet from "react-helmet";
 import propTypes from "prop-types";
 import PostCard from "../components/PostCard";
 import { Icon } from "antd";
+import { apiUrl } from "../config/config";
 
 import { LOAD_POST_REQUEST } from "../reducers/post";
 
@@ -29,12 +30,11 @@ const Post = ({ id }) => {
               {
                 property: "og:image",
                 content:
-                  onePost.Images[0] &&
-                  `//localhost:3000/${onePost.Images[0].src}`
+                  onePost.Images[0] && `${apiUrl}/${onePost.Images[0].src}`
               },
               {
                 property: "og:url",
-                content: `//localhost:3000/post/${id}`
+                content: `http://reactsns.kro.kr/post/${id}`
               }
             ]}
           />

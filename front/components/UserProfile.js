@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { LOG_OUT_REQUEST } from "../reducers/user";
 import styled from "styled-components";
 import moment from "moment";
+import { apiUrl } from "../config/config";
 
 const MyProfileHeader = styled.div`
   display: flex;
@@ -119,7 +120,7 @@ const UserProfile = () => {
                   size={77}
                   icon="user"
                   style={{
-                    backgroundColor: me.profileColor
+                    backgroundColor: me && me.profileColor
                   }}
                 />
               </a>
@@ -190,7 +191,7 @@ const UserProfile = () => {
                             shape="square"
                             src={
                               item.Images[0]
-                                ? `http://localhost:8080/${item.Images[0].src}`
+                                ? `${apiUrl}/${item.Images[0].src}`
                                 : null
                             }
                             icon="picture"

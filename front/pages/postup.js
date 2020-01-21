@@ -9,6 +9,7 @@ import {
   REMOVE_IMAGE
 } from "../reducers/post";
 import styled from "styled-components";
+import { apiUrl } from "../config/config";
 
 const PostUpContainer = styled.div`
   border: 2px solid #ebedf0;
@@ -160,7 +161,7 @@ const PostForm = () => {
                           margin: "10px 10px 10px 0",
                           width: "130px",
                           height: "130px",
-                          background: `no-repeat url("//localhost:8080/${v}")`,
+                          background: `no-repeat url("${apiUrl}/${v}")`,
                           backgroundSize: "cover",
                           backgroundPosition: "center"
                         }}

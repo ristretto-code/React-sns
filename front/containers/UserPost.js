@@ -2,6 +2,7 @@ import React from "react";
 import Link from "next/link";
 import styled from "styled-components";
 import moment from "moment";
+import { apiUrl } from "../config/config";
 
 const UserPostWrapper = styled.div`
   display: flex;
@@ -19,7 +20,7 @@ const UserPostWrapper = styled.div`
 const UserPostTime = styled.div`
   font-size: 0.9vw;
   height: 15%;
-  text-align: end;
+  text-align: right;
   padding: 2%;
   border-bottom: 1px solid #e6e6e6;
 `;
@@ -48,7 +49,7 @@ const UserPost = ({ Post }) => {
             <UserPostImage
               key={Post.id}
               style={{
-                background: `no-repeat url("//localhost:8080/${Post.Images[0].src}")`,
+                background: `no-repeat url("${apiUrl}/${Post.Images[0].src}")`,
                 backgroundSize: "cover",
                 backgroundPosition: "center"
               }}

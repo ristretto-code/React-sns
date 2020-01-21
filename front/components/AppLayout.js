@@ -6,6 +6,7 @@ import SignInForm from "./SignInForm";
 import { useSelector } from "react-redux";
 import Router from "next/router";
 import styled from "styled-components";
+import { apiUrl } from "../config/config";
 
 const { Header, Content, Footer } = Layout;
 
@@ -68,7 +69,7 @@ const AppLayout = ({ children }) => {
               <Col xs={12} sm={6}>
                 <Link href="/">
                   <a>
-                    <Logo src={"//localhost:3000/logo.png"} />
+                    <Logo src={`${apiUrl}/logo.png`} />
                   </a>
                 </Link>
               </Col>

@@ -68,7 +68,7 @@ const AppLayout = ({ children }) => {
               <Col xs={12} sm={6}>
                 <Link href="/">
                   <a>
-                    <Logo src={`https://reactsns.net/logo.png`} />
+                    <Logo src={require("../public/logo.png")} />
                   </a>
                 </Link>
               </Col>

@@ -30,7 +30,7 @@ const Post = ({ id }) => {
                 property: "og:image",
                 content: onePost.Images[0]
                   ? onePost.Images[0].src
-                  : "https://reactsns.net/logo.png"
+                  : require("../public/logo.png")
               },
               {
                 property: "og:url",

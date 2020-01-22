@@ -48,7 +48,7 @@ const ReactSns = ({ Component, store, pageProps }) => (
         },
         {
           property: "og:image",
-          content: require("../public/logo.png")
+          content: "../public/logo.png"
         }
       ]}
       link={[

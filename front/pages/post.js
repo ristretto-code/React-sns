@@ -30,11 +30,11 @@ const Post = ({ id }) => {
                 property: "og:image",
                 content: onePost.Images[0]
                   ? onePost.Images[0].src
-                  : "https://reactsns.kro.kr/logo.png"
+                  : "https://reactsns.net/logo.png"
               },
               {
                 property: "og:url",
-                content: `http://reactsns.kro.kr/post/${id}`
+                content: `http://reactsns.net/post/${id}`
               }
             ]}
           />

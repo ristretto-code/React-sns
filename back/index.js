@@ -27,7 +27,7 @@ if (prod) {
   app.use(morgan("combined"));
   app.use(
     cors({
-      origin: "http://reactsns.kro.kr",
+      origin: "http://reactsns.net",
       credentials: true
     })
   );
@@ -53,7 +53,7 @@ app.use(
     cookie: {
       httpOnly: true, // js로 쿠키접근 못하게함 해킹방지
       secure: false, // https를 쓸때 true로
-      domain: prod && ".reactsns.kro.kr"
+      domain: prod && ".reactsns.net"
     },
     name: "myfriend"
   })

@@ -1,5 +1,5 @@
 import React, { useCallback, useState, useEffect, useRef } from "react";
-import { Input, Form, Button, Row, Col, Modal } from "antd";
+import { Input, Form, Button, Row, Col, Modal, Icon } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import Link from "next/link";
 import Router from "next/router";
@@ -57,7 +57,7 @@ const error = errormsg => {
 const PostForm = () => {
   const dispatch = useDispatch();
   const [text, setText] = useState("");
-  const { imagePaths, isAddingPost, postAdded } = useSelector(
+  const { imagePaths, isAddingPost, postAdded, isAddingImage } = useSelector(
     state => state.post
   );
   const imageInput = useRef();
@@ -149,32 +149,38 @@ const PostForm = () => {
               </div>
             </PostUpButtonWrapper>
             <PostUpImageWrapper>
-              {imagePaths !== undefined
-                ? imagePaths.map((v, i) => {
-                    return (
-                      <div
-                        key={i}
-                        style={{
-                          display: "inline-block",
-                          margin: "10px 10px 10px 0",
-                          width: "130px",
-                          height: "130px",
-                          background: `no-repeat url("${v}")`,
-                          backgroundSize: "cover",
-                          backgroundPosition: "center"
-                        }}
-                      >
-                        <div>
-                          <Button
-                            icon="close"
-                            onClick={onRemoveImage(i)}
-                            style={{ float: "right", margin: "2px" }}
-                          ></Button>
-                        </div>
+              {isAddingImage ? (
+                <div style={{ width: "100%", textAlign: "center" }}>
+                  <Icon style={{ fontSize: "40px" }} type="loading" />
+                </div>
+              ) : imagePaths !== undefined ? (
+                imagePaths.map((v, i) => {
+                  return (
+                    <div
+                      key={i}
+                      style={{
+                        display: "inline-block",
+                        margin: "10px 10px 10px 0",
+                        width: "130px",
+                        height: "130px",
+                        background: `no-repeat url("${v}")`,
+                        backgroundSize: "cover",
+                        backgroundPosition: "center"
+                      }}
+                    >
+                      <div>
+                        <Button
+                          icon="close"
+                          onClick={onRemoveImage(i)}
+                          style={{ float: "right", margin: "2px" }}
+                        ></Button>
                       </div>
-                    );
-                  })
-                : "Images not found"}
+                    </div>
+                  );
+                })
+              ) : (
+                " "
+              )}
             </PostUpImageWrapper>
           </Form>
         </PostUpContainer>

@@ -28,9 +28,7 @@ const Post = ({ id }) => {
               { property: "og:description", content: onePost.content },
               {
                 property: "og:image",
-                content: onePost.Images[0]
-                  ? onePost.Images[0].src
-                  : "//reactsns.net/logo.png"
+                content: onePost.Images[0] ? onePost.Images[0].src : "/logo.png"
               },
               {
                 property: "og:url",

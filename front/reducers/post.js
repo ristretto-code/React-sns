@@ -7,6 +7,7 @@ export const initialState = {
   isLoadingUserPost: false,
   isloadingOnePost: false,
   addPostErrorReason: "",
+  isAddingImage: false,
   isAddingPost: false, // 포스트 업로드중
   postAdded: false,
   addCommnetErrorReason: "",
@@ -67,6 +68,7 @@ export default (state = initialState, action) => {
       case INIT_STATE_POST: {
         draft.imagePaths = [];
         draft.isAddingPost = false;
+        draft.isAddingImage = false;
         draft.isloadingOnePost = false;
         draft.postAdded = false;
         draft.addPostErrorReason = false;
@@ -136,15 +138,18 @@ export default (state = initialState, action) => {
       }
 
       case UPLOAD_IMAGES_REQUEST: {
+        draft.isAddingImage = true;
         break;
       }
       case UPLOAD_IMAGES_SUCCESS: {
         action.data.forEach(p => {
           draft.imagePaths.push(p);
         });
+        draft.isAddingImage = false;
         break;
       }
       case UPLOAD_IMAGES_FAILURE: {
+        draft.isAddingImage = false;
         break;
       }
 

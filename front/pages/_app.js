@@ -48,7 +48,7 @@ const ReactSns = ({ Component, store, pageProps }) => (
         },
         {
           property: "og:image",
-          content: "//reactsns.net/logo.png"
+          content: "/logo.png"
         }
       ]}
       link={[

@@ -43,6 +43,8 @@ if (prod) {
 }
 
 app.use("/", express.static("uploads")); // '/'는 프론트에서 접근하는 주소, uploads는 서버에서 접근하는 이미지주소
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser(process.env.COOKIE_SECRET)); // 프론트에서 서버로 로그인정보를 쿠키로 보내면 쿠키파서가 분석후
 app.use(
   expressSession({
@@ -58,9 +60,7 @@ app.use(
     name: "myfriend"
   })
 );
-app.use(express.json());
 //app.use는 req와 res사이에 미들웨어를 넣어주는것
-app.use(express.urlencoded({ extended: true }));
 //urlencoded는 req.body에 넣어주는 용도
 
 app.use(passport.initialize()); // express가 완료된후에 passport를 사용해야함. passport 미들웨어

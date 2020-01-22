@@ -59,8 +59,8 @@ const PopoverWrapper = styled.div`
 `;
 
 const PostImage = styled.div`
-  overflow-x: hidden;
-  overflow-y: visible;
+  height: max-content;
+  overflow: hidden;
 `;
 
 const PostContent = styled.div`

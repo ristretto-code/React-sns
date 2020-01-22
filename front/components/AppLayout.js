@@ -10,7 +10,8 @@ import styled from "styled-components";
 const { Header, Content, Footer } = Layout;
 
 const Logo = styled.img`
-  height: 5vh;
+  height: 64px;
+  padding: 10px 0;
 `;
 
 const HeaderContainer = styled.div`

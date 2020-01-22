@@ -150,8 +150,17 @@ const PostForm = () => {
             </PostUpButtonWrapper>
             <PostUpImageWrapper>
               {isAddingImage ? (
-                <div style={{ width: "100%", textAlign: "center" }}>
-                  <Icon style={{ fontSize: "40px" }} type="loading" />
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "150px",
+                    width: "100%",
+                    overflow: "hidden"
+                  }}
+                >
+                  <Icon style={{ fontSize: "50px" }} type="loading" />
                 </div>
               ) : imagePaths !== undefined ? (
                 imagePaths.map((v, i) => {

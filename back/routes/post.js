@@ -63,7 +63,8 @@ router.post("/", isLoggedIn, async (req, res, next) => {
       where: { id: newPost.id }, // post에 담긴 userid 검색
       include: [
         {
-          model: db.User
+          model: db.User,
+          attributes: ["id", "nickname"]
         },
         {
           model: db.Image

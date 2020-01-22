@@ -90,7 +90,6 @@ const PostForm = () => {
   }, []);
 
   const onChangeImages = useCallback(e => {
-    console.log(e.target.files);
     const imageFormData = new FormData();
     [].forEach.call(e.target.files, f => {
       imageFormData.append("image", f);
@@ -160,7 +159,7 @@ const PostForm = () => {
                           margin: "10px 10px 10px 0",
                           width: "130px",
                           height: "130px",
-                          background: `no-repeat url("${apiUrl}/${v}")`,
+                          background: `no-repeat url("${v}")`,
                           backgroundSize: "cover",
                           backgroundPosition: "center"
                         }}

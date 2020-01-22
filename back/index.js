@@ -27,7 +27,7 @@ if (prod) {
   app.use(morgan("combined"));
   app.use(
     cors({
-      origin: "http://reactsns.net",
+      origin: /reactsns\.net$/,
       credentials: true
     })
   );

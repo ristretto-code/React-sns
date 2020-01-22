@@ -3,9 +3,6 @@ import PropTypes from "prop-types";
 import Slider from "react-slick";
 
 const PostImages = ({ images }) => {
-  console.log("----------");
-  console.log(images);
-  console.log("----------");
   const settings = {
     dots: true,
     infinite: true,

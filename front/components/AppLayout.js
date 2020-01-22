@@ -21,6 +21,8 @@ const HeaderContainer = styled.div`
 const ContentContainer = styled.div`
   width: 100%;
   max-width: 935px;
+  overflow-x: hidden;
+  overflow-y: unset;
 `;
 
 const ButtonWrapper = styled.div`

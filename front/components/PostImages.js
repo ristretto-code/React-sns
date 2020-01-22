@@ -1,13 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Slider from "react-slick";
-import styled from "styled-components";
-
-const CustomSlider = styled(Slider)`
-  & .slick-dots {
-    position: relative;
-  }
-`;
 
 const PostImages = ({ images }) => {
   const settings = {
@@ -21,11 +14,11 @@ const PostImages = ({ images }) => {
     adaptiveHeight: true
   };
   return (
-    <CustomSlider {...settings}>
+    <Slider {...settings}>
       {images.map((v, i) => {
         return <img key={i} src={v.src} />;
       })}
-    </CustomSlider>
+    </Slider>
   );
 };
 

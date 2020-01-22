@@ -58,9 +58,7 @@ const PopoverWrapper = styled.div`
   font-size: 22px;
 `;
 
-const PostImage = styled.div`
-  overflow: hidden;
-`;
+const PostImage = styled.div``;
 
 const PostContent = styled.div`
   display: flex;

@@ -3,9 +3,8 @@ const withBundleAnalyzer = require("@next/bundle-analyzer")({
 });
 const webpack = require("webpack");
 const CompressionPlugin = require("compression-webpack-plugin");
-const withImages = require("next-images");
 
-module.exports = withImages({
+module.exports = {
   distDir: ".next", // dis디렉토리
   webpack(config) {
     // console.log("config", config); // default webpack setting - resolve
@@ -28,4 +27,4 @@ module.exports = withImages({
       plugins
     };
   }
-});
+};

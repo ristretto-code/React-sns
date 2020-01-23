@@ -195,7 +195,10 @@ const UserProfile = () => {
                             icon="picture"
                           />
                         }
-                        title={moment(item.createdAt, "YYYYMMDD").fromNow()}
+                        title={moment(
+                          item.createdAt,
+                          "YYYYMMDD, h:mm:ss"
+                        ).fromNow()}
                         description={<div>{item.content}</div>}
                       />
                     </List.Item>

@@ -43,7 +43,9 @@ const UserPost = ({ Post }) => {
     >
       <a>
         <UserPostWrapper>
-          <UserPostTime>{moment(Post.createdAt).fromNow()}</UserPostTime>
+          <UserPostTime>
+            {moment(Post.createdAt, "YYYYMMDD, h:mm:ss").fromNow()}
+          </UserPostTime>
           {Post.Images && Post.Images.length ? (
             <UserPostImage
               key={Post.id}

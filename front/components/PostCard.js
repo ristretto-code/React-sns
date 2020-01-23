@@ -157,7 +157,9 @@ const PostCard = ({ post }) => {
               <span>{post.User && post.User.nickname}</span>
             </a>
           </Link>
-          <PostDate>{moment(post.createdAt, "YYYYMMDD").fromNow()}</PostDate>
+          <PostDate>
+            {moment(post.createdAt, "YYYYMMDD, h:mm:ss").fromNow()}
+          </PostDate>
         </UserNameWrapper>
         <PopoverWrapper>
           <Popover
@@ -244,7 +246,7 @@ const PostCard = ({ post }) => {
             renderItem={item => (
               <Comment
                 author={item.User.nickname}
-                datetime={moment(item.createdAt, "YYYYMMDD").fromNow()}
+                datetime={moment(item.createdAt, "YYYYMMDD, h:mm:ss").fromNow()}
                 avatar={
                   <Link
                     href={{ pathname: "/user", query: { id: item.User.id } }}

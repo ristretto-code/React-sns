@@ -15,12 +15,13 @@ const Hashtag = ({ tag }) => {
       document.documentElement.scrollHeight - 400
     ) {
       if (hasMorePost) {
-        const lastId = mainPosts[mainPosts.length - 1].id;
         if (!countHashRef.current.includes(lastId)) {
           dispatch({
             type: LOAD_HASHTAG_POSTS_REQUEST,
             data: tag,
-            lastId: lastId
+            lastId:
+              mainPosts[mainPosts.length - 1] &&
+              mainPosts[mainPosts.length - 1].id
           });
           countHashRef.current.push(lastId);
         }

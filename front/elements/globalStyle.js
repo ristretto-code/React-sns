@@ -5,7 +5,8 @@ const GlobalStyle = createGlobalStyle`
     font-family:'NanumGothic';
     src: local("NanumGothic-Regular");
     src: local("NanumGothic-Bold");
-    src: url("https://fonts.googleapis.com/css?family=Nanum+Gothic&display=swap");
+    src: url("/static/fonts/NanumGothic-Regular.ttf");
+    src: url("/static/fonts/NanumGothic-Bold.ttf");
   }
   body {
     font-family: 'NanumGothic', sans-serif;

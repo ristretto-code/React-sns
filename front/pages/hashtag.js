@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useRef } from "react";
+import { Empty } from "antd";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import { LOAD_HASHTAG_POSTS_REQUEST } from "../reducers/post";
@@ -38,9 +39,11 @@ const Hashtag = ({ tag }) => {
 
   return (
     <div>
-      {mainPosts.map(c => (
-        <PostCard key={c.id} post={c} />
-      ))}
+      {mainPosts && mainPosts.length ? (
+        mainPosts.map(c => <PostCard key={c.id} post={c} />)
+      ) : (
+        <Empty description={<span>검색결과가 없습니다</span>} />
+      )}
     </div>
   );
 };

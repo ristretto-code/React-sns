@@ -22,6 +22,12 @@ module.exports = {
     password: process.env.DB_PASSWORD,
     database: "react-sns",
     host: "127.0.0.1",
-    dialect: "mysql"
+    dialect: "mysql",
+    dialectOptions: {
+      useUTC: false, //for reading from database
+      dateStrings: true,
+      typeCast: true
+    },
+    timezone: "+09:00" //for writing to database
   }
 };

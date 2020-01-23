@@ -38,13 +38,16 @@ const Hashtag = ({ tag }) => {
   }, [mainPosts.length]); // 강력한 캐싱 방지
 
   return (
-    <div>
-      {mainPosts && mainPosts.length ? (
+    <>
+      {mainPosts.length ? (
         mainPosts.map(c => <PostCard key={c.id} post={c} />)
       ) : (
-        <Empty description={<span>검색결과가 없습니다</span>} />
+        <Empty
+          image={Empty.PRESENTED_IMAGE_SIMPLE}
+          description={<span>검색결과가 없습니다</span>}
+        ></Empty>
       )}
-    </div>
+    </>
   );
 };
 

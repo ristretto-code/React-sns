@@ -32,6 +32,15 @@ router.get("/:tag", async (req, res, next) => {
           through: "Like",
           as: "Likers",
           attributes: ["id"]
+        },
+        {
+          model: db.Comment,
+          include: [
+            {
+              model: db.User,
+              attributes: ["id", "nickname", "profileColor"]
+            }
+          ]
         }
       ],
       order: [["createdAt", "DESC"]],

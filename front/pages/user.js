@@ -79,20 +79,22 @@ const User = () => {
           </Row>
         ) : null}
       </profile.UserInfoContainer>
-      {isLoadingUserPost ? (
-        userPosts.length ? (
-          userPosts.map(v => {
-            return <UserPost key={v.id} Post={v} />;
-          })
+      <profile.UserPostContainer>
+        {isLoadingUserPost ? (
+          userPosts.length ? (
+            userPosts.map(v => {
+              return <UserPost key={v.id} Post={v} />;
+            })
+          ) : (
+            <Empty
+              image={Empty.PRESENTED_IMAGE_SIMPLE}
+              description={<span>No Data</span>}
+            ></Empty>
+          )
         ) : (
-          <Empty
-            image={Empty.PRESENTED_IMAGE_SIMPLE}
-            description={<span>No Data</span>}
-          ></Empty>
-        )
-      ) : (
-        <Icon style={{ fontSize: "50px" }} type="loading" />
-      )}
+          <Icon style={{ fontSize: "50px" }} type="loading" />
+        )}
+      </profile.UserPostContainer>
     </div>
   );
 };

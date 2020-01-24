@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { LOAD_USER_POSTS_REQUEST } from "../reducers/post";
 import { LOAD_USER_REQUEST } from "../reducers/user";
 import { Avatar, Row, Col, Icon, Empty } from "antd";
-import PostCard from "../components/PostCard";
+import UserPost from "../containers/UserPost";
 import * as profile from "../elements/profile";
 
 const User = () => {
@@ -82,7 +82,7 @@ const User = () => {
       {isLoadingUserPost ? (
         userPosts.length ? (
           userPosts.map(v => {
-            return <PostCard key={v.id} Post={v} />;
+            return <UserPost key={v.id} Post={v} />;
           })
         ) : (
           <Empty

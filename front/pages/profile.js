@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import { Button, Icon, Row, Col, Avatar, Empty, Input, Modal } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import Link from "next/link";
@@ -30,6 +30,19 @@ const Profile = () => {
   const { me, isEditingNickname } = useSelector(state => state.user);
   const [editNameOn, setEditNameOn] = useState(false);
   const [editedName, setEditedName] = useState("");
+
+  useEffect(() => {
+    if (!me) {
+      Modal.error({
+        title: "에러 메세지",
+        content: "로그인이 필요합니다",
+        onOk() {
+          Router.push("/");
+        }
+      });
+      Router.push("/");
+    }
+  }, []);
 
   const onChangeNickname = useCallback(e => {
     setEditedName(e.target.value);

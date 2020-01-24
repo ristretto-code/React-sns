@@ -142,10 +142,16 @@ const UserProfile = () => {
         </MyProfileAvatar>
         <MyProfileInfo>
           <MyProfileNickname>
-            <Link href="/profile" key="profile2">
-              <a>{me ? me.nickname : "Guest " + guestNum}</a>
-            </Link>
-            {me ? <Icon type="logout" onClick={onLogout} /> : null}
+            {me ? (
+              <>
+                <Link href="/profile" key="profile2">
+                  <a>{me.nickname}</a>
+                </Link>
+                <Icon type="logout" onClick={onLogout} />
+              </>
+            ) : (
+              <a>{"Guest " + guestNum}</a>
+            )}
           </MyProfileNickname>
           <MyProfileFollowInfo>
             <div>

@@ -35,10 +35,7 @@ const Profile = () => {
     if (!me) {
       Modal.error({
         title: "에러 메세지",
-        content: "로그인이 필요합니다",
-        onOk() {
-          Router.push("/");
-        }
+        content: "로그인이 필요합니다"
       });
       Router.push("/");
     }

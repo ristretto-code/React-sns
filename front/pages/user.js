@@ -7,7 +7,7 @@ import PostCard from "../components/PostCard";
 import * as profile from "../elements/profile";
 
 const User = () => {
-  const { mainPosts } = useSelector(state => state.post);
+  const { userPosts, isLoadingUserPost } = useSelector(state => state.post);
   const { userInfo } = useSelector(state => state.user);
 
   return (
@@ -79,9 +79,20 @@ const User = () => {
           </Row>
         ) : null}
       </profile.UserInfoContainer>
-      {mainPosts.map(c => (
-        <PostCard key={c.id} post={c} />
-      ))}
+      {isLoadingUserPost ? (
+        userPosts.length ? (
+          userPosts.map(v => {
+            return <PostCard key={v.id} Post={v} />;
+          })
+        ) : (
+          <Empty
+            image={Empty.PRESENTED_IMAGE_SIMPLE}
+            description={<span>No Data</span>}
+          ></Empty>
+        )
+      ) : (
+        <Icon style={{ fontSize: "50px" }} type="loading" />
+      )}
     </div>
   );
 };

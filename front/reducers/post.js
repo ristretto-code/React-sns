@@ -94,7 +94,7 @@ export default (state = initialState, action) => {
       }
 
       case LOAD_USER_POSTS_REQUEST: {
-        draft.userPosts = !action.lastId ? [] : draft.mainPosts;
+        draft.userPosts = !action.lastId ? [] : draft.userPosts;
         draft.hasMoreUserPost = action.lastId ? draft.hasMoreUserPost : true;
         draft.isLoadingUserPost = false;
         break;

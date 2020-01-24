@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { LOAD_USER_POSTS_REQUEST } from "../reducers/post";
 import { LOAD_USER_REQUEST } from "../reducers/user";
-import { Avatar, Row, Col } from "antd";
+import { Avatar, Row, Col, Icon, Empty } from "antd";
 import PostCard from "../components/PostCard";
 import * as profile from "../elements/profile";
 

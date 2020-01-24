@@ -6,13 +6,13 @@ export const initialState = {
   imagePaths: [], // 미리보기 이미지 경로
   isLoadingUserPost: false,
   isloadingOnePost: false,
-  addPostErrorReason: "",
-  isAddingImage: false,
   isAddingPost: false, // 포스트 업로드중
-  postAdded: false,
-  addCommnetErrorReason: "",
+  isAddingImage: false,
   isAddingComment: false,
+  postAdded: false,
   commentAdded: false,
+  addPostErrorReason: "",
+  addCommnetErrorReason: "",
   hasMorePost: false,
   hasMoreUserPost: false,
   onePost: ""
@@ -67,14 +67,16 @@ export default (state = initialState, action) => {
     switch (action.type) {
       case INIT_STATE_POST: {
         draft.imagePaths = [];
+        draft.userPosts = [];
         draft.isAddingPost = false;
         draft.isAddingImage = false;
+        draft.isAddingComment = false;
         draft.isloadingOnePost = false;
+        draft.isLoadingUserPost = false;
         draft.postAdded = false;
+        draft.commentAdded = false;
         draft.addPostErrorReason = false;
         draft.addCommnetErrorReason = false;
-        draft.isAddingComment = false;
-        draft.commentAdded = false;
         break;
       }
       case LOAD_HASHTAG_POSTS_REQUEST:

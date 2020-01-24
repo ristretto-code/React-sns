@@ -4,17 +4,16 @@ export const initialState = {
   isLoggingOut: false, //로그아웃 시도중
   isLoggingIn: false, // 로그인 시도중
   isLoggedIn: false, // 로그인 유무 (모달)
-  loginErrorReason: "", // 로그인 실패사유
-  signedUp: false, // 회원가입 성공
   isSigningUp: false, // 회원가입 시도중
-  isSignedUp: false,
+  isSignedUp: false, // 회원가입 성공
+  loginErrorReason: "", // 로그인 실패사유
   signUpErrorReason: "", // 회원가입 실패사유
+  editNicknameErrorReason: "", // 닉네임수정 실패사유
   me: null,
   followingList: [], // 팔로잉 리스트
   followerList: [],
   userInfo: null, // 남의 정보
-  isEditingNickname: false, // 닉네임 수정중
-  editNicknameErrorReason: "" // 닉네임수정 실패사유
+  isEditingNickname: false // 닉네임 수정중
 };
 
 export const LOG_IN_REQUEST = "LOG_IN_REQUEST";
@@ -68,12 +67,11 @@ export default (state = initialState, action) => {
       case INIT_STATE_USER: {
         draft.isLoggingOut = false;
         draft.isLoggingIn = false;
-        draft.loginErrorReason = "";
-        draft.signedUp = false;
         draft.isSigningUp = false;
         draft.isSignedUp = false;
-        draft.signUpErrorReason = "";
         draft.isEditingNickname = false;
+        draft.loginErrorReason = "";
+        draft.signUpErrorReason = "";
         draft.editNicknameErrorReason = "";
         draft.userInfo = null;
         break;

@@ -1,5 +1,5 @@
 ## React SNS
-https://reactsns.net
+http://reactsns.net
 > React 기반의 SPA 페이지입니다.  
 > 기간 2019.10 ~ 2019.12  /  1인 프로젝트  
 > rest api를 사용한 crud 페이지를 구현하였습니다.

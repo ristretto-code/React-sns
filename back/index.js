@@ -25,12 +25,7 @@ if (prod) {
   app.use(hpp());
   app.use(helmet());
   app.use(morgan("combined"));
-  app.use(
-    cors({
-      origin: /reactsns\.net$/,
-      credentials: true
-    })
-  );
+  app.use(cors({ origin: /reactsns\.net$/g, credentials: true }));
 } else {
   app.use(morgan("dev"));
   // morgan은 요청 로그남겨준다

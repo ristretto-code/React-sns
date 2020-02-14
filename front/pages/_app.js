@@ -91,6 +91,9 @@ ReactSns.propTypes = {
 
 ReactSns.getInitialProps = async context => {
   const { ctx, Component } = context;
+  console.log("------------------------------------------");
+  console.log(process.env.PORT);
+  console.log("------------------------------------------");
   let pageProps = {};
   const state = ctx.store.getState();
   const cookie = ctx.isServer ? ctx.req.headers.cookie : ""; // 서버에서 getinit할때 브라우저없이 쿠키보내주기위함

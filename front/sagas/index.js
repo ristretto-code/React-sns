@@ -5,7 +5,7 @@ import axios from "axios";
 
 const apiUrl =
   process.env.NODE_ENV === "production"
-    ? "http://api.reactsns.net"
+    ? "https://api.reactsns.net"
     : "http://localhost:8080";
 
 axios.defaults.baseURL = `${apiUrl}/api`;

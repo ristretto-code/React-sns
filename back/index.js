@@ -25,7 +25,7 @@ if (prod) {
   app.use(hpp());
   app.use(helmet());
   app.use(morgan("combined"));
-  app.options("/api/", cors({ origin: /reactsns\.net$/, credentials: true }));
+  app.options("/", cors({ origin: /reactsns\.net$/, credentials: true }));
   app.use(cors({ origin: /reactsns\.net$/, credentials: true }));
 } else {
   app.use(morgan("dev"));

@@ -26,7 +26,7 @@ if (prod) {
   app.use(helmet());
   app.use(morgan("combined"));
   app.use(cors({ origin: /reactsns\.net$/, credentials: true }));
-  // app.options("/", cors({ origin: /reactsns\.net$/, credentials: true }));
+  app.options("/", cors({ origin: /reactsns\.net$/, credentials: true }));
 } else {
   app.use(morgan("dev"));
   // morgan은 요청 로그남겨준다
@@ -53,7 +53,7 @@ app.use(
       secure: prod, // https를 쓸때 true로
       domain: prod && ".reactsns.net"
     },
-    name: "myfriend"
+    name: "mfrd"
   })
 );
 //app.use는 req와 res사이에 미들웨어를 넣어주는것

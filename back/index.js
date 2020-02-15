@@ -21,10 +21,22 @@ const app = express(); // express 서버생성
 db.sequelize.sync(); // 테이블생성
 passportConfig(); // 로그인
 
-app.use(hpp());
-app.use(helmet());
-app.use(morgan("combined"));
-app.use(cors({ origin: /reactsns\.net$/g, credentials: true }));
+if (prod) {
+  app.use(hpp());
+  app.use(helmet());
+  app.use(morgan("combined"));
+  app.options("*", cors());
+  app.use(cors({ origin: /reactsns\.net$/, credentials: true }));
+} else {
+  app.use(morgan("dev"));
+  // morgan은 요청 로그남겨준다
+  app.use(
+    cors({
+      origin: true, // localhost:3000 써도됨. 쿠키교환하기 위해 "요청과 같게"
+      credentials: true //쿠키교환
+    })
+  );
+}
 
 app.use("/", express.static("uploads")); // '/'는 프론트에서 접근하는 주소, uploads는 서버에서 접근하는 이미지주소
 app.use(express.json());

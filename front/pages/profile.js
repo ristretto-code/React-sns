@@ -204,14 +204,14 @@ const Profile = () => {
 Profile.getInitialProps = async context => {
   const state = context.store.getState();
   // load_users_request 실행. state.me is undefined.
-  context.store.dispatch({
-    type: LOAD_FOLLOWERS_REQUEST,
-    data: state.user.me && state.user.me.id
-  });
-  context.store.dispatch({
-    type: LOAD_FOLLOWINGS_REQUEST,
-    data: state.user.me && state.user.me.id
-  });
+  // context.store.dispatch({
+  //   type: LOAD_FOLLOWERS_REQUEST,
+  //   data: state.user.me && state.user.me.id
+  // });
+  // context.store.dispatch({
+  //   type: LOAD_FOLLOWINGS_REQUEST,
+  //   data: state.user.me && state.user.me.id
+  // });
   context.store.dispatch({
     type: LOAD_USER_POSTS_REQUEST,
     data: state.user.me && state.user.me.id

@@ -50,7 +50,7 @@ app.use(
     secret: process.env.COOKIE_SECRET, // 쿠키 암호화키. 소스코드를 보호하기위해 dotenv로 .env파일 사용
     cookie: {
       httpOnly: true, // js로 쿠키접근 못하게함 해킹방지
-      secure: false, // https를 쓸때 true로
+      secure: true, // https를 쓸때 true로
       domain: prod && ".reactsns.net"
     },
     name: "mfrd"
